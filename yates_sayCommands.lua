@@ -96,8 +96,8 @@ function yates_say.pm()
 		end
 	end
 
-	yatesMessage(_id, "To: [".._tbl[2].."] "..player(_tbl[2], "name")..": "..message, "info", "[PM]: ")
-	yatesMessage(_tbl[2], "From: [".._id.."] "..player(_id, "name")..": "..message, "info", "[PM]: ")
+	yatesMessage(_id, "[->] [".._tbl[2].."] "..player(_tbl[2], "name")..": "..message, "info", "[PM]: ")
+	yatesMessage(_tbl[2], "[<-] [".._id.."] "..player(_id, "name")..": "..message, "info", "[PM]: ")
 end
 setSayHelp("pm", "<id> <message>")
 setSayDesc("pm", "Sends a private message (pm) to the accoding player.")

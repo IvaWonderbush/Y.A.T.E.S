@@ -19,7 +19,7 @@ function scriptPath()
 	return str:match("(.*/)")
 end
 
--- This will make sure the folder name of where Y.A.T.E.S is located doesn't matter
+-- This will make sure the folder name of where Y.A.T.E.S is located gets used in _DIR
 local path = scriptPath()
 path = string.sub(path,1,-2)
 sys, lua, path = path:match("([^,]+)/([^,]+)/([^,]+)")

@@ -4,7 +4,7 @@
 	Turns chat input into output
 	@return void
 ]]
-function chat(id, text) -- TODO: Clean this crap up, it's so big and ugly!
+function chat(id, text) -- @TODO: Clean this crap up, it's so big and ugly!
 	local usgn = player(id,"usgn")
 	local c = ""
 	local p = ""
@@ -670,6 +670,10 @@ function dofileLua(path, create)
 	dofile(path)
 end
 
+--[[
+	Checks if a file exists or not with the given path
+	@return bool
+]]
 function fileExists(path)
 	local file = io.open(path, "r")
 	if file ~= nil then 
@@ -680,7 +684,7 @@ function fileExists(path)
 	end
 end
 
--- TODO: Rename all functions below and clean them up, rest are fine.
+-- @TODO: Rename all functions below and clean them up, rest are fine.
 
 function deepcopy(object)
 	local lookup_table = {}
