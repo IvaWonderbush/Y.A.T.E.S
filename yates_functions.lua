@@ -4,7 +4,7 @@
 	Turns chat input into output
 	@return void	
 ]]
-function chat(id, text)
+function chat(id, text) -- TODO: Clean this crap up, it's so big and ugly!
 	local usgn = player(id,"usgn")
 	local c = ""
 	local p = ""
@@ -158,6 +158,7 @@ end
 ]]
 function yatesMessage(id, text, type, prefix)
 	if not type then type = "default" end
+	if not text then return 1 end -- This is so things don't go batshitmad
 
 	local colour = type
 	local pre = ""
@@ -178,7 +179,7 @@ function yatesMessage(id, text, type, prefix)
 		end
 	end
 
-	local message = colour..pre..clr["yates"]["default"]..text 
+	local message = colour..pre..clr["yates"]["default"]..text
 
 	if pre == "" then
 		message = colour..text
@@ -615,6 +616,8 @@ debug.sethook(function()
         end
     end
 end, "r")
+
+-- TODO: Rename all functions below and clean them up, rest are fine.
 
 function deepcopy(object)
 	local lookup_table = {}

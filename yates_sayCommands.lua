@@ -279,7 +279,7 @@ end
 setSayHelp("unbanall")
 setSayDesc("unbanall", "Removes all the bans from the ban list.")
 
-function yates_say.spawn()
+function yates_say.spawn() -- TODO: Loop through all spawn entities and spawn if x & y are not given
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
@@ -649,7 +649,7 @@ function yates_say.player()
     end
 
 	if _tbl[2] == "list" then
-        yatesMessage(_id, "List of U.S.G.N's with player data.", "info")
+        yatesMessage(_id, "List of U.S.G.N's saved in data_player. Use !player info <U.S.G.N> for more info.", "info")
         for k, v in pairs(_PLAYER) do
             yatesMessage(_id, k, false, false)
         end
