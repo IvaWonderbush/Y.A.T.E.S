@@ -193,6 +193,42 @@ function yatesMessage(id, text, type, prefix)
 end
 
 --[[
+	Simplifies values into a print or print2
+	@return void	
+]]
+function yatesPrint(text, type, prefix)
+	if not type then type = "default" end
+	if not text then return 1 end -- This is so things don't go batshitmad
+
+	local colour = type
+	local pre = ""
+
+	if clr["yates"][type] then
+		colour = clr["yates"][type]
+	end
+
+	colour = colour:gsub("©","")
+	colour = colour:gsub("\169","")
+	colour = "\169"..colour
+
+	if prefix == nil then
+		pre = (yates_message_prefix or prefix)
+	else
+		if prefix ~= false then
+			pre = prefix
+		end
+	end
+
+	local message = colour..pre..clr["yates"]["default"]..text
+
+	if pre == "" then
+		message = colour..text
+	end
+
+	print(message)
+end
+
+--[[
 	Logs data
 	@return void	
 ]]
@@ -617,10 +653,14 @@ debug.sethook(function()
     end
 end, "r")
 
+--[[
+	Dofiles a Lua file if it could be found or if it should be created if not found
+	@return void
+]]
 function dofileLua(path, create)
 	if not fileExists(path) then
 		if create == true then
-			print("Uh-oh! The file '"..path.."' could not be found/opened, creating one for you instead!")
+			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened, creating one for you instead!", "alert")
 			file = io.open(path, "w")
 			io.close(file)
 		else
