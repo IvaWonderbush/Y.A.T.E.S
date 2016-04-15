@@ -9,7 +9,7 @@
 	If you want to change something but can't find out how; double check the settings and documentation - it's there, trust me.
 ]]--
 
-_DIR = "sys/lua/_yates/"
+_DIR = "sys/lua/Y.A.T.E.S/"
 
 print("\169000255255[YATES]: Setting the settings..")
 dofile(_DIR.."yates_settings.lua")
