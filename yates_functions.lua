@@ -2,7 +2,7 @@
 
 --[[
 	Turns chat input into output
-	@return void	
+	@return void
 ]]
 function chat(id, text) -- TODO: Clean this crap up, it's so big and ugly!
 	local usgn = player(id,"usgn")
@@ -616,6 +616,29 @@ debug.sethook(function()
         end
     end
 end, "r")
+
+function dofileLua(path, create)
+	if not fileExists(path) then
+		if create == true then
+			print("Uh-oh! The file '"..path.."' could not be found/opened, creating one for you instead!")
+			file = io.open(path, "w")
+			io.close(file)
+		else
+			return false
+		end
+	end
+	dofile(path)
+end
+
+function fileExists(path)
+	local file = io.open(path, "r")
+	if file ~= nil then 
+		io.close(file)
+		return true 
+	else 
+		return false
+	end
+end
 
 -- TODO: Rename all functions below and clean them up, rest are fine.
 
