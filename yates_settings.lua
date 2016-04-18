@@ -19,6 +19,8 @@ yates_say = {}
 yates_say_help = {}
 yates_say_desc = {}
 
+yates_plugins = {}
+
 filter = {}
 
 _HOOKS = {}

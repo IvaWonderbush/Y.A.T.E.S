@@ -653,6 +653,19 @@ debug.sethook(function()
     end
 end, "r")
 
+function loadPlugins()
+	local directories = getDirectories(_DIR.."plugins")
+	table.remove(directories, 1)
+	table.remove(directories, 1)
+	for _, all in pairs(directories) do
+  		if all:sub(1, 1) ~= "_" then
+  			yates_plugins[#yates_plugins+1] = all
+  			yatesPrint("Loading plugin "..all.."..", "info")
+  			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
+		end
+	end
+end
+
 --[[
 	Dofiles a Lua file if it could be found or if it should be created if not found
 	@return void
@@ -664,6 +677,7 @@ function dofileLua(path, create)
 			file = io.open(path, "w")
 			io.close(file)
 		else
+			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened!", "warning")
 			return false
 		end
 	end
@@ -759,4 +773,15 @@ function table.key_to_str ( k )
 	else
 		return "[" .. table.val_to_str( k ) .. "]"
 	end
+end
+
+function getDirectories(path)
+    local i, t, popen = 0, {}, io.popen
+    local pfile = popen('ls -a "'..path..'"')
+    for filename in pfile:lines() do
+        i = i + 1
+        t[i] = filename
+    end
+    pfile:close()
+    return t
 end

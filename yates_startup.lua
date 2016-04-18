@@ -24,7 +24,7 @@ local path = scriptPath()
 path = string.sub(path,1,-2)
 sys, lua, path = path:match("([^,]+)/([^,]+)/([^,]+)")
 
--- Dofiling a script in Y.A.T.E.S for some reason (I made the add-on crap for that, so you have no reason to do it) you can use this as the path!
+-- Dofiling a script in Y.A.T.E.S for some reason (I made the plugin crap for that, so you have no reason to do it) you can use this as the path!
 _DIR = "sys/lua/"..path.."/"
 
 print("\169000255255[Y.A.T.E.S]: Setting the settings..")
@@ -43,6 +43,8 @@ dofileLua(_DIR.."data/data_group.lua", true)
 dofileLua(_DIR.."data/data_player.lua", true)
 print("\169000255255[Y.A.T.E.S]: Checking first use..")
 checkInitialAuth()
+print("\169000255255[Y.A.T.E.S]: Loading plugins..")
+loadPlugins()
 
 -- You may remove this, but I'd rather you not. People can't see it anyway.
 print("\169000255255[Y.A.T.E.S]: Thank you for using Y.A.T.E.S.")
