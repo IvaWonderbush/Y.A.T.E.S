@@ -655,10 +655,8 @@ end, "r")
 
 function loadPlugins()
 	local directories = getDirectories(_DIR.."plugins")
-	table.remove(directories, 1)
-	table.remove(directories, 1)
 	for _, all in pairs(directories) do
-  		if all:sub(1, 1) ~= "_" then
+  		if all:sub(1, 1) ~= "_" and all:sub(1, 1) ~= "." then
   			yates_plugins[#yates_plugins+1] = all
   			yatesPrint("Loading plugin "..all.."..", "info")
   			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
