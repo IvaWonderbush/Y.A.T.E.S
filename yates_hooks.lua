@@ -36,6 +36,7 @@ function yates.say(id, text)
 			yatesMessage(id, "You don't have the permissions to use this command!", "warning")	
 		else
 			yatesMessage(id, "This command doesn't exist!", "warning")
+			yatesMessage(id, "Say "..yates_say_prefix.."help to see the available commands.", "info")
 		end
 	else
 		if yates_at_c == 1 then

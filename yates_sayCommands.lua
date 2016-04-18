@@ -136,7 +136,7 @@ function yates_say.hardreload()
 	yatesMessage(false, "We are reloading our lua scripts! Please stay.", "success")
 end
 setSayHelp("hardreload", "[<delay>] (in seconds)")
-setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preffered over softreload.")
+setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
 function yates_say.godmode()
 	yatesMessage(false, "We are reloading our lua scripts! Please stay.", "success")
@@ -277,9 +277,24 @@ function yates_say.unbanall()
 	parse("unbanall")
 end
 setSayHelp("unbanall")
-setSayDesc("unbanall", "Removes all the bans from the ban list.")
+setSayDesc("unbanall", "Removes all the bans from the ban list (EVERYTHING WILL BE LOST).")
 
-function yates_say.spawn() -- TODO: Loop through all spawn entities and spawn if x & y are not given
+function yates_say.map()
+	if not _tbl[2] then
+		yatesMessage(_id, "You have not supplied a map name!", "warning")
+		return 1
+	end
+
+	if not _tbl[3] then
+		_tbl[3] = 0
+	end
+	timer(tonumber(_tbl[3]*1000), "parse", "map ".._tbl[2])
+	yatesMessage(false, "We are changing the map! Please stay.", "success")
+end
+setSayHelp("map", "<map> [<delay>] (in seconds)")
+setSayDesc("map", "Changes the map of the server.")
+
+function yates_say.spawn() -- @TODO: Loop through all spawn entities and spawn if x & y are not given
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
@@ -546,38 +561,6 @@ end
 setSayHelp("playercolour", "<id> <colour>")
 setSayDesc("playercolour", "Sets a player's say colour.")
 
-function yates_say.playercommands()
-	if not checkUsgn(_tbl[2]) then
-		return 1
-	end
-
-	local id = _tbl[2]
-
-	_tbl[5] = _tbl[3]
-	_tbl[4] = "commands"
-	_tbl[3] = player(_tbl[2], "usgn")
-	_tbl[2] = "edit"
-	
-	if not _PLAYER[_tbl[3]] then
-		_PLAYER[_tbl[3]] = {}
-		undo = "!playercommands "..id.." /nil"
-	end
-
-	if _PLAYER[_tbl[3]].commands then
-		undo = "!playercommands "..id.." ".._PLAYER[_tbl[3]].commands
-	else
-		undo = "!playercommands "..id.." /nil"
-	end
-
-	if yates_say.player() then
-		if undo then
-			setUndo(_id, undo)
-		end
-	end
-end
-setSayHelp("playercommands", "<id> <commands>")
-setSayDesc("playercommands", "Sets a player's commands.")
-
 function yates_say.playerlevel()
 	if not checkUsgn(_tbl[2]) then
 		return 1
@@ -766,31 +749,6 @@ function yates_say.groupcolour()
 end
 setSayHelp("groupcolour", "<group> <colour>")
 setSayDesc("groupcolour", "Sets a group's say colour.")
-
-function yates_say.groupcommands()
-	local undo = false
-
-	_tbl[5] = _tbl[3]
-	_tbl[4] = "commands"
-	_tbl[3] = _tbl[2]
-	_tbl[2] = "edit"
-
-	if checkGroup(_tbl[3], false) then
-		if _GROUP[_tbl[3]].commands then
-			undo = "!groupcommands ".._tbl[3].." ".._GROUP[_tbl[3]].commands
-		else
-			undo = "!groupcommands ".._tbl[3].." /nil"
-		end
-	end
-
-	if yates_say.group() then
-		if undo then
-			setUndo(_id, undo)
-		end
-	end
-end
-setSayHelp("groupcommands", "<group> <commands>")
-setSayDesc("groupcommands", "Sets a group's commands.")
 
 function yates_say.grouplevel()
 	local undo = false
