@@ -184,6 +184,11 @@ function yates_say.plugin()
 				else
 					yatesMessage(_id, "No author has been provided by the plugin or has not been cached!", false, false)
 				end
+				if _PLUGIN["info"][_tbl[3]]["usgn"] then
+					yatesMessage(_id, "U.S.G.N ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
+				else
+					yatesMessage(_id, "No U.S.G.N ID has been provided by the plugin or has not been cached!", false, false)
+				end
 				if _PLUGIN["info"][_tbl[3]]["version"] then
 					yatesMessage(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
 				else
