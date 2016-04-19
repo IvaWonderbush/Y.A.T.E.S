@@ -71,7 +71,8 @@ _GROUP = {
 		colour = "255255255",
 		level = 1,
 		commands = {
-			"all"
+			"help",
+			"auth"
 		}
 	}
 }
