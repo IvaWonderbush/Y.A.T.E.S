@@ -154,10 +154,6 @@ function setSayDesc(func, desc)
 	yates_say_desc[func] = desc
 end
 
-function filter.chat_colour()
-	return "000000000"
-end
-
 --[[
 	Simplifies values into a msg or msg2
 	@return void	
