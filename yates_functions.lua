@@ -657,6 +657,8 @@ end, "r")
 
 function loadPlugins()
 	local directories = getDirectories(_DIR.."plugins")
+	_PLUGIN["on"] = {}
+	_PLUGIN["off"] = {}
 	for _, all in pairs(directories) do
 		if all:sub(1, 1) ~= "." then
 	  		if all:sub(1, 1) ~= "_" then
@@ -676,19 +678,19 @@ end
 function cachePluginData()
 	for k, v in pairs(plugin) do
 		_PLUGIN["info"][k] = {}
-		if plugin[k]["author"] and type(plugin[k]["author"]) == "string" then
-			_PLUGIN["info"][k]["author"] = plugin[k]["author"]
-		end
-		if plugin[k]["usgn"] and type(plugin[k]["usgn"]) == "string" then
-			_PLUGIN["info"][k]["usgn"] = plugin[k]["usgn"]
-		end
-		if plugin[k]["version"] and type(plugin[k]["version"]) == "string" then
-			_PLUGIN["info"][k]["version"] = plugin[k]["version"]
-		end
-		if plugin[k]["description"] and type(plugin[k]["description"]) == "string" then
-			_PLUGIN["info"][k]["description"] = plugin[k]["description"]
-		end
+		checkPluginData(k, "author", "string")
+		checkPluginData(k, "usgn", "string")
+		checkPluginData(k, "version", "string")
+		checkPluginData(k, "description", "string")
 		saveData(_PLUGIN, "data_plugin.lua", true)
+	end
+end
+
+function checkPluginData(name, data, varType)
+	if plugin[name][data] and type(plugin[name][data]) == varType then
+		_PLUGIN["info"][name][data] = plugin[name][data]
+	else
+		yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
 	end
 end
 
