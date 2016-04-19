@@ -59,7 +59,9 @@ function chat(id, text) -- @TODO: Clean this crap up, it's so big and ugly!
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	-- c = addFilter("chat_colour", p, "asd", "asd2") or c
+	c = addFilter("chat_colour", p, "asd", "asd2") or c
+
+	print(c.."asdasd")
 
 	if p ~= "" then
 		p = p.." "
@@ -150,6 +152,10 @@ end
 function setSayDesc(func, desc)
 	if not desc then desc = "" end
 	yates_say_desc[func] = desc
+end
+
+function filter.chat_colour()
+	return "000000000"
 end
 
 --[[
@@ -396,12 +402,12 @@ end
 ]]
 function checkInitialAuth()
 	if (_YATES.auth_token ~= false and _YATES.auth_token == true) then
-		print(clr["yates"]["default"].."[YATES]: Initial authentication U.S.G.N: ".._YATES.auth_usgn)
+		print(clr["yates"]["default"].."[Y.A.T.E.S]: Initial authentication U.S.G.N: ".._YATES.auth_usgn)
 		return true
 	end
 	_YATES.auth_token = createToken(5)
-	print(clr["yates"]["warning"].."[YATES]: Initial authentication has not been complete.")
-	print(clr["yates"]["warning"].."[YATES]: Please say !auth ".._YATES.auth_token)
+	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Initial authentication has not been complete.")
+	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Please say !auth ".._YATES.auth_token)
 	return false
 end
 
@@ -656,11 +662,31 @@ end, "r")
 function loadPlugins()
 	local directories = getDirectories(_DIR.."plugins")
 	for _, all in pairs(directories) do
-  		if all:sub(1, 1) ~= "_" and all:sub(1, 1) ~= "." then
-  			yates_plugins[#yates_plugins+1] = all
-  			yatesPrint("Loading plugin "..all.."..", "info")
-  			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
+		if all:sub(1, 1) ~= "." then
+	  		if all:sub(1, 1) ~= "_" then
+	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
+	  			yatesPrint("Loading plugin "..all.."..", "success", "[PLUGIN]: ")
+	  			plugin[all] = {}
+	  			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
+	  			cachePluginData()
+			elseif all:sub(1, 1) == "_" then
+				_PLUGIN["off"][#_PLUGIN["off"]+1] = all:sub(2)
+			end
 		end
+	end
+	force_reload = false
+end
+
+function cachePluginData()
+	for k, v in pairs(plugin) do
+		_PLUGIN["info"][k] = {}
+		if plugin[k]["author"] and type(plugin[k]["author"]) == "string" then
+			_PLUGIN["info"][k]["author"] = plugin[k]["author"]
+		end
+		if plugin[k]["description"] and type(plugin[k]["description"]) == "string" then
+			_PLUGIN["info"][k]["description"] = plugin[k]["description"]
+		end
+		saveData(_PLUGIN, "data_plugin.lua", true)
 	end
 end
 
@@ -680,6 +706,14 @@ function dofileLua(path, create)
 		end
 	end
 	dofile(path)
+end
+
+function checkForceReload()
+	if force_reload == true then
+		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
+		timer(5000, "parse", "lua hardReload()")
+		force_reload = false
+	end
 end
 
 --[[

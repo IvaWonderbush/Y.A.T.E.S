@@ -117,6 +117,89 @@ end
 setSayHelp("lua", "<cmd>")
 setSayDesc("lua", "Be very careful when using this command, there are no checks - it is simply executed!")
 
+function yates_say.plugin()
+	if _tbl[2] == "list" then
+		yatesMessage(_id, "List of plugins:", "info")
+		for _, all in pairs(_PLUGIN["on"]) do
+			yatesMessage(_id, all, "success", false)
+		end
+		for _, all in pairs(_PLUGIN["off"]) do
+			yatesMessage(_id, all, "warning", false)
+		end
+	elseif _tbl[2] == "menu" then
+		print("menu")
+	elseif _tbl[2] == "enable" then
+		if _tbl[3] then
+			for k, v in pairs(_PLUGIN["off"]) do
+				if v == _tbl[3] then
+					os.rename(_DIR.."plugins/_"..v, _DIR.."plugins/"..v)
+					plugin[v] = {}
+					dofileLua(_DIR.."plugins/"..v.."/startup.lua")
+					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
+					_PLUGIN["off"][k] = nil
+					yatesMessage(_id, "The plugin has been enabled!", "success")
+					cachePluginData()
+					checkForceReload()
+					return 1
+				end
+			end
+			for k, v in pairs(_PLUGIN["on"]) do
+				if v == _tbl[3] then
+					yatesMessage(_id, "This plugin is already running!", "warning")
+					return 1
+				end
+			end
+			yatesMessage(_id, "This plugin does not exist!", "warning")
+		else
+			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+		end
+	elseif _tbl[2] == "disable" then
+		if _tbl[3] then
+			for k, v in pairs(_PLUGIN["on"]) do
+				if v == _tbl[3] then
+					os.rename(_DIR.."plugins/"..v, _DIR.."plugins/_"..v)
+					_PLUGIN["off"][#_PLUGIN["off"]+1] = v
+					_PLUGIN["on"][k] = nil
+					yatesMessage(_id, "The plugin has been disabled!", "success")
+					yatesMessage(_id, "Please reload the server Lua using "..yates_say_prefix.."hardreload (preferred) or "..yates_say_prefix.."softreload", "info")
+					return 1
+				end
+			end
+			for k, v in pairs(_PLUGIN["off"]) do
+				if v == _tbl[3] then
+					yatesMessage(_id, "This plugin is already disabled!", "warning")
+					return 1
+				end
+			end
+			yatesMessage(_id, "This plugin does not exist!", "warning")
+		else
+			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+		end
+	elseif _tbl[2] == "info" then
+		if _tbl[3] then
+			if _PLUGIN["info"][_tbl[3]] then
+				yatesMessage(_id, "Plugin information:", "info")
+				if _PLUGIN["info"][_tbl[3]]["author"] then
+					yatesMessage(_id, "Author: ".._PLUGIN["info"][_tbl[3]]["author"], false, false)
+				else
+					yatesMessage(_id, "No author has been provided by the plugin or has not been cached!", false, false)
+				end
+				if _PLUGIN["info"][_tbl[3]]["description"] then
+					yatesMessage(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
+				else
+					yatesMessage(_id, "No description has been provided by the plugin or has not been cached!", false, false)
+				end
+			else
+				yatesMessage(_id, "No information has been provided by the plugin or has not been cached!", "warning")
+			end
+		else
+			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+		end
+	end
+end
+setSayHelp("plugin", "list / menu / <info/enable/disable> <plugin>")
+setSayDesc("plugin", "General command to show information about (a) plugin(s) or to enable/disable them.")
+
 function yates_say.softreload()
 	if not _tbl[2] then
 		_tbl[2] = 0

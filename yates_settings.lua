@@ -19,7 +19,8 @@ yates_say = {}
 yates_say_help = {}
 yates_say_desc = {}
 
-yates_plugins = {}
+plugin = {}
+_PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
 
 filter = {}
 
@@ -28,3 +29,5 @@ _HOOKS = {}
 _YATES = {
 	auth_token = false
 }
+
+force_restart = false
