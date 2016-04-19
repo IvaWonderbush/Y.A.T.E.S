@@ -184,6 +184,11 @@ function yates_say.plugin()
 				else
 					yatesMessage(_id, "No author has been provided by the plugin or has not been cached!", false, false)
 				end
+				if _PLUGIN["info"][_tbl[3]]["version"] then
+					yatesMessage(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
+				else
+					yatesMessage(_id, "No version has been provided by the plugin or has not been cached!", false, false)
+				end
 				if _PLUGIN["info"][_tbl[3]]["description"] then
 					yatesMessage(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
 				else

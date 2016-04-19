@@ -679,6 +679,9 @@ function cachePluginData()
 		if plugin[k]["author"] and type(plugin[k]["author"]) == "string" then
 			_PLUGIN["info"][k]["author"] = plugin[k]["author"]
 		end
+		if plugin[k]["version"] and type(plugin[k]["version"]) == "string" then
+			_PLUGIN["info"][k]["version"] = plugin[k]["version"]
+		end
 		if plugin[k]["description"] and type(plugin[k]["description"]) == "string" then
 			_PLUGIN["info"][k]["description"] = plugin[k]["description"]
 		end
