@@ -16,11 +16,6 @@ yates_group_default_colour = "\169100255255"
 yates_date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
 yates_time = os.date("%I:%M %p")
 
-yates_say_mode = 0
-yates_say_mode_force = 0
-yates_say_mode_dead = 0
-yates_say_mode_dead_force = 0
-
 -- Disable using @C, 1 is true, 0 is false
 yates_at_c = 1
 

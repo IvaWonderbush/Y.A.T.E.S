@@ -231,6 +231,18 @@ end
 setSayHelp("hardreload", "[<delay>] (in seconds)")
 setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
+function yates_say.tag()
+	if Player[_id].pre == 1 then
+		Player[_id].pre = 0
+		yatesMessage(_id, "Your tag is no longer visible.", "success")
+	else
+		Player[_id].pre = 1
+		yatesMessage(_id, "Your tag is now visible.", "success")
+	end
+end
+setSayHelp("tag")
+setSayDesc("tag", "Toggles your tag. Useful if you want to hide your identity to spot hackers and still chat.")
+
 function yates_say.godmode()
 	yatesMessage(false, "We are reloading our lua scripts! Please stay.", "success")
 end

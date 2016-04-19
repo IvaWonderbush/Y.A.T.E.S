@@ -4,7 +4,7 @@
 	Turns chat input into output
 	@return void
 ]]
-function chat(id, text) -- @TODO: Clean this crap up, it's so big and ugly!
+function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat function
 	local usgn = player(id,"usgn")
 	local c = ""
 	local p = ""
@@ -21,119 +21,17 @@ function chat(id, text) -- @TODO: Clean this crap up, it's so big and ugly!
 		p = ""
 	end
 
-	if yates_say_mode == 1 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_force == 1 then
-				c = clr["ply"]["tdm"]
-				if player(id, "team") == 0 then
-					c = clr["ply"]["spec"]
-				end
-			end
-		else
-			c = clr["ply"]["tdm"]
-			if player(id, "team") == 0 then
-				c = clr["ply"]["spec"]
-			end
-		end
-	elseif yates_say_mode == 2 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_force == 1 then
-				c = clr["ply"]["spec"]
-				if player(id, "team") == 1 then
-					c = clr["ply"]["t"]
-				elseif player(id, "team") == 2 then
-					c = clr["ply"]["ct"]
-				end
-			end
-		else
-			c = clr["ply"]["spec"]
-			if player(id, "team") == 1 then
-				c = clr["ply"]["t"]
-			elseif player(id, "team") == 2 then
-				c = clr["ply"]["ct"]
-			end
-		end
-	end
-
 	c = c:gsub("©","")
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	c = addFilter("chat_colour", p, "asd", "asd2") or c
-
-	print(c.."asdasd")
+	c = addFilter("chat_colour", c, p, usgn) or c
 
 	if p ~= "" then
 		p = p.." "
 	end
 
-	if yates_say_mode_dead == 0 then
-		msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-	elseif yates_say_mode_dead == 1 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_dead_force == 1 then
-				if player(id, "health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-				end
-			else
-				msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-			end
-		else
-			if player(id, "health") > 0 then
-				msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-			else
-				msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-			end
-		end
-	elseif yates_say_mode_dead == 2 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if player(id, "team") ~= 0 then
-				if player(id,"health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					if yates_say_mode_dead_force == 1 then
-						for _, all in pairs(player(0, "table")) do
-							if player(all,"health") <= 0 then
-								msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-							end
-						end
-					else
-						msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-					end
-				end
-			else
-				if yates_say_mode_dead_force == 1 then
-					for _, all in pairs(player(0, "table")) do
-						if player(all,"health") <= 0 then
-							msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-						end
-					end
-				else
-					msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-				end
-			end
-		else
-			if player(id, "team") ~= 0 then
-				if player(id,"health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					for _, all in pairs(player(0, "table")) do
-						if player(all,"health") <= 0 then
-							msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-						end
-					end
-				end
-			else
-				for _, all in pairs(player(0, "table")) do
-					if player(all,"health") <= 0 then
-						msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-					end
-				end
-			end
-		end
-	end
+	msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
 end
 
 --[[
@@ -291,6 +189,10 @@ function setUndo(id, command)
 	saveData(_PLAYER, "data_player.lua", true)
 end
 
+--[[
+	Checks whether a player exists or not
+	@return boolean
+]]
 function checkPlayer(id, message)
 	if message == nil then
 		message = true
@@ -313,6 +215,10 @@ function checkPlayer(id, message)
 	return true
 end
 
+--[[
+	Checks whether a player has a U.S.G.N ID or not
+	@return boolean
+]]
 function checkUsgn(id, message)
 	if message == nil then
 		message = true
@@ -332,6 +238,10 @@ function checkUsgn(id, message)
 	return true
 end
 
+--[[
+	Checks whether a group with a certain name exists or not
+	@return boolean
+]]
 function checkGroup(group, message)
 	if message == nil then
 		message = true
@@ -655,6 +565,10 @@ debug.sethook(function()
     end
 end, "r")
 
+--[[
+	Loads all plugins on initial start
+	@return void
+]]
 function loadPlugins()
 	local directories = getDirectories(_DIR.."plugins")
 	_PLUGIN["on"] = {}
@@ -675,6 +589,10 @@ function loadPlugins()
 	force_reload = false
 end
 
+--[[
+	Saves or caches all the provided plugin information
+	@return void
+]]
 function cachePluginData()
 	for k, v in pairs(plugin) do
 		_PLUGIN["info"][k] = {}
@@ -686,6 +604,10 @@ function cachePluginData()
 	end
 end
 
+--[[
+	Checks whether a plugin has provided certain information and saves them if it exists
+	@return void
+]]
 function checkPluginData(name, data, varType)
 	if plugin[name][data] and type(plugin[name][data]) == varType then
 		_PLUGIN["info"][name][data] = plugin[name][data]
@@ -712,6 +634,10 @@ function dofileLua(path, create)
 	dofile(path)
 end
 
+--[[
+	Checks whether a force restart should occur once a plugin has been enabled
+	@return void
+]]
 function checkForceReload()
 	if force_reload == true then
 		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
@@ -722,7 +648,7 @@ end
 
 --[[
 	Checks if a file exists or not with the given path
-	@return bool
+	@return boolean
 ]]
 function fileExists(path)
 	local file = io.open(path, "r")
@@ -811,6 +737,10 @@ function table.key_to_str ( k )
 	end
 end
 
+--[[
+	Gets all directories in a certain path
+	@return table
+]]
 function getDirectories(path)
     local i, t, popen = 0, {}, io.popen
     local pfile = popen('ls -a "'..path..'"')
