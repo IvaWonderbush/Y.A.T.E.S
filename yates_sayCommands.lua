@@ -180,6 +180,11 @@ function yates.func.say.plugin()
 		if _tbl[3] then
 			if _PLUGIN["info"][_tbl[3]] then
 				yatesMessage(_id, "Plugin information:", "info")
+				if _PLUGIN["info"][_tbl[3]]["title"] then
+					yatesMessage(_id, "Title: ".._PLUGIN["info"][_tbl[3]]["title"], false, false)
+				else
+					yatesMessage(_id, "No title has been provided by the plugin or has not been cached!", false, false)
+				end
 				if _PLUGIN["info"][_tbl[3]]["author"] then
 					yatesMessage(_id, "Author: ".._PLUGIN["info"][_tbl[3]]["author"], false, false)
 				else

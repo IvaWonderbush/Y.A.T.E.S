@@ -25,13 +25,15 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	c = addFilter("chatColour", c, p, usgn) or c
+	c = addFilter("chatColour", id, text, c, p, usgn) or c
+	p = addFilter("chatPrefix", id, text, c, p, usgn) or p
+	text = addFilter("chatText", id, text, c, p, usgn) or text
 
 	if p ~= "" then
 		p = p.." "
 	end
 
-	msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
+	msg(c..p..player(id, "name")..": "..clr["yates"]["chat"]..text)
 end
 
 --[[
@@ -636,6 +638,7 @@ end
 function cachePluginData()
 	for k, v in pairs(yates.plugin) do
 		_PLUGIN["info"][k] = {}
+		checkPluginData(k, "title", "string")
 		checkPluginData(k, "author", "string")
 		checkPluginData(k, "usgn", "string")
 		checkPluginData(k, "version", "string")

@@ -4,7 +4,7 @@
 	shows you when submitting a chat message.
 ]]
 
-function yates.filter.chatColour(colour, prefix, usgn) -- Note how none of these variables are used for an actual purpose yet could be as shown by print()
+function yates.filter.chatColour(id, text, colour, prefix, usgn) -- Note how none of these variables are used for an actual purpose yet could be as shown by print()
 	local r = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)
 	local g = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)
 	local b = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)

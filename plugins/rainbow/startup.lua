@@ -4,9 +4,10 @@
 	shows you when submitting a chat message.
 ]]
 
+yates.plugin["rainbow"]["title"] = "Rainbow Text"
 yates.plugin["rainbow"]["author"] = "Yates"
 yates.plugin["rainbow"]["usgn"] = "21431"
-yates.plugin["rainbow"]["version"] = "0.9"
+yates.plugin["rainbow"]["version"] = "1.0.0"
 yates.plugin["rainbow"]["description"] = "Changes the chat of every message into a random colour. Filter example."
 
 dofileLua(yates.plugin["rainbow"]["dir"].."functions.lua")
