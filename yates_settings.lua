@@ -12,22 +12,29 @@ _tbl = {}
 _id = nil
 _txt = ""
 
-Player = {}
-
 yates = {}
-yates_say = {}
-yates_say_help = {}
-yates_say_desc = {}
+yates.filter = {}
+yates.player = {}
 
-plugin = {}
+yates.plugin = {}
+yates.force_reload = false
+
+yates.hook = {}
+yates.func = {}
+yates.func.say = {}
+
+yates.say = {}
+yates.say.help = {}
+yates.say.desc = {}
+
+yates.setting = {}
+
+_GROUP = {}
+_PLAYER = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
-
-filter = {}
 
 _HOOKS = {}
 
 _YATES = {
 	auth_token = false
 }
-
-force_restart = false
