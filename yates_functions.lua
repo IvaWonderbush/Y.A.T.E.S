@@ -509,6 +509,17 @@ function addFilter(funcName, ...)
 	end
 end
 
+--[[
+	Calls a function after a certain function is called
+	@return void
+]]
+function addAction(funcName, ...)
+	local arg = {...}
+	if yates.action[funcName] then
+		yates.action[funcName](unpack(arg))
+	end
+end
+
 function checkStatus()
 	local checkstatus = io.popen("curl -Is http://www.thomasyates.nl | head -1")
 	local status = checkstatus:read("*a")
@@ -587,24 +598,6 @@ function getTableName(tbl)
 	end
 	return false
 end
-
---[[
-	Extends a function
-	@return void	
-]]
-function extend(func1, func2)
-    if (not _HOOKS[func1]) then _HOOKS[func1] = {} end
-    _HOOKS[func1][#_HOOKS[func1]+1] = func2
-end
-
-debug.sethook(function()
-    local s = debug.getinfo(2)
-    for k, v in pairs(_HOOKS) do
-        if (s.func == k) then
-            for _, f in pairs( v ) do f() end
-        end
-    end
-end, "r")
 
 --[[
 	Loads all plugins on initial start

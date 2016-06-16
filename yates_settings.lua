@@ -13,6 +13,7 @@ _id = nil
 _txt = ""
 
 yates = {}
+yates.action = {}
 yates.filter = {}
 yates.player = {}
 

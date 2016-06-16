@@ -1,7 +1,12 @@
 *
 
-!/rainbow/
-!/rainbow/*
 !/bad_words/
 !/bad_words/*
+
+!/emoticons/
+!/emoticons/*
+
+!/rainbow/
+!/rainbow/*
+
 !.gitignore
