@@ -2,7 +2,7 @@
 -- config.lua
 
 emoticons = {}
-yates.player.emoticons = {}
+emoticons.player = {}
 
 -- The alpha (transparency) of the image on creation. Lower the value to make the emoticon and bubble less visible (range 0 - 1)
 emoticons.alpha = 0.6
