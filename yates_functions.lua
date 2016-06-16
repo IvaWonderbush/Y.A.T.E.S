@@ -580,7 +580,8 @@ function loadPlugins()
 	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
 	  			yatesPrint("Loading plugin "..all.."..", "success", "[PLUGIN]: ")
 	  			yates.plugin[all] = {}
-	  			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
+	  			yates.plugin[all]["dir"] = _DIR.."plugins/"..all.."/"
+	  			dofileLua(yates.plugin[all]["dir"].."/startup.lua")
 	  			cachePluginData()
 			elseif all:sub(1, 1) == "_" then
 				_PLUGIN["off"][#_PLUGIN["off"]+1] = all:sub(2)

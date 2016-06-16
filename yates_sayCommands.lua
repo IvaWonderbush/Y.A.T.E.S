@@ -134,7 +134,8 @@ function yates.func.say.plugin()
 				if v == _tbl[3] then
 					os.rename(_DIR.."plugins/_"..v, _DIR.."plugins/"..v)
 					yates.plugin[v] = {}
-					dofileLua(_DIR.."plugins/"..v.."/startup.lua")
+					yates.plugin[v]["dir"] = _DIR.."plugins/"..v.."/"
+					dofileLua(yates.plugin[v]["dir"].."/startup.lua")
 					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
 					_PLUGIN["off"][k] = nil
 					yatesMessage(_id, "The plugin has been enabled!", "success")
