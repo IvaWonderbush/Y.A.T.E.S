@@ -6,7 +6,7 @@
 
 -- @TODO: Add servertransfer list generator
 
-yates.plugin["emoticons"]["title"] = "Bad Words"
+yates.plugin["emoticons"]["title"] = "Emoticons"
 yates.plugin["emoticons"]["author"] = "Yates, Happy Camper"
 yates.plugin["emoticons"]["usgn"] = "21431, 5248"
 yates.plugin["emoticons"]["version"] = "0.9.0"
