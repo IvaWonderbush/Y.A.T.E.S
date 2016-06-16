@@ -1,33 +1,35 @@
 -- yates_hooks.lua --
 
-function yates.join(id)
-	Player[id] = {}
-	Player[id].say = 1
-	Player[id].pre = 1
-	Player[id].tp = {}
+function yates.hook.join(id)
+	yates.player[id] = {}
+	yates.player[id].say = 1
+	yates.player[id].pre = 1
+	yates.player[id].tp = {}
 end
-addhook("join", "yates.join")
+addhook("join", "yates.hook.join")
 
-function yates.leave(id)
-	Player[id] = {}
+function yates.hook.leave(id)
+	yates.player[id] = {}
 end
-addhook("leave", "yates.leave")
+addhook("leave", "yates.hook.leave")
 
-function yates.say(id, text)
+function yates.hook.say(id, text)
 	local tbl = toTable(text)
 	local usgn = player(id, "usgn")
 
-	if text:sub(1, #yates_say_prefix) == yates_say_prefix then
-		if checkSayCommand(tbl[1]:sub(#yates_say_prefix+1)) then
-			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates_group_default)].commands) do
-				if tbl[1]:sub(#yates_say_prefix+1) == v or v == "all" then
+	if text:sub(1, #yates.setting.say_prefix) == yates.setting.say_prefix then
+		local command = tbl[1]:sub(#yates.setting.say_prefix+1)
+
+		if checkSayCommand(command) then
+			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
+				if command == v or v == "all" then
 					executeSayCommand(id, text, tbl)
 					return 1
 				end
 			end
 			if _PLAYER[usgn] and _PLAYER[usgn].commands then
 				for k, v in pairs(_PLAYER[usgn].commands) do
-					if tbl[1]:sub(#yates_say_prefix+1) == v or v == "all" then
+					if command == v or v == "all" then
 						executeSayCommand(id, text, tbl)
 						return 1
 					end
@@ -36,14 +38,14 @@ function yates.say(id, text)
 			yatesMessage(id, "You don't have the permissions to use this command!", "warning")	
 		else
 			yatesMessage(id, "This command doesn't exist!", "warning")
-			yatesMessage(id, "Say "..yates_say_prefix.."help to see the available commands.", "info")
+			yatesMessage(id, "Say "..yates.setting.say_prefix.."help to see the available commands.", "info")
 		end
 	else
-		if yates_at_c == 1 then
-			text = text:gsub("@C", yates_at_c_replacement)
+		if yates.setting.at_c == false then
+			text = text:gsub("@C", yates.setting.at_c_replacement)
 		end
 		chat(id, text)
 	end
 	return 1
 end
-addhook("say", "yates.say")
+addhook("say", "yates.hook.say")

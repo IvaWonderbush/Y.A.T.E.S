@@ -1,26 +1,18 @@
 -- yates_config.lua --
 
--- When using a command, the prefix is default !, changing this to @ would result in everyone have to say @help for example
-yates_say_prefix = "!"
+-- General configuration. This is seen as the general server setup, for more information please visit http://www.thomasyates.nl/docs
+yates.setting.say_prefix = "!"
 
--- Server message prefix, changing it to "[SERVER]: " would result in server messages displaying like: [SERVER]: You have kicked <player name>
-yates_message_prefix = "[Y.A.T.E.S]: "
+yates.setting.message_prefix = "[Y.A.T.E.S]: "
 
--- Default group, used for people who have no group or as default placement after a group has been removed which contained players
-yates_group_default = "default"
+yates.setting.group_default = "default"
 
--- Default group colour on creation of a group if a colour is not supplied
-yates_group_default_colour = "\169100255255"
+yates.setting.date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
+yates.setting.time = os.date("%I:%M %p")
 
--- Log date and time used for example the log file titles
-yates_date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
-yates_time = os.date("%I:%M %p")
-
--- Disable using @C, 1 is true, 0 is false
-yates_at_c = 1
-
--- If @C is disabled, this will be used as replacement. Leave empty for no replacement at all
-yates_at_c_replacement = ""
+-- Enables/disables the use of @C, true enables the use, false disables the use.
+yates.setting.at_c = false
+yates.setting.at_c_replacement = ""
 
 -- Colours
 clr = {
@@ -39,8 +31,8 @@ clr = {
 	}
 }
 
--- Constant variables, used to set player or group fields to a certain value other than a numeric or string
-const = {
+-- Constant variables. Used to set player or group fields to a certain value other than a numeric or string.
+yates.constant = {
 	["false"] = false,
 	["true"] = true
 }
@@ -54,10 +46,15 @@ const = {
 	BE WARNED.
 ]]--
 
--- This can set default player values if the data_player cannot be loaded
-_PLAYER = {}
+-- This can set default player values if the data_player cannot be loaded.
+_PLAYER = {
+	-- This gives the player with the U.S.G.N ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple.
+	[21431] = {
+		colour = "180000250"
+	}
+}
 
--- This sets the default groups if the data_group file cannot be loaded
+-- This sets the default groups if the data_group file cannot be loaded.
 _GROUP = {
 	["admin"] = {
 		prefix = "[Admin]",

@@ -4,12 +4,12 @@
 	shows you when submitting a chat message.
 ]]
 
-plugin["rainbow"]["author"] = "Yates"
-plugin["rainbow"]["usgn"] = "21431"
-plugin["rainbow"]["version"] = "0.9"
-plugin["rainbow"]["description"] = "Changes the chat of every message into a random colour. Filter example."
+yates.plugin["rainbow"]["author"] = "Yates"
+yates.plugin["rainbow"]["usgn"] = "21431"
+yates.plugin["rainbow"]["version"] = "0.9"
+yates.plugin["rainbow"]["description"] = "Changes the chat of every message into a random colour. Filter example."
 
-function filter.chat_colour(colour, prefix, usgn) -- Note how none of these variables are used for an actual purpose yet could be as shown by print()
+function yates.filter.chatColour(colour, prefix, usgn) -- Note how none of these variables are used for an actual purpose yet could be as shown by print()
 	print(colour:gsub("\169",""))
 	print(prefix)
 	print(usgn)

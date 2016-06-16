@@ -9,15 +9,15 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 	local c = ""
 	local p = ""
 
-	if _PLAYER[usgn] and Player[id].say ~= 0 then
-		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates_group_default)].colour)
-		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates_group_default)].prefix) or "")
+	if _PLAYER[usgn] and yates.player[id].say ~= 0 then
+		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].colour)
+		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].prefix) or "")
 	else
-		c = (_GROUP[yates_group_default].colour or "")
-		p = (_GROUP[yates_group_default].prefix or "")
+		c = (_GROUP[yates.setting.group_default].colour or "")
+		p = (_GROUP[yates.setting.group_default].prefix or "")
 	end
 
-	if Player[id].pre == 0 then
+	if yates.player[id].pre == 0 then
 		p = ""
 	end
 
@@ -25,7 +25,7 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	c = addFilter("chat_colour", c, p, usgn) or c
+	c = addFilter("chatColour", c, p, usgn) or c
 
 	if p ~= "" then
 		p = p.." "
@@ -40,7 +40,8 @@ end
 ]]
 function setSayHelp(func, info)
 	if not info then info = "" end
-	yates_say_help[func] = func.." "..info
+	yates.say.help[func] = func.." "..info
+	print(yates.say.help[func])
 end
 
 --[[
@@ -49,7 +50,7 @@ end
 ]]
 function setSayDesc(func, desc)
 	if not desc then desc = "" end
-	yates_say_desc[func] = desc
+	yates.say.desc[func] = desc
 end
 
 --[[
@@ -72,7 +73,7 @@ function yatesMessage(id, text, type, prefix)
 	colour = "\169"..colour
 
 	if prefix == nil then
-		pre = (yates_message_prefix or prefix)
+		pre = (yates.setting.message_prefix or prefix)
 	else
 		if prefix ~= false then
 			pre = prefix
@@ -112,7 +113,7 @@ function yatesPrint(text, type, prefix)
 	colour = "\169"..colour
 
 	if prefix == nil then
-		pre = (yates_message_prefix or prefix)
+		pre = (yates.setting.message_prefix or prefix)
 	else
 		if prefix ~= false then
 			pre = prefix
@@ -136,11 +137,11 @@ function yatesLog(log, file, extension, type, date)
 	if not file or file == "" then
 		file = "log"
 		if date == true then
-			file = yates_date
+			file = yates.setting.date
 		end
 	else
 		if date == true then
-			file = file.."-"..yates_date
+			file = file.."-"..yates.setting.date
 		end
 	end
 
@@ -150,7 +151,7 @@ function yatesLog(log, file, extension, type, date)
 
 	local file = io.open(_DIR.."/logs/"..file..extension, type) or io.tmpfile()
 
-	file:write(yates_date.." - "..yates_time.."\n")
+	file:write(yates.setting.date.." - "..yates.setting.time.."\n")
 	file:write(log.."\n")
 	file:close()
 end
@@ -163,9 +164,9 @@ function executeSayCommand(id, txt, tbl)
 	_tbl = tbl
 	_id = id
 	_txt = txt
-	func = loadstring("yates_say."..tbl[1]:sub(#yates_say_prefix+1).."()")
+	func = loadstring("yates.func.say."..tbl[1]:sub(#yates.setting.say_prefix+1).."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..txt, yates_date, ".txt", "a")
+	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..txt, yates.setting.date, ".txt", "a")
 	_tbl = {}
 	_id = nil
 	_txt = ""
@@ -263,18 +264,18 @@ function compareLevel(id, id2)
 	local usgn = player(id, "usgn")
 	local usgn2 = player(id2, "usgn")
 
-	local lvl = _GROUP[yates_group_default].level or 0
-	local lvl2 = _GROUP[yates_group_default].level or 0
+	local lvl = _GROUP[yates.setting.group_default].level or 0
+	local lvl2 = _GROUP[yates.setting.group_default].level or 0
 	
 	if _PLAYER[usgn] and _PLAYER[usgn].group then
-		lvl = _GROUP[(_PLAYER[usgn].group or yates_group_default)].level or 0
+		lvl = _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].level or 0
 		if _PLAYER[usgn].level then
 			lvl = _PLAYER[usgn].level
 		end
 	end
 
 	if _PLAYER[usgn2] and _PLAYER[usgn2].group then
-		lvl2 = _GROUP[(_PLAYER[usgn2].group or yates_group_default)].level or 0
+		lvl2 = _GROUP[(_PLAYER[usgn2].group or yates.setting.group_default)].level or 0
 		if _PLAYER[usgn2].level then
 			lvl2 = _PLAYER[usgn2].level
 		end
@@ -377,7 +378,7 @@ function editGroup(group, field)
 	local v = ""
 
 	if _tbl[5]:sub(1, 1) == "/" then
-		_GROUP[group][field] = const[_tbl[5]:sub(2)]
+		_GROUP[group][field] = yates.constant[_tbl[5]:sub(2)]
 	else
 	    if t == "table" then
 	    	for i = 1, #_GROUP[group][field] do
@@ -425,7 +426,7 @@ function editPlayer(player, field)
 	local v = ""
 
 	if _tbl[5]:sub(1, 1) == "/" then
-		_PLAYER[player][field] = const[_tbl[5]:sub(2)]
+		_PLAYER[player][field] = yates.constant[_tbl[5]:sub(2)]
 	else
 	    if t == "table" then
 	    	for i = 1, #_PLAYER[player][field] do
@@ -482,11 +483,11 @@ end
 ]]
 function checkSayCommand(text)
 	local tmp = {}
-	for k, v in pairs(yates_say) do
+	for k, v in pairs(yates.func.say) do
 		tmp[k] = k
 	end
 
-	for cmds = 1, countIterate(yates_say) do
+	for cmds = 1, countIterate(yates.func.say) do
 		if tmp[text] then
 			if text == tmp[text] then
 				return true
@@ -502,8 +503,8 @@ end
 ]]
 function addFilter(funcName, ...)
 	local arg = {...}
-	if filter[funcName] then
-		return filter[funcName](unpack(arg))
+	if yates.filter[funcName] then
+		return yates.filter[funcName](unpack(arg))
 	end
 end
 
@@ -578,7 +579,7 @@ function loadPlugins()
 	  		if all:sub(1, 1) ~= "_" then
 	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
 	  			yatesPrint("Loading plugin "..all.."..", "success", "[PLUGIN]: ")
-	  			plugin[all] = {}
+	  			yates.plugin[all] = {}
 	  			dofileLua(_DIR.."plugins/"..all.."/startup.lua")
 	  			cachePluginData()
 			elseif all:sub(1, 1) == "_" then
@@ -586,7 +587,7 @@ function loadPlugins()
 			end
 		end
 	end
-	force_reload = false
+	yates.force_reload = false
 end
 
 --[[
@@ -594,7 +595,7 @@ end
 	@return void
 ]]
 function cachePluginData()
-	for k, v in pairs(plugin) do
+	for k, v in pairs(yates.plugin) do
 		_PLUGIN["info"][k] = {}
 		checkPluginData(k, "author", "string")
 		checkPluginData(k, "usgn", "string")
@@ -609,10 +610,12 @@ end
 	@return void
 ]]
 function checkPluginData(name, data, varType)
-	if plugin[name][data] and type(plugin[name][data]) == varType then
-		_PLUGIN["info"][name][data] = plugin[name][data]
-	else
-		yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
+	if yates.plugin[name] then
+		if yates.plugin[name][data] and type(yates.plugin[name][data]) == varType then
+			_PLUGIN["info"][name][data] = yates.plugin[name][data]
+		else
+			yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
+		end
 	end
 end
 
@@ -639,10 +642,11 @@ end
 	@return void
 ]]
 function checkForceReload()
-	if force_reload == true then
+	print("test")
+	if yates.force_reload == true then
 		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
 		timer(5000, "parse", "lua hardReload()")
-		force_reload = false
+		yates.force_reload = false
 	end
 end
 
