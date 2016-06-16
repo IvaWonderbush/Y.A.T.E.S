@@ -46,6 +46,8 @@ print("\169100255255[Y.A.T.E.S]: Checking first use..")
 checkInitialAuth()
 print("\169100255255[Y.A.T.E.S]: Loading plugins..")
 loadPlugins()
+print("\169100255255[Y.A.T.E.S]: Versioning the version(?).. uh")
+checkVersion()
 
 -- You may remove this, but I'd rather you not. People can't see it anyway.
 print("\169100255255[Y.A.T.E.S]: Thank you for using Y.A.T.E.S.")

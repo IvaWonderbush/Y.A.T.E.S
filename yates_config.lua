@@ -1,6 +1,8 @@
 -- yates_config.lua --
 
 -- General configuration. This is seen as the general server setup, for more information please visit http://www.thomasyates.nl/docs
+yates.setting.check_version = true
+
 yates.setting.say_prefix = "!"
 
 yates.setting.message_prefix = "[Y.A.T.E.S]: "

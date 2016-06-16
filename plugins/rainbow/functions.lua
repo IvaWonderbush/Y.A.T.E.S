@@ -5,9 +5,6 @@
 ]]
 
 function yates.filter.chatColour(colour, prefix, usgn) -- Note how none of these variables are used for an actual purpose yet could be as shown by print()
-	print(colour:gsub("\169",""))
-	print(prefix)
-	print(usgn)
 	local r = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)
 	local g = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)
 	local b = math.random(0, 2) .. math.random(0, 5) .. math.random(0, 5)

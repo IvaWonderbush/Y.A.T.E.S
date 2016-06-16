@@ -29,6 +29,8 @@ yates.say.desc = {}
 
 yates.setting = {}
 
+yates.version = "1.0.1"
+
 _GROUP = {}
 _PLAYER = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
