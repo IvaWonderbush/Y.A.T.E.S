@@ -6,14 +6,14 @@ function yates.hook.join(id)
 	yates.player[id].pre = 1
 	yates.player[id].tp = {}
 
-	addAction("join", id)
+	action("join", id)
 end
 addhook("join", "yates.hook.join")
 
 function yates.hook.leave(id)
 	yates.player[id] = {}
 
-	addAction("leave", id)
+	action("leave", id)
 end
 addhook("leave", "yates.hook.leave")
 
@@ -49,7 +49,7 @@ function yates.hook.say(id, text)
 			text = text:gsub("@C", yates.setting.at_c_replacement)
 		end
 
-		addAction("say", id, text)
+		action("say", id, text)
 		chat(id, text)
 	end
 	return 1
@@ -57,6 +57,6 @@ end
 addhook("say", "yates.hook.say")
 
 function yates.hook.ms100()
-	addAction("ms100")
+	action("ms100")
 end
 addhook("ms100", "yates.hook.ms100")

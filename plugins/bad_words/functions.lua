@@ -30,6 +30,15 @@ function yates.filter.chatText(id, text)
 	    		parse("slap "..id)
     		end
 		end
+		if bad_words.setting.emoticon then
+			if count > 0 then
+				if emoticons then
+					emoticons.displayEmoticon(id, "cursing")
+				else
+					yatesPrint("The emoticons plugin is not enabled! Cursing will NOT display an emoticon!", "warning")
+				end
+			end
+		end
 	end
 
     return newText

@@ -1,12 +1,13 @@
 -- Emoticons
 -- functions.lua
 
-function yates.action.join(id)
+function emoticons.join(id)
 	emoticons.player[id] = {}
 	emoticons.player[id].chat = false
 end
+addAction("join", emoticons.join)
 
-function yates.action.leave(id)
+function emoticons.leave(id)
 	if emoticons.player[id].chat then
 		freeimage(emoticons.player[id].emote)
 		freeimage(emoticons.player[id].bubble)
@@ -15,8 +16,9 @@ function yates.action.leave(id)
 		emoticons.player[id].bubble = nil
 	end
 end
+addAction("leave", emoticons.leave)
 
-function yates.action.say(id, text)
+function emoticons.say(id, text)
     for word in string.gmatch(text, "[^%s]+") do
         for smiley, emoticon in pairs(emoticons.list) do
             if word:match(smiley) then
@@ -25,7 +27,11 @@ function yates.action.say(id, text)
             end
         end
     end
+    if not emoticons.player.chat then
+    	emoticons.displayEmoticon(id, "chat")
+	end
 end
+addAction("say", emoticons.say)
 
 function emoticons.displayEmoticon(id, emoticon)
 	if emoticons.player[id].chat then
@@ -36,8 +42,8 @@ function emoticons.displayEmoticon(id, emoticon)
 		emoticons.player[id].bubble = nil
 	end
 	
-	emoticons.player[id].bubble = image(emoticons.path.."speechbubble.png", 0, 0, 200 + id)
-	emoticons.player[id].emote = image(emoticons.path..emoticon..".png", 0, 0, 200 + id)
+	emoticons.player[id].bubble = image(emoticons.path.."speechbubble.png", 0, 0, 132 + id)
+	emoticons.player[id].emote = image(emoticons.path..emoticon..".png", 0, 0, 132 + id)
 
 	imagealpha(emoticons.player[id].bubble, emoticons.alpha)
 	imagealpha(emoticons.player[id].emote, emoticons.alpha)
@@ -48,7 +54,7 @@ function emoticons.displayEmoticon(id, emoticon)
 	emoticons.player[id].chat = true
 end
 
-function yates.action.ms100()
+function emoticons.ms100()
     for _, id in pairs(player(0, "table")) do
     	if emoticons.player[id].chat then
 	    	local time = os.difftime(os.time(), emoticons.player[id].time)
@@ -73,3 +79,4 @@ function yates.action.ms100()
 	    end
     end
 end
+addAction("ms100", emoticons.ms100)

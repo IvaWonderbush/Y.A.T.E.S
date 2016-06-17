@@ -510,14 +510,22 @@ function addFilter(funcName, ...)
 end
 
 --[[
+	Creates an action to be called in a function
+	@return void
+]]
+function addAction(name, func)
+    if not yates.action[name] then yates.action[name] = {} end
+    table.insert(yates.action[name], func)
+end
+
+--[[
 	Calls a function after a certain function is called
 	@return void
 ]]
-function addAction(funcName, ...)
-	local arg = {...}
-	if yates.action[funcName] then
-		yates.action[funcName](unpack(arg))
-	end
+function action(name, ...)
+    for _, func in pairs(yates.action[name]) do
+        func(...)
+    end
 end
 
 function checkStatus()

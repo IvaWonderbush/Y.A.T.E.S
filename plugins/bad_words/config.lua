@@ -13,6 +13,9 @@ bad_words.setting.punish = true
 -- Enables/disables the replacement of the whole word. Example: fuck becomes ****
 bad_words.setting.replace_everything = false
 
+-- Enables/disables the swaer emoticon. NOTE: Emoticons plugin is required and must be ENABLED!
+bad_words.setting.emoticon = true
+
 -- Bad words list, the value of the table item is the replacement
 bad_words.list = {
 	["asshole"] = "**shole",
@@ -20,6 +23,9 @@ bad_words.list = {
 	["cunt"] = "c*nt",
 	["fuck"] = "f*ck",
 	["fucker"] = "f*cker",
+	["fucking"] = "f*cking",
+	["shit"] = "sh*t",
+	["hitler"] = "h*tler",
 	["gajos"] = "gayos*",
 	["gay"] = "g*y",
 	["motherfucker"] = "motherf*cker",
