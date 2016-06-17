@@ -35,9 +35,4 @@ yates.version = "1.0.1"
 _GROUP = {}
 _PLAYER = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
-
-_HOOKS = {}
-
-_YATES = {
-	auth_token = false
-}
+_YATES = {auth_token = false}

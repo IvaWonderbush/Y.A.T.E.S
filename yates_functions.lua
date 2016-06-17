@@ -25,9 +25,9 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	c = addFilter("chatColour", id, text, c, p, usgn) or c
-	p = addFilter("chatPrefix", id, text, c, p, usgn) or p
-	text = addFilter("chatText", id, text, c, p, usgn) or text
+	c = filter("chatColour", id, text, c, p, usgn) or c
+	p = filter("chatPrefix", id, text, c, p, usgn) or p
+	text = filter("chatText", id, text, c, p, usgn) or text
 
 	if p ~= "" then
 		p = p.." "
@@ -499,33 +499,62 @@ function checkSayCommand(text)
 end
 
 --[[
-	Returns the filter function outcome if any
+	Creates a filter to be called in a function
 	@return void
 ]]
-function addFilter(funcName, ...)
-	local arg = {...}
-	if yates.filter[funcName] then
-		return yates.filter[funcName](unpack(arg))
-	end
+function addFilter(name, func, priority)
+    if not yates.filter[name] then yates.filter[name] = {} end
+    if priority then table.insert(yates.filter[name], priority, func)
+    else table.insert(yates.filter[name], func) end
+end
+
+--[[
+	Calls a filter during a function to change the outcome
+	@return void
+]]
+function filter(name, ...)
+	if yates.filter[name] then
+	    local f, l = table.bounds(yates.filter[name])
+	    for i = f, l do
+	        local func = yates.filter[name][i]
+	        if (func) then return func(...) end
+	    end
+    end
 end
 
 --[[
 	Creates an action to be called in a function
 	@return void
 ]]
-function addAction(name, func)
+function addAction(name, func, priority)
     if not yates.action[name] then yates.action[name] = {} end
-    table.insert(yates.action[name], func)
+    if priority then table.insert(yates.action[name], priority, func)
+    else table.insert(yates.action[name], func) end
 end
 
 --[[
-	Calls a function after a certain function is called
+	Calls an action after a certain function is called
 	@return void
 ]]
 function action(name, ...)
-    for _, func in pairs(yates.action[name]) do
-        func(...)
+	if yates.action[name] then
+	    local f, l = table.bounds(yates.action[name])
+	    for i = f, l do
+	        local func = yates.action[name][i]
+	        if (func) then func(...) end
+        end
     end
+end
+
+function table.bounds(tbl)
+    local f, l
+    for k, v in pairs(tbl) do
+        if (not f) then f = k end
+        if (not l) then l = k end
+        if (k > l) then l = k end
+        if (k < f) then f = k end
+    end
+    return f, l
 end
 
 function checkStatus()

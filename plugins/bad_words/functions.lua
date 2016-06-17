@@ -11,7 +11,7 @@ for word in pairs(bad_words.list) do
 end
 bad_words.list =  bad_words.tmp
 
-function yates.filter.chatText(id, text)
+function bad_words.chatText(id, text)
 	local newText = text
 	local count = 0
 
@@ -25,6 +25,7 @@ function yates.filter.chatText(id, text)
 	    		count = count + replaced
     		end
 	    end
+
 	    if bad_words.setting.punish then
 	    	if count > 0 then
 	    		parse("slap "..id)
@@ -43,6 +44,7 @@ function yates.filter.chatText(id, text)
 
     return newText
 end
+addFilter("chatText", bad_words.chatText)
 
 function bad_words.geesub(text, find, replace)
 	find = "%f[%a]"..find.."%f[%A]"
