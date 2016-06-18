@@ -35,11 +35,11 @@ function yates.func.say.help()
 	local everything = false
 
 	if _tbl[2] then
-		if yates.say.help[_tbl[2]] then
+		if yates.func.say.help[_tbl[2]] then
 			yatesMessage(_id, "Usage:", "info")
-			yatesMessage(_id, yates.setting.say_prefix..yates.say.help[_tbl[2]], "default", false)
-			if yates.say.desc[_tbl[2]] then
-				yatesMessage(_id, yates.say.desc[_tbl[2]], "default", false)
+			yatesMessage(_id, yates.setting.say_prefix..yates.func.say.help[_tbl[2]], "default", false)
+			if yates.func.say.desc[_tbl[2]] then
+				yatesMessage(_id, yates.func.say.desc[_tbl[2]], "default", false)
 			end
 			yatesMessage(_id, "", false, false)
 			yatesMessage(_id, "A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].", "info")
@@ -118,6 +118,11 @@ setSayHelp("lua", "<cmd>")
 setSayDesc("lua", "Be very careful when using this command, there are no checks - it is simply executed!")
 
 function yates.func.say.plugin()
+	if not _tbl[2] then
+        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help plugin for a list of sub-commands.", "warning")
+        return 1
+    end
+
 	if _tbl[2] == "list" then
 		yatesMessage(_id, "List of plugins:", "info")
 		for _, all in pairs(_PLUGIN["on"]) do
@@ -215,6 +220,47 @@ function yates.func.say.plugin()
 end
 setSayHelp("plugin", "list / menu / <info/enable/disable> <plugin>")
 setSayDesc("plugin", "General command to show information about (a) plugin(s) or to enable/disable them.")
+
+function yates.func.say.command()
+	if not _tbl[2] then
+        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help command for a list of sub-commands.", "warning")
+        return 1
+    end
+
+    if _tbl[2] == "list" then
+		yatesMessage(_id, "List of disabled commands:", "info")
+		for _, all in pairs(_YATES.disabled_commands) do
+			yatesMessage(_id, all, "warning", false)
+		end
+	elseif _tbl[2] == "enable" then
+		if _tbl[3] then
+			for k, v in pairs(_YATES.disabled_commands) do
+				if _tbl[3] == v then
+					_YATES.disabled_commands[k] = nil
+				end
+			end
+			yatesMessage(_id, "The command has been enabled.", "success")
+			saveData(_YATES, "data_yates.lua", true)
+		else
+			yatesMessage(_id, "You have not provided a command!", "warning")
+		end
+	elseif _tbl[2] == "disable" then
+		if _tbl[3] == "command" then
+			yatesMessage(_id, "Funny you.. You cannot disable this command of course!", "warning")
+			return
+		end
+
+		if _tbl[3] then
+			table.insert(_YATES.disabled_commands, _tbl[3])
+			yatesMessage(_id, "The command has been disabled.", "success")
+			saveData(_YATES, "data_yates.lua", true)
+		else
+			yatesMessage(_id, "You have not provided a command!", "warning")
+		end
+	end
+end
+setSayHelp("plugin", "list / <enable/disable> <command>")
+setSayDesc("plugin", "General command to show information about disabled commands or to enable/disable them.")
 
 function yates.func.say.softreload()
 	if not _tbl[2] then
@@ -320,7 +366,7 @@ function yates.func.say.banusgn()
 	local reason = ""
 
 	if not _tbl[2] or tonumber(_tbl[2]) == nil then
-		yatesMessage(_id, "You have not supplied a U.S.G.N ID!", "warning")
+		yatesMessage(_id, "You have not provided a U.S.G.N ID!", "warning")
 		return 1
 	end
 
@@ -348,7 +394,7 @@ function yates.func.say.banip()
 	local reason = ""
 
 	if not _tbl[2] then
-		yatesMessage(_id, "You have not supplied an IP!", "warning")
+		yatesMessage(_id, "You have not provided an IP!", "warning")
 		return 1
 	end
 
@@ -374,7 +420,7 @@ setSayHelp("banip", "<ip> [<duration>] (0 for infinite, -1 for server setting) [
 
 function yates.func.say.unban()
 	if not _tbl[2] then
-		yatesMessage(_id, "You have not supplied a U.S.G.N ID or IP!", "warning")
+		yatesMessage(_id, "You have not provided a U.S.G.N ID or IP!", "warning")
 		return 1
 	end
 
@@ -392,7 +438,7 @@ setSayDesc("unbanall", "Removes all the bans from the ban list (EVERYTHING WILL 
 
 function yates.func.say.map()
 	if not _tbl[2] then
-		yatesMessage(_id, "You have not supplied a map name!", "warning")
+		yatesMessage(_id, "You have not provided a map name!", "warning")
 		return 1
 	end
 
@@ -434,7 +480,7 @@ function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and sp
 	parse("spawnplayer ".._tbl[2].." ".._tbl[3].." ".._tbl[4])
 end
 setSayHelp("spawn", "<id> [<tilex>] [<tiley>]")
-setSayDesc("spawn", "Spawns the player, if no x and y are supplied the player will be spawn at a random spawn entity.")
+setSayDesc("spawn", "Spawns the player, if no x and y are provided the player will be spawn at a random spawn entity.")
 
 function yates.func.say.kill()
 	if not checkPlayer(_tbl[2]) then
@@ -480,7 +526,7 @@ function yates.func.say.equip()
 	end
 
 	if not _tbl[3] then
-		yatesMessage(_id, "You have not supplied a weapon id!", "warning")
+		yatesMessage(_id, "You have not provided a weapon id!", "warning")
 		return 1
 	end
 
@@ -495,7 +541,7 @@ function yates.func.say.strip()
 	end
 
 	if not _tbl[3] then
-		yatesMessage(_id, "You have not supplied a weapon id!", "warning")
+		yatesMessage(_id, "You have not provided a weapon id!", "warning")
 		return 1
 	end
 
@@ -543,7 +589,7 @@ setSayDesc("bring", "Teleports a player to you.")
 
 function yates.func.say.bringback()
 	if not _tbl[2] then
-		yatesMessage(_id, "You have not supplied a player id!", "warning")
+		yatesMessage(_id, "You have not provided a player id!", "warning")
 		return 1
 	end
 
@@ -629,7 +675,7 @@ function yates.func.say.playerprefix()
 		undo = "!playerprefix "..id.." /nil"
 	end
 
-	if yates.say.player() then
+	if yates.func.say.player() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -663,7 +709,7 @@ function yates.func.say.playercolour()
 
 	print(undo)
 
-	if yates.say.player() then
+	if yates.func.say.player() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -695,7 +741,7 @@ function yates.func.say.playerlevel()
 		undo = "!playerlevel "..id.." /nil"
 	end
 
-	if yates.say.player() then
+	if yates.func.say.player() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -727,7 +773,7 @@ function yates.func.say.playergroup()
 		undo = "!playergroup "..id.." /nil"
 	end
 
-	if yates.say.player() then
+	if yates.func.say.player() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -738,7 +784,7 @@ setSayDesc("playergroup", "Sets a player's group.")
 
 function yates.func.say.player()
 	if not _tbl[2] then
-        yatesMessage(_id, "You have not supplied a sub-command, say "..yates.setting.say_prefix.."help player for a list of sub-commands.", "warning")
+        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help player for a list of sub-commands.", "warning")
         return 1
     end
 
@@ -827,7 +873,7 @@ function yates.func.say.groupprefix()
 		end
 	end
 
-	if yates.say.group() then
+	if yates.func.say.group() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -852,7 +898,7 @@ function yates.func.say.groupcolour()
 		end
 	end
 
-	if yates.say.group() then
+	if yates.func.say.group() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -877,7 +923,7 @@ function yates.func.say.grouplevel()
 		end
 	end
 
-	if yates.say.group() then
+	if yates.func.say.group() then
 		if undo then
 			setUndo(_id, undo)
 		end
@@ -888,7 +934,7 @@ setSayDesc("grouplevel", "Sets a group's level.")
 
 function yates.func.say.group()
     if not _tbl[2] then
-        yatesMessage(_id, "You have not supplied a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "warning")
+        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "warning")
         return 1
     end
 
@@ -1028,7 +1074,7 @@ function yates.func.say.undo()
 	end
 
 	yatesMessage(_id, "Executing the following command: ".._PLAYER[player(_id, "usgn")].undo, "info")
-	yates.say(_id, _PLAYER[player(_id, "usgn")].undo)
+	yates.hook.say(_id, _PLAYER[player(_id, "usgn")].undo)
 end
 setSayHelp("undo")
 setSayDesc("undo", "Certain commands have an undo option, this command will undo the most recent undoable command.")

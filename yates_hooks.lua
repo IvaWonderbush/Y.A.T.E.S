@@ -25,6 +25,10 @@ function yates.hook.say(id, text)
 		local command = tbl[1]:sub(#yates.setting.say_prefix+1)
 
 		if checkSayCommand(command) then
+			if not checkSayCommandUse(command) then
+				yatesMessage(id, "This command has been disabled and cannot be used!", "warning")
+				return 1
+			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
 					executeSayCommand(id, text, tbl)
@@ -39,7 +43,7 @@ function yates.hook.say(id, text)
 					end
 				end
 			end
-			yatesMessage(id, "You don't have the permissions to use this command!", "warning")	
+			yatesMessage(id, "You don't have the permissions to use this command!", "warning")
 		else
 			yatesMessage(id, "This command doesn't exist!", "warning")
 			yatesMessage(id, "Say "..yates.setting.say_prefix.."help to see the available commands.", "info")

@@ -482,20 +482,35 @@ end
 	Checks if say command exists
 	@return boolean
 ]]
-function checkSayCommand(text)
+function checkSayCommand(command)
 	local tmp = {}
 	for k, v in pairs(yates.func.say) do
 		tmp[k] = k
 	end
 
 	for cmds = 1, countIterate(yates.func.say) do
-		if tmp[text] then
-			if text == tmp[text] then
+		if tmp[command] then
+			if command == tmp[command] then
 				return true
 			end
 		end
 	end
 	return false
+end
+
+function checkSayCommandUse(command)
+	if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
+	if not command then 
+		yatesPrint("No command was provided to check if the use of it is allowed!", "warning")
+		return true
+	end
+
+	for k, v in pairs(_YATES.disabled_commands) do
+		if command == v then
+			return false
+		end
+	end
+	return true
 end
 
 --[[

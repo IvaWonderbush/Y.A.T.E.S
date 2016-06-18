@@ -13,9 +13,6 @@ yates.setting.message_prefix = "[Y.A.T.E.S]: "
 -- Fallback for undefined variables, it is recommended to keep this default unless you know what you're getting into
 yates.setting.group_default = "default"
 
--- Disable commands you don't want to be used here, seperate entries by comma. Example: {"kick", "ban"}
-yates.setting.disabled_commands = {}
-
 -- Time and date variables used in log files
 yates.setting.date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
 yates.setting.time = os.date("%H:%M:%S")
@@ -27,7 +24,7 @@ yates.setting.at_c_replacement = ""
 -- Enables/disables the response when Y.A.T.E.S adds a file to the server transfer list
 yates.setting.transferlist_response = true
 
--- Colours, do not remove these entries!
+-- Colours, do not remove these entries! You may add new ones
 clr = {
 	["yates"] = {
 		["default"] 	= "\169255255255",
