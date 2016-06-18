@@ -753,6 +753,8 @@ function addTransferFile(file, path)
 end
 
 function setTransferList(response)
+	table.fileToTable("sys/servertransfer.lst", yates.transferlist)
+
 	local file = io.open("sys/servertransfer.lst", "w+") or io.tmpfile()
 	local count = 0
 
@@ -876,6 +878,18 @@ function table.removeDuplicate(tbl)
 	end
 
 	return res
+end
+
+function table.fileToTable(file, tbl)
+	if not tbl then
+		return
+	end
+
+	local file = io.open(file, "r");
+	
+	for line in file:lines() do
+		table.insert(tbl, line);
+	end
 end
 
 --[[
