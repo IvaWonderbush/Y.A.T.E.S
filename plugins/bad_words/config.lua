@@ -18,7 +18,7 @@ bad_words.setting.emoticon = true
 
 -- Bad words list, the value of the table item is the replacement
 bad_words.list = {
-	["asshole"] = "**shole",
+	["asshole"] = "*sshole",
 	["bitch"] = "b*tch",
 	["cunt"] = "c*nt",
 	["fuck"] = "f*ck",

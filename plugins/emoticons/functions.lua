@@ -80,3 +80,10 @@ function emoticons.ms100()
     end
 end
 addAction("ms100", emoticons.ms100)
+
+
+function emoticons.addToTransfer()
+	for k, v in pairs(emoticons.list) do
+    	addTransferFile(v..".png", emoticons.path)
+	end
+end

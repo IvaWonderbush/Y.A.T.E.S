@@ -24,6 +24,8 @@ yates.setting.time = os.date("%I:%M %p")
 yates.setting.at_c = false
 yates.setting.at_c_replacement = ""
 
+yates.setting.transferlist_response = true
+
 -- Colours, do not remove these entries!
 clr = {
 	["yates"] = {

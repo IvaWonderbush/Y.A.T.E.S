@@ -48,7 +48,9 @@ print("\169100255255[Y.A.T.E.S]: Loading plugins..")
 loadPlugins()
 print("\169100255255[Y.A.T.E.S]: Versioning the version..?")
 checkVersion()
+setTransferList(yates.setting.transferlist_response)
 
 -- You may remove this, but I'd rather you not. People can't see it anyway.
+print(" ")
 print("\169100255255[Y.A.T.E.S]: Thank you for using Y.A.T.E.S.")
 print("\169100255255[Y.A.T.E.S]: Creator: Yates, U.S.G.N ID 21431.")

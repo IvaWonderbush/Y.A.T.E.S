@@ -30,6 +30,8 @@ yates.say.desc = {}
 
 yates.setting = {}
 
+yates.transferlist = {}
+
 yates.version = "1.0.1"
 
 _GROUP = {}

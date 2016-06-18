@@ -45,3 +45,6 @@ emoticons.list = {
     ["^>[:=8;][-^o]?[(%[]$"] = "angry", -- >:(
     ["^<3$"] = "heart" -- <3
 }
+
+-- Requires a force reload of the server to set player values on join
+yates.force_reload = true
