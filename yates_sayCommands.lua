@@ -148,6 +148,7 @@ function yates.func.say.plugin()
 					yatesMessage(_id, "The plugin has been enabled!", "success")
 					cachePluginData()
 					checkForceReload()
+					setUndo(_id, "!plugin disable ".._tbl[3])
 					return 1
 				end
 			end
@@ -170,6 +171,7 @@ function yates.func.say.plugin()
 					_PLUGIN["on"][k] = nil
 					yatesMessage(_id, "The plugin has been disabled!", "success")
 					yatesMessage(_id, "Please reload the server Lua using "..yates.setting.say_prefix.."hardreload (preferred) or "..yates.setting.say_prefix.."softreload", "info")
+					setUndo(_id, "!plugin enable ".._tbl[3])
 					return 1
 				end
 			end
@@ -242,6 +244,7 @@ function yates.func.say.command()
 				end
 			end
 			yatesMessage(_id, "The command has been enabled.", "success")
+			setUndo(_id, "!command disable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua", true)
 		else
 			yatesMessage(_id, "You have not provided a command!", "warning")
@@ -255,6 +258,7 @@ function yates.func.say.command()
 		if _tbl[3] then
 			table.insert(_YATES.disabled_commands, _tbl[3])
 			yatesMessage(_id, "The command has been disabled.", "success")
+			setUndo(_id, "!command enable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua", true)
 		else
 			yatesMessage(_id, "You have not provided a command!", "warning")
@@ -360,7 +364,8 @@ function yates.func.say.mute()
 	yatesMessage(_tbl[2], "You have been muted for ".._tbl[3].." seconds. Reason: "..reason, "warning")
 	yates.player[_tbl[2]].mute_time = _tbl[3]
 	yates.player[_tbl[2]].mute_reason = reason
-	
+	setUndo(_id, "!unmute ".._tbl[2])
+
 	if yates.setting.mute_save then
 		if player(_tbl[2], "usgn") > 0 then
 			if not _PLAYER[player(_tbl[2], "usgn")] then
@@ -392,6 +397,7 @@ function yates.func.say.unmute()
 
 	yatesMessage(_id, player(_tbl[2], "name").." has been unmuted.", "success")
 	yatesMessage(_tbl[2], "You have been unmuted.", "info")
+	setUndo(_id, "!mute ".._tbl[2].." "..yates.player[_tbl[2]].mute_time.." "..yates.player[_tbl[2]].mute_reason)
 	yates.player[_tbl[2]].mute_time = 0
 	yates.player[_tbl[2]].mute_reason = ""
 end
