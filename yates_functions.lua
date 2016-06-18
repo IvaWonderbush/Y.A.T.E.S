@@ -722,29 +722,33 @@ function checkForceReload()
 	end
 end
 
+--[[
+	Adds a file to the server transfer list table which will eventually be added to the file servertransfer.lst
+	@return boolean
+]]
 function addTransferFile(file, path)
 	if not file then
-		yatesPrint("No file name was defined to add to the servertransfer list.", "warning")
+		yatesPrint("No file name was defined to add to the server transfer list.", "warning")
 		return false
 	end
 
 	if not path then
-		yatesPrint("No file path was defined to use to add a file to the servertransfer list.", "warning")
+		yatesPrint("No file path was defined to use to add a file to the server transfer list.", "warning")
 		return false
 	end
 
 	local _, count = string.gsub(file, "%.", "")
 	if count < 1 then
-		yatesPrint("The file '"..path..file.."' cannot be added to the servertransfer list as it does not have an extension!", "warning")
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not have an extension!", "warning")
 		return false
 	end
 	if count > 1 then
-		yatesPrint("The file '"..path..file.."' cannot be added to the servertransfer list as it contains more than one dot!", "warning")
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it contains more than one dot!", "warning")
 		return false
 	end
 
 	if not fileExists(path..file) then
-		yatesPrint("The file '"..path..file.."' cannot be added to the servertransfer list as it does not exist!", "warning")
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not exist!", "warning")
 		return false
 	end
 
@@ -752,6 +756,10 @@ function addTransferFile(file, path)
 	return true
 end
 
+--[[
+	Adds all the files in yates.transferlist to the server transfer list
+	@return boolean
+]]
 function setTransferList(response)
 	table.fileToTable("sys/servertransfer.lst", yates.transferlist)
 
@@ -765,7 +773,7 @@ function setTransferList(response)
 		file:write(text)
 		count = count + 1
 		if response then
-			yatesPrint("The file '"..v.."' has been added to the servertransfer list.", "success")
+			yatesPrint("The file '"..v.."' has been added to the server transfer list.", "success")
 		end
 	end
 	file:close()
