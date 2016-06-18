@@ -218,7 +218,7 @@ function checkPlayer(id, message)
 end
 
 --[[
-	Checks whether a player has a U.S.G.N ID or not
+	Checks whether a player has a U.S.G.N. ID or not
 	@return boolean
 ]]
 function checkUsgn(id, message)
@@ -232,7 +232,7 @@ function checkUsgn(id, message)
 
 	if player(id, "usgn") == 0 then
 		if message then
-			yatesMessage(_id, "This player does not have a U.S.G.N ID!", "warning")
+			yatesMessage(_id, "This player does not have a U.S.G.N. ID!", "warning")
 		end
 		return false
 	end

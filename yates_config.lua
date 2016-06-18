@@ -19,7 +19,16 @@ yates.setting.time = os.date("%H:%M:%S")
 
 -- Enables/disables the use of @C, true enables the use, false disables the use
 yates.setting.at_c = false
-yates.setting.at_c_replacement = ""
+yates.setting.at_c_replacement = "at_c"
+
+-- Enables/disables the saving of the mute time.This keeps the player muted even after he rejoins. Will only work on people that are logged into a U.S.G.N. account
+yates.setting.mute_save = true
+
+-- The default mute time in seconds if none is provided
+yates.setting.mute_time_default = 30
+
+-- The max time a player can be muted for in seconds. If you don't fully trust your administration team to not be dicks, set this to 60 seconds or something ;)
+yates.setting.mute_time_max = 60
 
 -- Enables/disables the response when Y.A.T.E.S adds a file to the server transfer list
 yates.setting.transferlist_response = true
@@ -59,7 +68,7 @@ yates.setting.constant = {
 
 -- This can set default player values if the data_player cannot be loaded
 _PLAYER = {
-	-- This gives the player with the U.S.G.N ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple
+	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple
 	[21431] = {
 		colour = "180000250"
 	}

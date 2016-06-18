@@ -1,6 +1,6 @@
 function yates.func.say.auth()
 	if player(_id, "usgn") == 0 then
-		yatesMessage(id, "You need to be logged in to a U.S.G.N account to do this!", "warning")
+		yatesMessage(id, "You need to be logged in to a U.S.G.N. account to do this!", "warning")
 		return
 	end
 
@@ -17,6 +17,7 @@ function yates.func.say.auth()
 			_YATES.auth_usgn = player(_id, "usgn")
 			_PLAYER[_YATES.auth_usgn] = {}
 			_PLAYER[_YATES.auth_usgn].commands = {"all"}
+			table.insert(_YATES.disabled_commands, "auth")
 
 			saveData(_YATES, "data_yates.lua", true)
 			saveData(_PLAYER, "data_player.lua", true)
@@ -35,11 +36,11 @@ function yates.func.say.help()
 	local everything = false
 
 	if _tbl[2] then
-		if yates.func.say.help[_tbl[2]] then
+		if yates.say.help[_tbl[2]] then
 			yatesMessage(_id, "Usage:", "info")
-			yatesMessage(_id, yates.setting.say_prefix..yates.func.say.help[_tbl[2]], "default", false)
-			if yates.func.say.desc[_tbl[2]] then
-				yatesMessage(_id, yates.func.say.desc[_tbl[2]], "default", false)
+			yatesMessage(_id, yates.setting.say_prefix..yates.say.help[_tbl[2]], "default", false)
+			if yates.say.desc[_tbl[2]] then
+				yatesMessage(_id, yates.say.desc[_tbl[2]], "default", false)
 			end
 			yatesMessage(_id, "", false, false)
 			yatesMessage(_id, "A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].", "info")
@@ -85,6 +86,7 @@ function yates.func.say.pm()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if _tbl[3] then
 		for i = 3, #_tbl do
@@ -103,8 +105,8 @@ setSayHelp("pm", "<id> <message>")
 setSayDesc("pm", "Sends a private message (pm) to the accoding player.")
 
 function yates.func.say.credits()
-	yatesMessage(_id, "Y.A.T.E.S was made by Yates, U.S.G.N ID 21431.", "info")
-	yatesMessage(_id, "Crucial functions and assistance provided by EngiN33R, U.S.G.N ID 7749.", "info")
+	yatesMessage(_id, "Y.A.T.E.S was made by Yates, U.S.G.N. ID 21431.", "info")
+	yatesMessage(_id, "Crucial functions and assistance provided by EngiN33R, U.S.G.N. ID 7749.", "info")
 end
 setSayHelp("credits")
 
@@ -196,9 +198,9 @@ function yates.func.say.plugin()
 					yatesMessage(_id, "No author has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["usgn"] then
-					yatesMessage(_id, "U.S.G.N ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
+					yatesMessage(_id, "U.S.G.N. ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
 				else
-					yatesMessage(_id, "No U.S.G.N ID has been provided by the plugin or has not been cached!", false, false)
+					yatesMessage(_id, "No U.S.G.N. ID has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["version"] then
 					yatesMessage(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
@@ -284,22 +286,117 @@ setSayHelp("hardreload", "[<delay>] (in seconds)")
 setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
 function yates.func.say.tag()
-	if yates.player[_id].pre == 1 then
-		yates.player[_id].pre = 0
+	if yates.player[_id].pre then
+		yates.player[_id].pre = false
 		yatesMessage(_id, "Your tag is no longer visible.", "success")
 	else
-		yates.player[_id].pre = 1
+		yates.player[_id].pre = true
 		yatesMessage(_id, "Your tag is now visible.", "success")
 	end
 end
 setSayHelp("tag")
 setSayDesc("tag", "Toggles your tag. Useful if you want to hide your identity to spot hackers and still chat.")
 
-function yates.func.say.godmode()
-	yatesMessage(false, "We are reloading our lua scripts! Please stay.", "success")
+function yates.func.say.god()
+	if yates.player[_id].god then
+		yates.player[_id].god = false
+		yatesMessage(_id, "You are no longer in God mode.", "success")
+	else
+		yates.player[_id].god = true
+		yatesMessage(_id, "You are now in God mode.", "success")
+	end
 end
-setSayHelp("godmode")
-setSayDesc("godmode", "Turns on godmode. During this mode you cannot be dealt damage (you can still die).")
+setSayHelp("god")
+setSayDesc("god", "Turns on God mode. During this mode you cannot be dealt damage (you can still die).")
+
+function yates.func.say.mute()
+	local reason = ""
+
+	if not checkPlayer(_tbl[2]) then
+		return 1
+	end
+	_tbl[2] = tonumber(_tbl[2])
+
+	if not _tbl[3] then
+		yatesMessage(_id, "You did not define a time. The default of "..yates.setting.mute_time_default.." seconds will be used instead.", "info")
+		_tbl[3] = yates.setting.mute_time_default
+	else
+		if tonumber(_tbl[3]) == nil then
+			yatesMessage(_id, "You need to define a time, you gave something else instead.", "warning")
+			return
+		end
+
+		if tonumber(_tbl[3]) > yates.setting.mute_time_max then
+			yatesMessage(_id, "You cannot mute a player longer than "..yates.setting.mute_time_default.." seconds!", "warning")
+			return
+		end
+
+		if tonumber(_tbl[3]) < 1 then
+			yatesMessage(_id, "You cannot mute a player for less than 1 second!", "warning")
+			return
+		end
+	end
+	_tbl[3] = tonumber(_tbl[3])
+
+	if _tbl[4] then
+		for i = 4, #_tbl do
+    		if reason == "" then
+				reason = _tbl[i]
+			else
+				reason = reason.." ".._tbl[i]
+			end
+		end
+	end
+	if reason == "" then
+		reason = "No reason defined."
+	end
+
+	if not compareLevel(_id, _tbl[2]) then
+		yatesMessage(_id, "You do not have permission to mute this player!", "warning")
+		return 1
+	end
+
+	yatesMessage(_id, player(_tbl[2], "name").." has been muted.", "success")
+	yatesMessage(_tbl[2], "You have been muted for ".._tbl[3].." seconds. Reason: "..reason, "warning")
+	yates.player[_tbl[2]].mute_time = _tbl[3]
+	yates.player[_tbl[2]].mute_reason = reason
+	
+	if yates.setting.mute_save then
+		if player(_tbl[2], "usgn") > 0 then
+			if not _PLAYER[player(_tbl[2], "usgn")] then
+				_PLAYER[player(_tbl[2], "usgn")] = {}
+			end
+
+			_PLAYER[player(_tbl[2], "usgn")].mute_time = _tbl[3]
+			_PLAYER[player(_tbl[2], "usgn")].mute_reason = reason
+			saveData(_PLAYER, "data_player.lua", true)
+		end
+	end
+end
+setSayHelp("mute", "<id> [<duration>] (default "..yates.setting.mute_time_default.." seconds) [<reason>]")
+setSayDesc("mute", "Mutes the player. The player is then no longer allowed to talk.")
+
+function yates.func.say.unmute()
+	if not checkPlayer(_tbl[2]) then
+		return 1
+	end
+	_tbl[2] = tonumber(_tbl[2])
+
+	if _PLAYER[player(_tbl[2], "usgn")] and _PLAYER[player(_tbl[2], "usgn")].mute_time then
+		_PLAYER[player(_tbl[2], "usgn")].mute_time = nil
+		if _PLAYER[player(_tbl[2], "usgn")].mute_reason then
+			_PLAYER[player(_tbl[2], "usgn")].mute_reason = nil
+		end
+		saveData(_PLAYER, "data_player.lua", true)
+	end
+
+	yatesMessage(_id, player(_tbl[2], "name").." has been unmuted.", "success")
+	yatesMessage(_tbl[2], "You have been unmuted.", "info")
+	yates.player[_tbl[2]].mute_time = 0
+	yates.player[_tbl[2]].mute_reason = ""
+end
+setSayHelp("unmute", "<id>")
+setSayDesc("unmute", "Unmutes the player.")
 
 function yates.func.say.kick()
 	local reason = ""
@@ -307,6 +404,7 @@ function yates.func.say.kick()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if _tbl[3] then
 		for i = 3, #_tbl do
@@ -326,7 +424,7 @@ function yates.func.say.kick()
 	yatesMessage(_id, player(_tbl[2], "name").." has been kicked.", "success")
 	parse("kick ".._tbl[2].." \""..reason.."\"")
 end
-setSayHelp("kick","<id> [<reason>]")
+setSayHelp("kick", "<id> [<reason>]")
 
 function yates.func.say.ban()
 	local reason = ""
@@ -334,6 +432,7 @@ function yates.func.say.ban()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
 		_tbl[3] = 0
@@ -366,7 +465,7 @@ function yates.func.say.banusgn()
 	local reason = ""
 
 	if not _tbl[2] or tonumber(_tbl[2]) == nil then
-		yatesMessage(_id, "You have not provided a U.S.G.N ID!", "warning")
+		yatesMessage(_id, "You have not provided a U.S.G.N. ID!", "warning")
 		return 1
 	end
 
@@ -384,11 +483,11 @@ function yates.func.say.banusgn()
 		end
 	end
 
-	yatesMessage(_id, "The U.S.G.N ID ".._tbl[2].." has been banned.", "success")
+	yatesMessage(_id, "The U.S.G.N. ID ".._tbl[2].." has been banned.", "success")
 	parse("banusgn ".._tbl[2].." ".._tbl[3].." \""..reason.."\"")
 	setUndo(_id, "!unban ".._tbl[2])
 end
-setSayHelp("banusgn", "<U.S.G.N> [<duration>] (0 for infinite, -1 for server setting) [<reason>]")
+setSayHelp("banusgn", "<U.S.G.N.> [<duration>] (0 for infinite, -1 for server setting) [<reason>]")
 
 function yates.func.say.banip()
 	local reason = ""
@@ -420,14 +519,14 @@ setSayHelp("banip", "<ip> [<duration>] (0 for infinite, -1 for server setting) [
 
 function yates.func.say.unban()
 	if not _tbl[2] then
-		yatesMessage(_id, "You have not provided a U.S.G.N ID or IP!", "warning")
+		yatesMessage(_id, "You have not provided a U.S.G.N. ID or IP!", "warning")
 		return 1
 	end
 
-	yatesMessage(_id, "The U.S.G.N ID/IP ".._tbl[2].." has been unbanned.", "success")
+	yatesMessage(_id, "The U.S.G.N. ID/IP ".._tbl[2].." has been unbanned.", "success")
 	parse("unban ".._tbl[2])
 end
-setSayHelp("unban", "<U.S.G.N/ip>")
+setSayHelp("unban", "<U.S.G.N./ip>")
 
 function yates.func.say.unbanall()
 	yatesMessage(_id, "All of the bans have been removed!", "success")
@@ -455,6 +554,7 @@ function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and sp
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
 		yatesMessage(_id, "You do not have permission to spawn this player!", "warning")
@@ -486,6 +586,7 @@ function yates.func.say.kill()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
 		yatesMessage(_id, "You do not have permission to kill this player!", "warning")
@@ -507,6 +608,7 @@ function yates.func.say.slap()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
 		yatesMessage(_id, "You do not have permission to slap this player!", "warning")
@@ -524,6 +626,7 @@ function yates.func.say.equip()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
 		yatesMessage(_id, "You have not provided a weapon id!", "warning")
@@ -539,6 +642,7 @@ function yates.func.say.strip()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
 		yatesMessage(_id, "You have not provided a weapon id!", "warning")
@@ -554,6 +658,7 @@ function yates.func.say.goto()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	yates.player[_id].tp[1] = player(_id, "x")
 	yates.player[_id].tp[2] = player(_id, "y")
@@ -577,7 +682,6 @@ function yates.func.say.bring()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
-
 	_tbl[2] = tonumber(_tbl[2])
 
 	yates.player[_tbl[2]].tp[1] = player(_tbl[2], "x")
@@ -614,6 +718,7 @@ function yates.func.say.make()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	if _tbl[3] == "0" or _tbl[3] == "spec" then
 		_tbl[3] = "spec"
@@ -636,6 +741,7 @@ function yates.func.say.playerinfo()
 	if not checkPlayer(_tbl[2]) then
 		return 1
 	end
+	_tbl[2] = tonumber(_tbl[2])
 
 	yatesMessage(_id, "Player data information.", "info")
 	yatesMessage(_id, _tbl[2], "info", "(ID): ")
@@ -646,7 +752,7 @@ function yates.func.say.playerinfo()
         yatesMessage(_id, "Not logged in.", "info", "(RCon): ")
     end
     yatesMessage(_id, player(_tbl[2], "ip"), "info", "(IP): ")
-    yatesMessage(_id, player(_tbl[2], "usgn"), "info", "(U.S.G.N): ")
+    yatesMessage(_id, player(_tbl[2], "usgn"), "info", "(U.S.G.N.): ")
     yatesMessage(_id, player(_tbl[2], "idle").." seconds.", "info", "(Idle): ")
 end
 setSayHelp("playerinfo", "<id>")
@@ -789,14 +895,14 @@ function yates.func.say.player()
     end
 
 	if _tbl[2] == "list" then
-        yatesMessage(_id, "List of U.S.G.N's saved in data_player. Use !player info <U.S.G.N> for more info.", "info")
+        yatesMessage(_id, "List of U.S.G.N.'s saved in data_player. Use !player info <U.S.G.N.> for more info.", "info")
         for k, v in pairs(_PLAYER) do
             yatesMessage(_id, k, false, false)
         end
     elseif _tbl[2] == "info" then
 
     	if not _tbl[3] then
-	        yatesMessage(_id, "You need to supply a player (U.S.G.N) ID you wish to view the information of!", "warning")
+	        yatesMessage(_id, "You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "warning")
 	        return 1
 	    end
 	    _tbl[3] = tonumber(_tbl[3])
@@ -827,7 +933,7 @@ function yates.func.say.player()
 
 	elseif _tbl[2] == "edit" then
     	if not _tbl[3] then
-            yatesMessage(_id, "You need to supply a U.S.G.N ID for the player data you want to edit.", "warning")
+            yatesMessage(_id, "You need to supply a U.S.G.N. ID for the player data you want to edit.", "warning")
             return 1
         end
         _tbl[3] = tonumber(_tbl[3])
@@ -854,7 +960,7 @@ function yates.func.say.player()
         yatesMessage(_id, "This player data does not exist!", "warning")
     end
 end
-setSayHelp("player", "list / info <id> / edit <U.S.G.N> <field> <new entry>")
+setSayHelp("player", "list / info <id> / edit <U.S.G.N.> <field> <new entry>")
 setSayDesc("player", "A general command used to display information about players and edit their data.")
 
 function yates.func.say.groupprefix()

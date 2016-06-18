@@ -2,7 +2,7 @@
 
 --[[
 	I have commented everything as much as I thought necessary, if you have any questions please PM me on Unreal Software.
-	My U.S.G.N ID is 21431, my current username is Yates (it will probably remain so).
+	My U.S.G.N. ID is 21431, my current username is Yates (it will probably remain so).
 
 	I recommend you not change anything in this file. If you want to make small changes, use the settings file
 	which has predefined variables and that sort of thing.
@@ -53,4 +53,4 @@ setTransferList(yates.setting.transferlist_response)
 -- You may remove this, but I'd rather you not. People can't see it anyway.
 print(" ")
 print("\169100255255[Y.A.T.E.S]: Thank you for using Y.A.T.E.S.")
-print("\169100255255[Y.A.T.E.S]: Creator: Yates, U.S.G.N ID 21431.")
+print("\169100255255[Y.A.T.E.S]: Creator: Yates, U.S.G.N. ID 21431.")
