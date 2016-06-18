@@ -17,7 +17,7 @@ emoticons.fadeout = 0.1
 emoticons.fade = false
 
 -- Emoticon directory path
-emoticons.path = "gfx/hc/emoticons/"
+emoticons.path = "gfx/yates/emoticons/"
 
 -- Emoticon list
 emoticons.list = {

@@ -81,9 +81,11 @@ function emoticons.ms100()
 end
 addAction("ms100", emoticons.ms100)
 
-
 function emoticons.addToTransfer()
 	for k, v in pairs(emoticons.list) do
     	addTransferFile(v..".png", emoticons.path)
 	end
+	addTransferFile("chat.png", emoticons.path)
+	addTransferFile("cursing.png", emoticons.path)
+	addTransferFile("speechbubble.png", emoticons.path)
 end
