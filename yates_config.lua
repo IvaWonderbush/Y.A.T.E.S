@@ -18,7 +18,7 @@ yates.setting.disabled_commands = {}
 
 -- Time and date variables used in log files
 yates.setting.date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
-yates.setting.time = os.date("%I:%M %p")
+yates.setting.time = os.date("%H:%M:%S")
 
 -- Enables/disables the use of @C, true enables the use, false disables the use
 yates.setting.at_c = false
