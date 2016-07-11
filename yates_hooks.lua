@@ -1,5 +1,14 @@
 -- yates_hooks.lua --
 
+--[[
+	WARNING:
+	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
+	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	so you can even change function outcomes from outside of the core.
+	Check (@TODO add url) to learn more
+	BE WARNED.
+]]--
+
 function yates.hook.join(id)
 	yates.player[id] = {}
 	yates.player[id].say = true -- Currently not in use
@@ -14,6 +23,7 @@ function yates.hook.join(id)
 		yates.player[id].mute_reason = _PLAYER[player(id, "usgn")].mute_reason
 
 		yatesMessage(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds.", "warning")
+		action("joinMute", id)
 	end
 
 	action("join", id)

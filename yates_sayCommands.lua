@@ -1,3 +1,15 @@
+--[[
+	WARNING:
+	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
+	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	so you can even change function outcomes from outside of the core.
+	Check (@TODO add url) to learn more
+
+	Want to add commands?
+	Check (@TODO add url) to learn more
+	BE WARNED.
+]]--
+
 function yates.func.say.auth()
 	if player(_id, "usgn") == 0 then
 		yatesMessage(id, "You need to be logged in to a U.S.G.N. account to do this!", "warning")
@@ -97,6 +109,8 @@ function yates.func.say.pm()
 			end
 		end
 	end
+
+	action("pm", _id, _tbl[2], message)
 
 	yatesMessage(_id, "[->] [".._tbl[2].."] "..player(_tbl[2], "name")..": "..message, "info", "[PM]: ")
 	yatesMessage(_tbl[2], "[<-] [".._id.."] "..player(_id, "name")..": "..message, "info", "[PM]: ")
@@ -289,7 +303,7 @@ end
 setSayHelp("hardreload", "[<delay>] (in seconds)")
 setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
-function yates.func.say.tag()
+function yates.func.say.prefix()
 	if yates.player[_id].pre then
 		yates.player[_id].pre = false
 		yatesMessage(_id, "Your tag is no longer visible.", "success")
@@ -298,8 +312,8 @@ function yates.func.say.tag()
 		yatesMessage(_id, "Your tag is now visible.", "success")
 	end
 end
-setSayHelp("tag")
-setSayDesc("tag", "Toggles your tag. Useful if you want to hide your identity to spot hackers and still chat.")
+setSayHelp("prefix")
+setSayDesc("prefix", "Toggles your prefix. Useful if you want to hide your identity to spot hackers and still chat.")
 
 function yates.func.say.god()
 	if yates.player[_id].god then

@@ -4,7 +4,7 @@
 yates.setting.check_version = true
 yates.setting.update_version = false -- Currently not in use
 
--- The prefix for say commands. The prefix / is reserved and cannot be used
+-- The prefix for say commands. The prefix / is reserved by Counter-Strike 2D and cannot be used
 yates.setting.say_prefix = "!"
 
 -- The prefix for all outputting methods unless overwritten
@@ -30,8 +30,8 @@ yates.setting.mute_time_default = 30
 -- The max time a player can be muted for in seconds. If you don't fully trust your administration team to not be dicks, set this to 60 seconds or something ;)
 yates.setting.mute_time_max = 60
 
--- Enables/disables the response when Y.A.T.E.S adds a file to the server transfer list
-yates.setting.transferlist_response = true
+-- Enables/disables the response when Y.A.T.E.S encounters an error when adding a file to the transfer list
+yates.setting.transferlist_response = false -- @TODO: Check if this actuall does what I say it does :ugly:
 
 -- Colours, do not remove these entries! You may add new ones
 clr = {
@@ -68,7 +68,7 @@ yates.setting.constant = {
 
 -- This can set default player values if the data_player cannot be loaded
 _PLAYER = {
-	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple
+	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple (purple is my favourite colour, now you know..)
 	[21431] = {
 		colour = "180000250"
 	}

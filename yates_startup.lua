@@ -3,12 +3,16 @@
 --[[
 	I have commented everything as much as I thought necessary, if you have any questions please PM me on Unreal Software.
 	My U.S.G.N. ID is 21431, my current username is Yates (it will probably remain so).
-
-	I recommend you not change anything in this file. If you want to make small changes, use the settings file
-	which has predefined variables and that sort of thing.
-	If you want to change something but can't find out how; double check the settings and documentation - it's there, trust me.
 ]]--
 
+--[[
+	WARNING:
+	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
+	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	so you can even change function outcomes from outside of the core.
+	Check (@TODO add url) to learn more
+	BE WARNED.
+]]--
 
 --[[
 	Checks where the script is located

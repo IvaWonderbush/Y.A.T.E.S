@@ -1,6 +1,15 @@
 -- yates_functions.lua --
 
 --[[
+	WARNING:
+	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
+	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	so you can even change function outcomes from outside of the core.
+	Check (@TODO add url) to learn more
+	BE WARNED.
+]]--
+
+--[[
 	Turns chat input into output
 	@return void
 ]]
@@ -470,7 +479,7 @@ end
 	Saves (table) data to file output as Lua
 	@return void
 ]]
-function saveData(data, file, overwrite)
+function saveData(data, file, overwrite) -- @TODO: Add overwrite, add or merge (push) functionality
 	local file = io.open(_DIR.."data/"..file, "w+") or io.tmpfile()
 
 	local text = getTableName(data).." = " .. table.val_to_str(data) .. ""
@@ -500,7 +509,7 @@ end
 
 function checkSayCommandUse(command)
 	if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
-	if not command then 
+	if not command then
 		yatesPrint("No command was provided to check if the use of it is allowed!", "warning")
 		return true
 	end
