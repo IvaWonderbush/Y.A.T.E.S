@@ -31,8 +31,8 @@ function yates.func.say.auth()
 			_PLAYER[_YATES.auth_usgn].commands = {"all"}
 			table.insert(_YATES.disabled_commands, "auth")
 
-			saveData(_YATES, "data_yates.lua", true)
-			saveData(_PLAYER, "data_player.lua", true)
+			saveData(_YATES, "data_yates.lua")
+			saveData(_PLAYER, "data_player.lua")
 		else
 			yatesMessage(id, "Incorrect authentication token.", "warning")	
 		end
@@ -259,7 +259,7 @@ function yates.func.say.command()
 			end
 			yatesMessage(_id, "The command has been enabled.", "success")
 			setUndo(_id, "!command disable ".._tbl[3])
-			saveData(_YATES, "data_yates.lua", true)
+			saveData(_YATES, "data_yates.lua")
 		else
 			yatesMessage(_id, "You have not provided a command!", "warning")
 		end
@@ -273,7 +273,7 @@ function yates.func.say.command()
 			table.insert(_YATES.disabled_commands, _tbl[3])
 			yatesMessage(_id, "The command has been disabled.", "success")
 			setUndo(_id, "!command enable ".._tbl[3])
-			saveData(_YATES, "data_yates.lua", true)
+			saveData(_YATES, "data_yates.lua")
 		else
 			yatesMessage(_id, "You have not provided a command!", "warning")
 		end
@@ -303,17 +303,19 @@ end
 setSayHelp("hardreload", "[<delay>] (in seconds)")
 setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
+--[[ Currently not in use
 function yates.func.say.prefix()
-	if yates.player[_id].pre then
-		yates.player[_id].pre = false
+	if yates.player[_id].prefix then
+		yates.player[_id].prefix = false
 		yatesMessage(_id, "Your tag is no longer visible.", "success")
 	else
-		yates.player[_id].pre = true
+		yates.player[_id].prefix = true
 		yatesMessage(_id, "Your tag is now visible.", "success")
 	end
 end
 setSayHelp("prefix")
 setSayDesc("prefix", "Toggles your prefix. Useful if you want to hide your identity to spot hackers and still chat.")
+]]--
 
 function yates.func.say.god()
 	if yates.player[_id].god then
@@ -388,7 +390,7 @@ function yates.func.say.mute()
 
 			_PLAYER[player(_tbl[2], "usgn")].mute_time = _tbl[3]
 			_PLAYER[player(_tbl[2], "usgn")].mute_reason = reason
-			saveData(_PLAYER, "data_player.lua", true)
+			saveData(_PLAYER, "data_player.lua")
 		end
 	end
 end
@@ -406,7 +408,7 @@ function yates.func.say.unmute()
 		if _PLAYER[player(_tbl[2], "usgn")].mute_reason then
 			_PLAYER[player(_tbl[2], "usgn")].mute_reason = nil
 		end
-		saveData(_PLAYER, "data_player.lua", true)
+		saveData(_PLAYER, "data_player.lua")
 	end
 
 	yatesMessage(_id, player(_tbl[2], "name").." has been unmuted.", "success")

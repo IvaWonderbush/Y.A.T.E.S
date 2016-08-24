@@ -12,7 +12,7 @@
 function yates.hook.join(id)
 	yates.player[id] = {}
 	yates.player[id].say = true -- Currently not in use
-	yates.player[id].pre = true -- Currently not in use
+	yates.player[id].prefix = true -- Currently not in use
 	yates.player[id].god = false
 	yates.player[id].mute_time = 0
 	yates.player[id].mute_reason = ""
@@ -51,14 +51,14 @@ function yates.hook.say(id, text)
 			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
-					executeSayCommand(id, text, tbl)
+					executeSayCommand(id, text)
 					return 1
 				end
 			end
 			if _PLAYER[usgn] and _PLAYER[usgn].commands then
 				for k, v in pairs(_PLAYER[usgn].commands) do
 					if command == v or v == "all" then
-						executeSayCommand(id, text, tbl)
+						executeSayCommand(id, text)
 						return 1
 					end
 				end
@@ -112,7 +112,7 @@ function yates.hook.second()
 					_PLAYER[player(id, "usgn")].mute_time = nil
 				end
 
-				saveData(_PLAYER, "data_player.lua", true)
+				saveData(_PLAYER, "data_player.lua")
 			end
 
 			if yates.player[id].mute_time == 0 then
@@ -121,7 +121,7 @@ function yates.hook.second()
 
 				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_reason then
 					_PLAYER[player(id, "usgn")].mute_reason = nil
-					saveData(_PLAYER, "data_player.lua", true)
+					saveData(_PLAYER, "data_player.lua")
 				end
 			end
 		end

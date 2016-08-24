@@ -14,7 +14,7 @@
 	@return void
 ]]
 function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat function
-	local usgn = player(id,"usgn")
+	local usgn = player(id, "usgn")
 	local c = ""
 	local p = ""
 
@@ -170,13 +170,13 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, txt, tbl)
-	_tbl = tbl
+function executeSayCommand(id, text)
+	_tbl = toTable(text)
 	_id = id
-	_txt = txt
-	func = loadstring("yates.func.say."..tbl[1]:sub(#yates.setting.say_prefix+1).."()")
+	_txt = text
+	func = loadstring("yates.func.say.".._tbl[1]:sub(#yates.setting.say_prefix+1).."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..txt, yates.setting.date, ".txt", "a")
+	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
 	_tbl = {}
 	_id = nil
 	_txt = ""
@@ -197,7 +197,7 @@ function setUndo(id, command)
 	end
 
 	_PLAYER[player(id, "usgn")].undo = command
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -353,7 +353,7 @@ function addGroup(name, lvl, clr, cmds)
 	_GROUP[name].level = lvl
 	_GROUP[name].colour = ""..clr..""
 	_GROUP[name].commands = {cmds}
-	saveData(_GROUP, "data_group.lua", true)
+	saveData(_GROUP, "data_group.lua")
 end
 
 --[[
@@ -375,8 +375,8 @@ function deleteGroup(old, new)
 	end
 
 	_GROUP[old] = nil
-	saveData(_GROUP, "data_group.lua", true)
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_GROUP, "data_group.lua")
+	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -424,7 +424,7 @@ function editGroup(group, field)
 			_GROUP[group][field] = v
 		end
 	end
-	saveData(_GROUP, "data_group.lua", true)
+	saveData(_GROUP, "data_group.lua")
 end
 
 --[[
@@ -472,7 +472,7 @@ function editPlayer(player, field)
 			_PLAYER[player][field] = v
 		end
 	end
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -697,7 +697,7 @@ function cachePluginData()
 		checkPluginData(k, "usgn", "string")
 		checkPluginData(k, "version", "string")
 		checkPluginData(k, "description", "string")
-		saveData(_PLUGIN, "data_plugin.lua", true)
+		saveData(_PLUGIN, "data_plugin.lua")
 	end
 end
 
