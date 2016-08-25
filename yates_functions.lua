@@ -170,16 +170,14 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, text)
-	_tbl = toTable(text)
+function executeSayCommand(id, command)
+	_tbl = toTable(command)
 	_id = id
-	_txt = text
-	func = loadstring("yates.func.say.".._tbl[1]:sub(#yates.setting.say_prefix+1).."()")
+	func = loadstring("yates.func.say."..command.."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
+	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..command, yates.setting.date, ".txt", "a")
 	_tbl = {}
 	_id = nil
-	_txt = ""
 end
 
 --[[
