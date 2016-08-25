@@ -11,3 +11,4 @@ yates.plugin["bad_words"]["description"] = "Replaces bad words and warns the pla
 
 dofileLua(yates.plugin["bad_words"]["dir"].."config.lua")
 dofileLua(yates.plugin["bad_words"]["dir"].."functions.lua")
+dofileLua(yates.plugin["bad_words"]["dir"].."filters.lua")

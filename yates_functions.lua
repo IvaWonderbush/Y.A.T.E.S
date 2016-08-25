@@ -736,7 +736,6 @@ end
 	@return void
 ]]
 function checkForceReload()
-	print("test")
 	if yates.force_reload == true then
 		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
 		timer(5000, "parse", "lua hardReload()")

@@ -14,5 +14,6 @@ yates.plugin["emoticons"]["description"] = "Displays the corresponding image whe
 
 dofileLua(yates.plugin["emoticons"]["dir"].."config.lua")
 dofileLua(yates.plugin["emoticons"]["dir"].."functions.lua")
+dofileLua(yates.plugin["emoticons"]["dir"].."actions.lua")
 
 emoticons.addToTransfer()
