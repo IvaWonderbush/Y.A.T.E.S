@@ -51,14 +51,14 @@ function yates.hook.say(id, text)
 			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
-					executeSayCommand(id, command)
+					executeSayCommand(id, command, text)
 					return 1
 				end
 			end
 			if _PLAYER[usgn] and _PLAYER[usgn].commands then
 				for k, v in pairs(_PLAYER[usgn].commands) do
 					if command == v or v == "all" then
-						executeSayCommand(id, command)
+						executeSayCommand(id, command, text)
 						return 1
 					end
 				end
