@@ -4,8 +4,6 @@
 	The source of his code and images can be found here: http://unrealsoftware.de/files_show.php?file=4543
 ]]
 
--- @TODO: Add servertransfer list generator
-
 yates.plugin["emoticons"]["title"] = "Emoticons"
 yates.plugin["emoticons"]["author"] = "Yates, Happy Camper"
 yates.plugin["emoticons"]["usgn"] = "21431, 5248"
