@@ -170,8 +170,8 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, command)
-	_tbl = toTable(command)
+function executeSayCommand(id, command, text)
+	_tbl = toTable(text)
 	_id = id
 	func = loadstring("yates.func.say."..command.."()")
 	func()
