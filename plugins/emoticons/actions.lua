@@ -20,7 +20,7 @@ addAction("leave", emoticons.leave)
 
 function emoticons.say(id, text)
     for word in string.gmatch(text, "[^%s]+") do
-        for smiley, emoticon in pairs(emoticons.list) do
+        for smiley, emoticon in pairs(emoticons.setting.list) do
             if word:match(smiley) then
                 emoticons.displayEmoticon(id, emoticon)
                 return
@@ -38,8 +38,8 @@ function emoticons.ms100()
         if emoticons.player[id].chat then
             local time = os.difftime(os.time(), emoticons.player[id].time)
 
-            if time > emoticons.duration then
-                emoticons.player[id].alpha = emoticons.player[id].alpha - emoticons.fadeout
+            if time > emoticons.setting.duration then
+                emoticons.player[id].alpha = emoticons.player[id].alpha - emoticons.setting.fadeout
                 if emoticons.player[id].alpha <= 0 then
                     if emoticons.player[id].alpha then
                         freeimage(emoticons.player[id].emote)
