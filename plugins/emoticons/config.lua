@@ -3,24 +3,22 @@
 
 emoticons = {}
 emoticons.player = {}
+emoticons.setting = {}
 
 -- The alpha (transparency) of the image on creation. Lower the value to make the emoticon and bubble less visible (range 0 - 1)
-emoticons.alpha = 0.6
+emoticons.setting.alpha = 0.6
 
 -- The duration of how long the emoticon is visible until it starts to fade out
-emoticons.duration = 2
+emoticons.setting.duration = 2
 
 -- The fadeout alpha. A value of 0.1 would fade the image out after the duration by 0.1 every 100 milliseconds
-emoticons.fadeout = 0.1
-
--- Enables/disables the emoticon to fade over the duration of its visibility
-emoticons.fade = false
+emoticons.setting.fadeout = 0.1
 
 -- Emoticon directory path
-emoticons.path = "gfx/yates/emoticons/"
+emoticons.setting.path = "gfx/yates/emoticons/"
 
 -- Emoticon list
-emoticons.list = {
+emoticons.setting.list = {
     ["^[:=8][-^o]?[)%]3>]$"] = "smiling", -- :)
     ["^%^[_]?%^$"] = "smiling", -- ^_^
     ["^[:=8][-^o]?[D]$"] = "smiling_big", -- :D

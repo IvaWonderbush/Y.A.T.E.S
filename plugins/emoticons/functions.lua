@@ -11,24 +11,24 @@ function emoticons.displayEmoticon(id, emoticon)
 			emoticons.player[id].bubble = nil
 		end
 		
-		emoticons.player[id].bubble = image(emoticons.path.."speechbubble.png", 0, 0, 132 + id)
-		emoticons.player[id].emote = image(emoticons.path..emoticon..".png", 0, 0, 132 + id)
+		emoticons.player[id].bubble = image(emoticons.setting.path.."speechbubble.png", 0, 0, 132 + id)
+		emoticons.player[id].emote = image(emoticons.setting.path..emoticon..".png", 0, 0, 132 + id)
 
-		imagealpha(emoticons.player[id].bubble, emoticons.alpha)
-		imagealpha(emoticons.player[id].emote, emoticons.alpha)
+		imagealpha(emoticons.player[id].bubble, emoticons.setting.alpha)
+		imagealpha(emoticons.player[id].emote, emoticons.setting.alpha)
 
 		emoticons.player[id].time = os.time()
-		emoticons.player[id].alpha = emoticons.alpha
+		emoticons.player[id].alpha = emoticons.setting.alpha
 
 		emoticons.player[id].chat = true
 	end
 end
 
 function emoticons.addToTransfer()
-	for k, v in pairs(emoticons.list) do
-    	addTransferFile(v..".png", emoticons.path)
+	for k, v in pairs(emoticons.setting.list) do
+    	addTransferFile(v..".png", emoticons.setting.path)
 	end
-	addTransferFile("chat.png", emoticons.path)
-	addTransferFile("cursing.png", emoticons.path)
-	addTransferFile("speechbubble.png", emoticons.path)
+	addTransferFile("chat.png", emoticons.setting.path)
+	addTransferFile("cursing.png", emoticons.setting.path)
+	addTransferFile("speechbubble.png", emoticons.setting.path)
 end
