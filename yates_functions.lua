@@ -926,12 +926,13 @@ end
 	@return table
 ]]
 function getDirectories(path)
-    local i, t, popen = 0, {}, io.popen
-    local pfile = popen('ls -a "'..path..'"')
-    for filename in pfile:lines() do
-        i = i + 1
-        t[i] = filename
-    end
-    pfile:close()
-    return t
+	local content = {}
+	
+	for name in io.enumdir(path) do
+		if name ~= "." and name ~= ".." then
+			content[ #content + 1 ] = name
+		end
+	end
+	
+	return content
 end
