@@ -1,36 +1,43 @@
 -- yates_config.lua --
 
--- When using a command, the prefix is default !, changing this to @ would result in everyone have to say @help for example
-yates_say_prefix = "!"
+-- General configuration. This is seen as the general server setup, for more information please visit http://www.thomasyates.nl/docs
+yates.setting.check_version = true
+yates.setting.update_version = false -- Currently not in use
 
--- Server message prefix, changing it to "[SERVER]: " would result in server messages displaying like: [SERVER]: You have kicked <player name>
-yates_message_prefix = "[Y.A.T.E.S]: "
+-- The prefix for say commands. The prefix / is reserved by Counter-Strike 2D and cannot be used
+yates.setting.say_prefix = "!"
 
--- Default group, used for people who have no group or as default placement after a group has been removed which contained players
-yates_group_default = "default"
+-- The prefix for all outputting methods unless overwritten
+yates.setting.message_prefix = "[Y.A.T.E.S]: "
 
--- Default group colour on creation of a group if a colour is not supplied
-yates_group_default_colour = "\169100255255"
+-- Fallback for undefined variables, it is recommended to keep this default unless you know what you're getting into
+yates.setting.group_default = "default"
 
--- Log date and time used for example the log file titles
-yates_date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
-yates_time = os.date("%I:%M %p")
+-- Time and date variables used in log files
+yates.setting.date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
+yates.setting.time = os.date("%H:%M:%S")
 
-yates_say_mode = 0
-yates_say_mode_force = 0
-yates_say_mode_dead = 0
-yates_say_mode_dead_force = 0
+-- Enables/disables the use of @C, true enables the use, false disables the use
+yates.setting.at_c = false
+yates.setting.at_c_replacement = "at_c"
 
--- Disable using @C, 1 is true, 0 is false
-yates_at_c = 1
+-- Enables/disables the saving of the mute time.This keeps the player muted even after he rejoins. Will only work on people that are logged into a U.S.G.N. account
+yates.setting.mute_save = true
 
--- If @C is disabled, this will be used as replacement. Leave empty for no replacement at all
-yates_at_c_replacement = ""
+-- The default mute time in seconds if none is provided
+yates.setting.mute_time_default = 30
 
--- Colours
+-- The max time a player can be muted for in seconds. If you don't fully trust your administration team to not be dicks, set this to 60 seconds or something ;)
+yates.setting.mute_time_max = 60
+
+-- Enables/disables the response when Y.A.T.E.S encounters an error when adding a file to the transfer list
+yates.setting.transferlist_response = false -- @TODO: Check if this actuall does what I say it does :ugly:
+
+-- Colours, do not remove these entries! You may add new ones
 clr = {
 	["yates"] = {
 		["default"] 	= "\169255255255",
+		["chat"] 		= "\169255255255",
 		["info"] 		= "\169100255255",
 		["success"] 	= "\169100255100",
 		["warning"] 	= "\169255100100",
@@ -44,8 +51,8 @@ clr = {
 	}
 }
 
--- Constant variables, used to set player or group fields to a certain value other than a numeric or string
-const = {
+-- Constant variables. Used to set player or group fields to a certain value other than a numeric or string
+yates.setting.constant = {
 	["false"] = false,
 	["true"] = true
 }
@@ -60,7 +67,12 @@ const = {
 ]]--
 
 -- This can set default player values if the data_player cannot be loaded
-_PLAYER = {}
+_PLAYER = {
+	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple (purple is my favourite colour, now you know..)
+	[21431] = {
+		colour = "180000250"
+	}
+}
 
 -- This sets the default groups if the data_group file cannot be loaded
 _GROUP = {
@@ -76,7 +88,8 @@ _GROUP = {
 		colour = "255255255",
 		level = 1,
 		commands = {
-			"all"
+			"help",
+			"auth"
 		}
 	}
 }

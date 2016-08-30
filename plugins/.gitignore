@@ -1,0 +1,9 @@
+*
+
+!/bad_words/
+!/bad_words/*
+
+!/emoticons/
+!/emoticons/*
+
+!.gitignore

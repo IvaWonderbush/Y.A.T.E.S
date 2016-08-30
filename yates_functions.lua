@@ -1,137 +1,48 @@
 -- yates_functions.lua --
 
 --[[
+	WARNING:
+	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
+	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	so you can even change function outcomes from outside of the core.
+	Check (@TODO add url) to learn more
+	BE WARNED.
+]]--
+
+--[[
 	Turns chat input into output
-	@return void	
+	@return void
 ]]
-function chat(id, text)
-	local usgn = player(id,"usgn")
+function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat function
+	local usgn = player(id, "usgn")
 	local c = ""
 	local p = ""
 
-	if _PLAYER[usgn] and Player[id].say ~= 0 then
-		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates_group_default)].colour)
-		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates_group_default)].prefix) or "")
+	if _PLAYER[usgn] and yates.player[id].say ~= 0 then
+		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].colour)
+		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].prefix) or "")
 	else
-		c = (_GROUP[yates_group_default].colour or "")
-		p = (_GROUP[yates_group_default].prefix or "")
+		c = (_GROUP[yates.setting.group_default].colour or "")
+		p = (_GROUP[yates.setting.group_default].prefix or "")
 	end
 
-	if Player[id].pre == 0 then
+	if yates.player[id].pre == 0 then
 		p = ""
-	end
-
-	if yates_say_mode == 1 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_force == 1 then
-				c = clr["ply"]["tdm"]
-				if player(id, "team") == 0 then
-					c = clr["ply"]["spec"]
-				end
-			end
-		else
-			c = clr["ply"]["tdm"]
-			if player(id, "team") == 0 then
-				c = clr["ply"]["spec"]
-			end
-		end
-	elseif yates_say_mode == 2 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_force == 1 then
-				c = clr["ply"]["spec"]
-				if player(id, "team") == 1 then
-					c = clr["ply"]["t"]
-				elseif player(id, "team") == 2 then
-					c = clr["ply"]["ct"]
-				end
-			end
-		else
-			c = clr["ply"]["spec"]
-			if player(id, "team") == 1 then
-				c = clr["ply"]["t"]
-			elseif player(id, "team") == 2 then
-				c = clr["ply"]["ct"]
-			end
-		end
 	end
 
 	c = c:gsub("©","")
 	c = c:gsub("\169","")
 	c = "\169"..c
 
-	-- c = addFilter("chat_colour", p, "asd", "asd2") or c
+	c = filter("chatColour", id, text, c, p, usgn) or c
+	p = filter("chatPrefix", id, text, c, p, usgn) or p
+	text = filter("chatText", id, text, c, p, usgn) or text
 
 	if p ~= "" then
 		p = p.." "
 	end
 
-	if yates_say_mode_dead == 0 then
-		msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-	elseif yates_say_mode_dead == 1 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if yates_say_mode_dead_force == 1 then
-				if player(id, "health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-				end
-			else
-				msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-			end
-		else
-			if player(id, "health") > 0 then
-				msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-			else
-				msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-			end
-		end
-	elseif yates_say_mode_dead == 2 then
-		if _PLAYER[usgn] and _PLAYER[usgn].group and Player[id].say ~= 0 then
-			if player(id, "team") ~= 0 then
-				if player(id,"health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					if yates_say_mode_dead_force == 1 then
-						for _, all in pairs(player(0, "table")) do
-							if player(all,"health") <= 0 then
-								msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-							end
-						end
-					else
-						msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-					end
-				end
-			else
-				if yates_say_mode_dead_force == 1 then
-					for _, all in pairs(player(0, "table")) do
-						if player(all,"health") <= 0 then
-							msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-						end
-					end
-				else
-					msg(c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-				end
-			end
-		else
-			if player(id, "team") ~= 0 then
-				if player(id,"health") > 0 then
-					msg(c..p..player(id, "name")..": "..clr["yates"]["default"]..text)
-				else
-					for _, all in pairs(player(0, "table")) do
-						if player(all,"health") <= 0 then
-							msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-						end
-					end
-				end
-			else
-				for _, all in pairs(player(0, "table")) do
-					if player(all,"health") <= 0 then
-						msg2(all,c..p..player(id, "name").." *DEAD*: "..clr["yates"]["default"]..text)
-					end
-				end
-			end
-		end
-	end
+	msg(c..p..player(id, "name")..": "..clr["yates"]["chat"]..text)
 end
 
 --[[
@@ -140,7 +51,7 @@ end
 ]]
 function setSayHelp(func, info)
 	if not info then info = "" end
-	yates_say_help[func] = func.." "..info
+	yates.say.help[func] = func.." "..info
 end
 
 --[[
@@ -149,7 +60,7 @@ end
 ]]
 function setSayDesc(func, desc)
 	if not desc then desc = "" end
-	yates_say_desc[func] = desc
+	yates.say.desc[func] = desc
 end
 
 --[[
@@ -158,6 +69,7 @@ end
 ]]
 function yatesMessage(id, text, type, prefix)
 	if not type then type = "default" end
+	if not text then return 1 end -- This is so things don't go batshitmad
 
 	local colour = type
 	local pre = ""
@@ -171,14 +83,14 @@ function yatesMessage(id, text, type, prefix)
 	colour = "\169"..colour
 
 	if prefix == nil then
-		pre = (yates_message_prefix or prefix)
+		pre = (yates.setting.message_prefix or prefix)
 	else
 		if prefix ~= false then
 			pre = prefix
 		end
 	end
 
-	local message = colour..pre..clr["yates"]["default"]..text 
+	local message = colour..pre..clr["yates"]["default"]..text
 
 	if pre == "" then
 		message = colour..text
@@ -192,6 +104,42 @@ function yatesMessage(id, text, type, prefix)
 end
 
 --[[
+	Simplifies values into a print or print2
+	@return void	
+]]
+function yatesPrint(text, type, prefix)
+	if not type then type = "default" end
+	if not text then return 1 end -- This is so things don't go batshitmad
+
+	local colour = type
+	local pre = ""
+
+	if clr["yates"][type] then
+		colour = clr["yates"][type]
+	end
+
+	colour = colour:gsub("©","")
+	colour = colour:gsub("\169","")
+	colour = "\169"..colour
+
+	if prefix == nil then
+		pre = (yates.setting.message_prefix or prefix)
+	else
+		if prefix ~= false then
+			pre = prefix
+		end
+	end
+
+	local message = colour..pre..clr["yates"]["default"]..text
+
+	if pre == "" then
+		message = colour..text
+	end
+
+	print(message)
+end
+
+--[[
 	Logs data
 	@return void	
 ]]
@@ -199,11 +147,11 @@ function yatesLog(log, file, extension, type, date)
 	if not file or file == "" then
 		file = "log"
 		if date == true then
-			file = yates_date
+			file = yates.setting.date
 		end
 	else
 		if date == true then
-			file = file.."-"..yates_date
+			file = file.."-"..yates.setting.date
 		end
 	end
 
@@ -213,7 +161,7 @@ function yatesLog(log, file, extension, type, date)
 
 	local file = io.open(_DIR.."/logs/"..file..extension, type) or io.tmpfile()
 
-	file:write(yates_date.." - "..yates_time.."\n")
+	file:write(yates.setting.date.." - "..yates.setting.time.."\n")
 	file:write(log.."\n")
 	file:close()
 end
@@ -222,16 +170,14 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, txt, tbl)
-	_tbl = tbl
+function executeSayCommand(id, command, text)
+	_tbl = toTable(text)
 	_id = id
-	_txt = txt
-	func = loadstring("yates_say."..tbl[1]:sub(#yates_say_prefix+1).."()")
+	func = loadstring("yates.func.say."..command.."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..txt, yates_date, ".txt", "a")
+	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..command, yates.setting.date, ".txt", "a")
 	_tbl = {}
 	_id = nil
-	_txt = ""
 end
 
 --[[
@@ -249,9 +195,13 @@ function setUndo(id, command)
 	end
 
 	_PLAYER[player(id, "usgn")].undo = command
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_PLAYER, "data_player.lua")
 end
 
+--[[
+	Checks whether a player exists or not
+	@return boolean
+]]
 function checkPlayer(id, message)
 	if message == nil then
 		message = true
@@ -274,6 +224,10 @@ function checkPlayer(id, message)
 	return true
 end
 
+--[[
+	Checks whether a player has a U.S.G.N. ID or not
+	@return boolean
+]]
 function checkUsgn(id, message)
 	if message == nil then
 		message = true
@@ -285,7 +239,7 @@ function checkUsgn(id, message)
 
 	if player(id, "usgn") == 0 then
 		if message then
-			yatesMessage(_id, "This player does not have a U.S.G.N ID!", "warning")
+			yatesMessage(_id, "This player does not have a U.S.G.N. ID!", "warning")
 		end
 		return false
 	end
@@ -293,6 +247,10 @@ function checkUsgn(id, message)
 	return true
 end
 
+--[[
+	Checks whether a group with a certain name exists or not
+	@return boolean
+]]
 function checkGroup(group, message)
 	if message == nil then
 		message = true
@@ -314,18 +272,18 @@ function compareLevel(id, id2)
 	local usgn = player(id, "usgn")
 	local usgn2 = player(id2, "usgn")
 
-	local lvl = _GROUP[yates_group_default].level or 0
-	local lvl2 = _GROUP[yates_group_default].level or 0
+	local lvl = _GROUP[yates.setting.group_default].level or 0
+	local lvl2 = _GROUP[yates.setting.group_default].level or 0
 	
 	if _PLAYER[usgn] and _PLAYER[usgn].group then
-		lvl = _GROUP[(_PLAYER[usgn].group or yates_group_default)].level or 0
+		lvl = _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].level or 0
 		if _PLAYER[usgn].level then
 			lvl = _PLAYER[usgn].level
 		end
 	end
 
 	if _PLAYER[usgn2] and _PLAYER[usgn2].group then
-		lvl2 = _GROUP[(_PLAYER[usgn2].group or yates_group_default)].level or 0
+		lvl2 = _GROUP[(_PLAYER[usgn2].group or yates.setting.group_default)].level or 0
 		if _PLAYER[usgn2].level then
 			lvl2 = _PLAYER[usgn2].level
 		end
@@ -359,12 +317,12 @@ end
 ]]
 function checkInitialAuth()
 	if (_YATES.auth_token ~= false and _YATES.auth_token == true) then
-		print(clr["yates"]["default"].."[YATES]: Initial authentication U.S.G.N: ".._YATES.auth_usgn)
+		print(clr["yates"]["default"].."[Y.A.T.E.S]: Initial authentication U.S.G.N: ".._YATES.auth_usgn)
 		return true
 	end
 	_YATES.auth_token = createToken(5)
-	print(clr["yates"]["warning"].."[YATES]: Initial authentication has not been complete.")
-	print(clr["yates"]["warning"].."[YATES]: Please say !auth ".._YATES.auth_token)
+	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Initial authentication has not been complete.")
+	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Please say !auth ".._YATES.auth_token)
 	return false
 end
 
@@ -393,7 +351,7 @@ function addGroup(name, lvl, clr, cmds)
 	_GROUP[name].level = lvl
 	_GROUP[name].colour = ""..clr..""
 	_GROUP[name].commands = {cmds}
-	saveData(_GROUP, "data_group.lua", true)
+	saveData(_GROUP, "data_group.lua")
 end
 
 --[[
@@ -415,8 +373,8 @@ function deleteGroup(old, new)
 	end
 
 	_GROUP[old] = nil
-	saveData(_GROUP, "data_group.lua", true)
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_GROUP, "data_group.lua")
+	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -428,7 +386,7 @@ function editGroup(group, field)
 	local v = ""
 
 	if _tbl[5]:sub(1, 1) == "/" then
-		_GROUP[group][field] = const[_tbl[5]:sub(2)]
+		_GROUP[group][field] = yates.constant[_tbl[5]:sub(2)]
 	else
 	    if t == "table" then
 	    	for i = 1, #_GROUP[group][field] do
@@ -464,7 +422,7 @@ function editGroup(group, field)
 			_GROUP[group][field] = v
 		end
 	end
-	saveData(_GROUP, "data_group.lua", true)
+	saveData(_GROUP, "data_group.lua")
 end
 
 --[[
@@ -476,7 +434,7 @@ function editPlayer(player, field)
 	local v = ""
 
 	if _tbl[5]:sub(1, 1) == "/" then
-		_PLAYER[player][field] = const[_tbl[5]:sub(2)]
+		_PLAYER[player][field] = yates.constant[_tbl[5]:sub(2)]
 	else
 	    if t == "table" then
 	    	for i = 1, #_PLAYER[player][field] do
@@ -512,14 +470,14 @@ function editPlayer(player, field)
 			_PLAYER[player][field] = v
 		end
 	end
-	saveData(_PLAYER, "data_player.lua", true)
+	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
 	Saves (table) data to file output as Lua
 	@return void
 ]]
-function saveData(data, file, overwrite)
+function saveData(data, file, overwrite) -- @TODO: Add overwrite, add or merge (push) functionality
 	local file = io.open(_DIR.."data/"..file, "w+") or io.tmpfile()
 
 	local text = getTableName(data).." = " .. table.val_to_str(data) .. ""
@@ -531,15 +489,15 @@ end
 	Checks if say command exists
 	@return boolean
 ]]
-function checkSayCommand(text)
+function checkSayCommand(command)
 	local tmp = {}
-	for k, v in pairs(yates_say) do
+	for k, v in pairs(yates.func.say) do
 		tmp[k] = k
 	end
 
-	for cmds = 1, countIterate(yates_say) do
-		if tmp[text] then
-			if text == tmp[text] then
+	for cmds = 1, countIterate(yates.func.say) do
+		if tmp[command] then
+			if command == tmp[command] then
 				return true
 			end
 		end
@@ -547,14 +505,116 @@ function checkSayCommand(text)
 	return false
 end
 
+function checkSayCommandUse(command)
+	if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
+	if not command then
+		yatesPrint("No command was provided to check if the use of it is allowed!", "warning")
+		return true
+	end
+
+	for k, v in pairs(_YATES.disabled_commands) do
+		if command == v then
+			return false
+		end
+	end
+	return true
+end
+
 --[[
-	Returns the filter function outcome if any
+	Creates a filter to be called in a function
 	@return void
 ]]
-function addFilter(funcName, ...)
-	local arg = {...}
-	if filter[funcName] then
-		return filter[funcName](unpack(arg))
+function addFilter(name, func, priority)
+    if not yates.filter[name] then yates.filter[name] = {} end
+    if priority then table.insert(yates.filter[name], priority, func)
+    else table.insert(yates.filter[name], func) end
+end
+
+--[[
+	Calls a filter during a function to change the outcome
+	@return void
+]]
+function filter(name, ...)
+	if yates.filter[name] then
+	    local f, l = table.bounds(yates.filter[name])
+	    for i = f, l do
+	        local func = yates.filter[name][i]
+	        if (func) then return func(...) end
+	    end
+    end
+end
+
+--[[
+	Creates an action to be called in a function
+	@return void
+]]
+function addAction(name, func, priority)
+    if not yates.action[name] then yates.action[name] = {} end
+    if priority then table.insert(yates.action[name], priority, func)
+    else table.insert(yates.action[name], func) end
+end
+
+--[[
+	Calls an action after a certain function is called
+	@return void
+]]
+function action(name, ...)
+	if yates.action[name] then
+	    local f, l = table.bounds(yates.action[name])
+	    for i = f, l do
+	        local func = yates.action[name][i]
+	        if (func) then func(...) end
+        end
+    end
+end
+
+function table.bounds(tbl)
+    local f, l
+    for k, v in pairs(tbl) do
+        if (not f) then f = k end
+        if (not l) then l = k end
+        if (k > l) then l = k end
+        if (k < f) then f = k end
+    end
+    return f, l
+end
+
+function checkStatus()
+	local checkstatus = io.popen("curl -Is http://www.thomasyates.nl | head -1")
+	local status = checkstatus:read("*a")
+	if status:match("HTTP/1.1 200 OK") then
+		return true;
+	else
+		return false;
+	end
+	status:close()
+end
+
+function checkVersion()
+	if not yates.setting.check_version then
+		yatesPrint("Version check is disabled. Please enable this to stay up-to-date in yates_config.lua", "warning")
+		return
+	end
+	if not checkStatus() then 
+		yatesPrint("No connection status could be made with http://www.thomasyates.nl/", "warning")
+		return
+	end
+
+	handle = io.popen("curl http://www.thomasyates.nl/docs/version.html")
+	local git_version = tostring(handle:read("*a"))
+	local local_version = tostring(yates.version)
+	handle:close()
+
+	git_version = git_version:gsub("%.", "")
+	local_version = local_version:gsub("%.", "")
+	
+	if git_version > local_version then
+		yatesPrint("You are not up-to-date with the current version!", "warning")
+		yatesPrint("Please download the current version at http://www.thomasyates.nl/docs", "warning")
+	elseif git_version < local_version then
+		yatesPrint("You are running on a higher version of the current release. Huh? I don't even..", "alert")
+	else
+		yatesPrint("You are up-to-date with the current version!", "success")
 	end
 end
 
@@ -599,22 +659,166 @@ function getTableName(tbl)
 end
 
 --[[
-	Extends a function
-	@return void	
+	Loads all plugins on initial start
+	@return void
 ]]
-function extend(func1, func2)
-    if (not _HOOKS[func1]) then _HOOKS[func1] = {} end
-    _HOOKS[func1][#_HOOKS[func1]+1] = func2
+function loadPlugins()
+	local directories = getDirectories(_DIR.."plugins")
+	_PLUGIN["on"] = {}
+	_PLUGIN["off"] = {}
+	for _, all in pairs(directories) do
+		if all:sub(1, 1) ~= "." then
+	  		if all:sub(1, 1) ~= "_" then
+	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
+	  			yatesPrint("Loading plugin "..all.."..", "success", "[PLUGIN]: ")
+	  			yates.plugin[all] = {}
+	  			yates.plugin[all]["dir"] = _DIR.."plugins/"..all.."/"
+	  			dofileLua(yates.plugin[all]["dir"].."/startup.lua")
+	  			cachePluginData()
+			elseif all:sub(1, 1) == "_" then
+				_PLUGIN["off"][#_PLUGIN["off"]+1] = all:sub(2)
+			end
+		end
+	end
+	yates.force_reload = false
 end
 
-debug.sethook(function()
-    local s = debug.getinfo(2)
-    for k, v in pairs(_HOOKS) do
-        if (s.func == k) then
-            for _, f in pairs( v ) do f() end
-        end
-    end
-end, "r")
+--[[
+	Saves or caches all the provided plugin information
+	@return void
+]]
+function cachePluginData()
+	for k, v in pairs(yates.plugin) do
+		_PLUGIN["info"][k] = {}
+		checkPluginData(k, "title", "string")
+		checkPluginData(k, "author", "string")
+		checkPluginData(k, "usgn", "string")
+		checkPluginData(k, "version", "string")
+		checkPluginData(k, "description", "string")
+		saveData(_PLUGIN, "data_plugin.lua")
+	end
+end
+
+--[[
+	Checks whether a plugin has provided certain information and saves them if it exists
+	@return void
+]]
+function checkPluginData(name, data, varType)
+	if yates.plugin[name] then
+		if yates.plugin[name][data] and type(yates.plugin[name][data]) == varType then
+			_PLUGIN["info"][name][data] = yates.plugin[name][data]
+		else
+			yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
+		end
+	end
+end
+
+--[[
+	Dofiles a Lua file if it could be found or if it should be created if not found
+	@return void
+]]
+function dofileLua(path, create)
+	if not fileExists(path) then
+		if create == true then
+			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened, creating one for you instead!", "alert")
+			file = io.open(path, "w")
+			io.close(file)
+		else
+			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened!", "warning")
+			return false
+		end
+	end
+	dofile(path)
+end
+
+--[[
+	Checks whether a force restart should occur once a plugin has been enabled
+	@return void
+]]
+function checkForceReload()
+	if yates.force_reload == true then
+		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
+		timer(5000, "parse", "lua hardReload()")
+		yates.force_reload = false
+	end
+end
+
+--[[
+	Adds a file to the server transfer list table which will eventually be added to the file servertransfer.lst
+	@return boolean
+]]
+function addTransferFile(file, path)
+	if not file then
+		yatesPrint("No file name was defined to add to the server transfer list.", "warning")
+		return false
+	end
+
+	if not path then
+		yatesPrint("No file path was defined to use to add a file to the server transfer list.", "warning")
+		return false
+	end
+
+	local _, count = string.gsub(file, "%.", "")
+	if count < 1 then
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not have an extension!", "warning")
+		return false
+	end
+	if count > 1 then
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it contains more than one dot!", "warning")
+		return false
+	end
+
+	if not fileExists(path..file) then
+		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not exist!", "warning")
+		return false
+	end
+
+	table.insert(yates.transferlist, path..file)
+	return true
+end
+
+--[[
+	Adds all the files in yates.transferlist to the server transfer list
+	@return boolean
+]]
+function setTransferList(response)
+	table.fileToTable("sys/servertransfer.lst", yates.transferlist)
+
+	local file = io.open("sys/servertransfer.lst", "w+") or io.tmpfile()
+	local count = 0
+
+	yates.transferlist = table.removeDuplicate(yates.transferlist)
+
+	for k, v in pairs(yates.transferlist) do
+		local text = v.."\n"
+		file:write(text)
+		count = count + 1
+		if response then
+			yatesPrint("The file '"..v.."' has been added to the server transfer list.", "success")
+		end
+	end
+	file:close()
+
+	if count > 0 then
+		yatesPrint("The server transfer list has been updated. Please restart your server if necessary.", "info")
+	end
+end
+
+--[[
+	Checks if a file exists or not with the given path
+	@return boolean
+]]
+function fileExists(path)
+	local file = io.open(path, "r")
+	if file ~= nil then 
+		io.close(file)
+		return true 
+	else 
+		return false
+	end
+end
+
+-- @TODO: Rename all functions below and clean them up, rest are fine.
 
 function deepcopy(object)
 	local lookup_table = {}
@@ -689,4 +893,46 @@ function table.key_to_str ( k )
 	else
 		return "[" .. table.val_to_str( k ) .. "]"
 	end
+end
+
+function table.removeDuplicate(tbl)
+	local hash = {}
+	local res = {}
+
+	for _, v in ipairs(tbl) do
+	   if (not hash[v]) then
+	       res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+	       hash[v] = true
+	   end
+	end
+
+	return res
+end
+
+function table.fileToTable(file, tbl)
+	if not tbl then
+		return
+	end
+
+	local file = io.open(file, "r");
+	
+	for line in file:lines() do
+		table.insert(tbl, line);
+	end
+end
+
+--[[
+	Gets all directories in a certain path
+	@return table
+]]
+function getDirectories(path)
+	local content = {}
+	
+	for name in io.enumdir(path) do
+		if name ~= "." and name ~= ".." then
+			content[ #content + 1 ] = name
+		end
+	end
+	
+	return content
 end
