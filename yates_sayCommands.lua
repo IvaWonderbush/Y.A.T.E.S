@@ -279,8 +279,8 @@ function yates.func.say.command()
 		end
 	end
 end
-setSayHelp("plugin", "list / <enable/disable> <command>")
-setSayDesc("plugin", "General command to show information about disabled commands or to enable/disable them.")
+setSayHelp("command", "list / <enable/disable> <command>")
+setSayDesc("command", "General command to show information about disabled commands or to enable/disable them.")
 
 function yates.func.say.softreload()
 	if not _tbl[2] then
