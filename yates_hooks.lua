@@ -248,6 +248,16 @@ end
 addhook("objectupgrade", "yates.hook.objectupgrade")
 
 function yates.hook.parse(text)
+    local tbl = toTable(text)
+
+    if tbl[1] == "rcon" then
+        table.remove(tbl, 1)
+    end
+    local command = tbl[1]
+
+    if checkCommand(command, "console") then
+        executeCommand(false, command, text, "console")
+    end
 	action("parse", text)
 
     return filter("parse", text) or 0
@@ -285,21 +295,21 @@ function yates.hook.say(id, text)
 	if text:sub(1, #yates.setting.say_prefix) == yates.setting.say_prefix then
 		local command = tbl[1]:sub(#yates.setting.say_prefix+1)
 
-		if checkSayCommand(command) then
+		if checkCommand(command, "say") then
 			if not checkSayCommandUse(command) then
 				yatesMessage(id, "This command has been disabled and cannot be used!", "warning")
 				return 1
 			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
-					executeSayCommand(id, command, text)
+					executeCommand(id, command, text, "say")
 					return 1
 				end
 			end
 			if _PLAYER[usgn] and _PLAYER[usgn].commands then
 				for k, v in pairs(_PLAYER[usgn].commands) do
 					if command == v or v == "all" then
-						executeSayCommand(id, command, text)
+						executeCommand(id, command, text, "say")
 						return 1
 					end
 				end
@@ -320,9 +330,9 @@ function yates.hook.say(id, text)
 			return 1
 		end
 
-		action("say", id, text)
 		chat(id, text)
-	end
+    end
+    action("say", id, text)
 
     return filter("say", id, text) or 1
 end

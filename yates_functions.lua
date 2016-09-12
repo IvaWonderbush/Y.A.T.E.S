@@ -170,12 +170,14 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, command, text)
+function executeCommand(id, command, text, mode)
 	_tbl = toTable(text)
 	_id = id
-	func = loadstring("yates.func.say."..command.."()")
+	func = loadstring("yates.func."..mode.."."..command.."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..command, yates.setting.date, ".txt", "a")
+	if id then
+		yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
+	end
 	_tbl = {}
 	_id = nil
 end
@@ -489,13 +491,13 @@ end
 	Checks if say command exists
 	@return boolean
 ]]
-function checkSayCommand(command)
+function checkCommand(command, mode)
 	local tmp = {}
-	for k, v in pairs(yates.func.say) do
+	for k, v in pairs(yates.func[mode]) do
 		tmp[k] = k
 	end
 
-	for cmds = 1, countIterate(yates.func.say) do
+	for cmds = 1, countIterate(yates.func[mode]) do
 		if tmp[command] then
 			if command == tmp[command] then
 				return true

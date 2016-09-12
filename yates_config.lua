@@ -1,6 +1,7 @@
 -- yates_config.lua --
 
 -- General configuration. This is seen as the general server setup, for more information please visit http://www.thomasyates.nl/docs
+-- NOTE: If you are a Windows user and you cannot establish connection to get the current live verion please install Git (https://git-scm.com) and make sure you enable the use of Unix tools in the Windows terminal
 yates.setting.check_version = true
 yates.setting.update_version = false -- Currently not in use
 

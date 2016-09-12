@@ -23,6 +23,7 @@ yates.force_reload = false
 yates.hook = {}
 yates.func = {}
 yates.func.say = {}
+yates.func.console = {}
 
 yates.say = {}
 yates.say.help = {}
