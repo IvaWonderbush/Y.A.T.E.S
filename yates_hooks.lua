@@ -39,10 +39,10 @@ function yates.hook.bombplant(id, tilex, tiley)
 end
 addhook("bombplant", "yates.hook.bombplant")
 
-function yates.hook.break(tilex, tiley, id)
+--[[function yates.hook.break(tilex, tiley, id)
 	action("break", tilex, tiley, id)
 end
-addhook("break", "yates.hook.break")
+addhook("break", "yates.hook.break")]]
 
 function yates.hook.build(id, type, tilex, tiley, mode, objectid)
 	action("build", id, type, tilex, tiley, mode, objectid)
@@ -157,7 +157,7 @@ end
 addhook("leave", "yates.hook.leave")
 
 function yates.hook.log(text)
-	action("log", text)
+    -- action("log", text) @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 end
 addhook("log", "yates.hook.log")
 
@@ -287,6 +287,8 @@ addhook("say", "yates.hook.say")
 
 function yates.hook.sayteam(id, message)
 	action("sayteam", id, message)
+
+    return filter("sayteam", id, message) or 0
 end
 addhook("sayteam", "yates.hook.sayteam")
 
