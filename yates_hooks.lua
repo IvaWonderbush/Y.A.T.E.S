@@ -248,16 +248,6 @@ end
 addhook("objectupgrade", "yates.hook.objectupgrade")
 
 function yates.hook.parse(text)
-    local tbl = toTable(text)
-
-    if tbl[1] == "rcon" then
-        table.remove(tbl, 1)
-    end
-    local command = tbl[1]
-
-    if checkCommand(command, "console") then
-        executeCommand(false, command, text, "console")
-    end
 	action("parse", text)
 
     return filter("parse", text) or 0
@@ -277,6 +267,18 @@ end
 addhook("radio", "yates.hook.radio")
 
 function yates.hook.rcon(cmds, id, ip, port)
+	print("asd")
+	print(cmds[1])
+	--[[local tbl = toTable(cmds)
+
+	if tbl[1] == "rcon" then
+		table.remove(tbl, 1)
+	end
+	local command = tbl[1]
+
+	if checkCommand(command, "console") then
+		executeCommand(false, command, text, "console")
+	end]]
 	action("rcon", cmds, id, ip, port)
 
     return filter("rcon", cmds, id, ip, port) or 0
