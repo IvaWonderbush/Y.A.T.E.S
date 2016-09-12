@@ -26,36 +26,50 @@ addhook("attack2", "yates.hook.attack2")
 
 function yates.hook.bombdefuse(id)
 	action("bombdefuse", id)
+
+    return filter("bombdefuse", id) or 0
 end
 addhook("bombdefuse", "yates.hook.bombdefuse")
 
 function yates.hook.bombexplode(id, tilex, tiley)
 	action("bombexplode", id, tilex, tiley)
+
+    return filter("bombexplode", id, tilex, tiley) or 0
 end
 addhook("bombexplode", "yates.hook.bombexplode")
 
 function yates.hook.bombplant(id, tilex, tiley)
 	action("bombplant", id, tilex, tiley)
+
+    return filter("bombplant", id, tilex, tiley) or 0
 end
 addhook("bombplant", "yates.hook.bombplant")
 
---[[function yates.hook.break(tilex, tiley, id)
+--[[ @TODO currently broken because cs2d
+function yates.hook.break(tilex, tiley, id)
 	action("break", tilex, tiley, id)
 end
-addhook("break", "yates.hook.break")]]
+addhook("break", "yates.hook.break")
+]]--
 
 function yates.hook.build(id, type, tilex, tiley, mode, objectid)
 	action("build", id, type, tilex, tiley, mode, objectid)
+
+    return filter("build", id, type, tilex, tiley, mode, objectid) or 0
 end
 addhook("build", "yates.hook.build")
 
 function yates.hook.buildattempt(id, type, tilex, tiley, mode)
 	action("buildattempt", id, type, tilex, tiley, mode)
+
+    return filter("buildattempt", id, type, tilex, tiley, mode) or 0
 end
 addhook("buildattempt", "yates.hook.buildattempt")
 
 function yates.hook.buy(id, weapon)
 	action("buy", id, weapon)
+
+    return filter("buy", id, weapon) or 0
 end
 addhook("buy", "yates.hook.buy")
 
@@ -71,16 +85,22 @@ addhook("collect", "yates.hook.collect")
 
 function yates.hook.die(victim, killer, weapon, x, y, objectid)
 	action("die", victim, killer, weapon, x, y, objectid)
+
+    return filter("die", victim, killer, weapon, x, y, objectid) or 0
 end
 addhook("die", "yates.hook.die")
 
 function yates.hook.dominate(id, team, tilex, tiley)
 	action("dominate", id, team, tilex, tiley)
+
+    return filter("dominate", id, team, tilex, tiley) or 0
 end
 addhook("dominate", "yates.hook.dominate")
 
 function yates.hook.drop(id, iid, type, ain, a, mode, tilex, tiley)
 	action("drop", id, iid, type, ain, a, mode, tilex, tiley)
+
+    return filter("drop", id, iid, type, ain, a, mode, tilex, tiley) or 0
 end
 addhook("drop", "yates.hook.drop")
 
@@ -91,11 +111,15 @@ addhook("endround", "yates.hook.endround")
 
 function yates.hook.flagcapture(id, team, tilex, tiley)
 	action("flagcapture", id, team, tilex, tiley)
+
+    return filter("flagcapture", id, team, tilex, tiley) or 0
 end
 addhook("flagcapture", "yates.hook.flagcapture")
 
 function yates.hook.flagtake(id, team, tilex, tiley)
 	action("flagtake", id, team, tilex, tiley)
+
+    return filter("flagtake", id, team, tilex, tiley) or 0
 end
 addhook("flagtake", "yates.hook.flagtake")
 
@@ -110,11 +134,15 @@ function yates.hook.hit(id, source, weapon, hpdmg, apdmg, rawdmg, object)
 	end
 
 	action("hit", id, source, weapon, hpdmg, apdmg, rawdmg, object)
+
+    return filter("hit", id, source, weapon, hpdmg, apdmg, rawdmg, object) or 0
 end
 addhook("hit", "yates.hook.hit")
 
 function yates.hook.hitzone(imageid, id, objectid, weapon, x, y, damage)
 	action("hitzone", imageid, id, objectid, weapon, x, y, damage)
+
+    return filter("hitzone", imageid, id, objectid, weapon, x, y, damage) or 0
 end
 addhook("hitzone", "yates.hook.hitzone")
 
@@ -158,6 +186,8 @@ addhook("leave", "yates.hook.leave")
 
 function yates.hook.log(text)
     -- action("log", text) @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
+
+    -- return filter("log", text) or 0 @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 end
 addhook("log", "yates.hook.log")
 
@@ -193,11 +223,15 @@ addhook("ms100", "yates.hook.ms100")
 
 function yates.hook.name(id, oldname, newname, forced)
 	action("name", id, oldname, newname, forced)
+
+    return filter("name", id, oldname, newname, forced) or 0
 end
 addhook("name", "yates.hook.name")
 
 function yates.hook.objectdamage(objectid, damage, id)
 	action("objectdamage", objectid, damage, id)
+
+    return filter("objectdamage", objectid, damage, id) or 0
 end
 addhook("objectdamage", "yates.hook.objectdamage")
 
@@ -208,11 +242,15 @@ addhook("objectkill", "yates.hook.objectkill")
 
 function yates.hook.objectupgrade(objectid, id, progress, total)
 	action("objectupgrade", objectid, id, progress, total)
+
+    return filter("objectupgrade", objectid, id, progress, total) or 0
 end
 addhook("objectupgrade", "yates.hook.objectupgrade")
 
 function yates.hook.parse(text)
 	action("parse", text)
+
+    return filter("parse", text) or 0
 end
 addhook("parse", "yates.hook.parse")
 
@@ -223,11 +261,15 @@ addhook("projectile", "yates.hook.projectile")
 
 function yates.hook.radio(id, message)
 	action("radio", id, message)
+
+    return filter("radio", id, message) or 0
 end
 addhook("radio", "yates.hook.radio")
 
 function yates.hook.rcon(cmds, id, ip, port)
 	action("rcon", cmds, id, ip, port)
+
+    return filter("rcon", cmds, id, ip, port) or 0
 end
 addhook("rcon", "yates.hook.rcon")
 
@@ -281,7 +323,8 @@ function yates.hook.say(id, text)
 		action("say", id, text)
 		chat(id, text)
 	end
-	return 1
+
+    return filter("say", id, text) or 1
 end
 addhook("say", "yates.hook.say")
 
@@ -344,6 +387,8 @@ addhook("shutdown", "yates.hook.shutdown")
 
 function yates.hook.spawn(id)
 	action("spawn", id)
+
+    return filter("spawn", id) or 0
 end
 addhook("spawn", "yates.hook.spawn")
 
@@ -369,16 +414,29 @@ addhook("startround_prespawn", "yates.hook.startround_prespawn")
 
 function yates.hook.suicide(id)
 	action("suicide", id)
+
+    return filter("suicide", id) or 0
 end
 addhook("suicide", "yates.hook.suicide")
 
+function yates.hook.team(id, team, look)
+	action("team", id, team, look)
+
+    return filter("team", id, team, look) or 0
+end
+addhook("team", "yates.hook.team")
+
 function yates.hook.trigger(trigger, source)
 	action("trigger", trigger, source)
+
+    return filter("trigger", trigger, source) or 0
 end
 addhook("trigger", "yates.hook.trigger")
 
 function yates.hook.triggerentity(tilex, tiley)
 	action("triggerentity", tilex, tiley)
+
+    return filter("triggerentity", tilex, tiley) or 0
 end
 addhook("triggerentity", "yates.hook.triggerentity")
 
@@ -404,5 +462,7 @@ addhook("vote", "yates.hook.vote")
 
 function yates.hook.walkover(id, iid, type, ain, a, mode)
 	action("walkover", id, iid, type, ain, a, mode)
+
+    return filter("walkover", id, iid, type, ain, a, mode) or 0
 end
 addhook("walkover", "yates.hook.walkover")
