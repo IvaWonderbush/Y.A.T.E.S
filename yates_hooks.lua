@@ -9,6 +9,51 @@
 	BE WARNED.
 ]]--
 
+function yates.hook.always()
+	action("always")
+end
+addhook("always", "yates.hook.always")
+
+function yates.hook.attack(id)
+	action("attack", id)
+end
+addhook("attack", "yates.hook.attack")
+
+function yates.hook.attack2(id, mode)
+	action("attack2", id, mode)
+end
+addhook("attack2", "yates.hook.attack2")
+
+function yates.hook.bombdefuse(id)
+	action("bombdefuse", id)
+end
+addhook("bombdefuse", "yates.hook.bombdefuse")
+
+function yates.hook.bombexplode(id, tilex, tiley)
+	action("bombexplode", id, tilex, tiley)
+end
+addhook("bombexplode", "yates.hook.bombexplode")
+
+function yates.hook.bombplant(id, tilex, tiley)
+	action("bombplant", id, tilex, tiley)
+end
+addhook("bombplant", "yates.hook.bombplant")
+
+function yates.hook.break(tilex, tiley, id)
+	action("break", tilex, tiley, id)
+end
+addhook("break", "yates.hook.break")
+
+function yates.hook.build(id, type, tilex, tiley, mode, objectid)
+	action("build", id, type, tilex, tiley, mode, objectid)
+end
+addhook("build", "yates.hook.build")
+
+function yates.hook.buildattempt(id, type, tilex, tiley, mode)
+	action("buildattempt", id, type, tilex, tiley, mode)
+end
+addhook("buildattempt", "yates.hook.buildattempt")
+
 function yates.hook.join(id)
 	yates.player[id] = {}
 	yates.player[id].say = true -- Currently not in use
