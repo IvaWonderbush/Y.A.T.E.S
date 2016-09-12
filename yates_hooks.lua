@@ -95,6 +95,21 @@ function yates.hook.hit(id, source, weapon, hpdmg, apdmg, rawdmg, object)
 end
 addhook("hit", "yates.hook.hit")
 
+function yates.hook.attack(id)
+	action("attack", id)
+end
+addhook("attack", "yates.hook.attack")
+
+function yates.hook.attack2(id, mode)
+	action("attack2", id, mode)
+end
+addhook("attack2", "yates.hook.attack2")
+
+function yates.hook.always()
+	action("always")
+end
+addhook("always", "yates.hook.always")
+
 function yates.hook.ms100()
 	action("ms100")
 end
