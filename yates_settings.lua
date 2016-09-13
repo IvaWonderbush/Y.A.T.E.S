@@ -29,6 +29,10 @@ yates.say = {}
 yates.say.help = {}
 yates.say.desc = {}
 
+yates.console = {}
+yates.console.help = {}
+yates.console.desc = {}
+
 yates.setting = {}
 
 yates.transferlist = {}

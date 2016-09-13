@@ -64,6 +64,24 @@ function setSayDesc(func, desc)
 end
 
 --[[
+	Sets the help of a say command
+	@return void
+]]
+function setConsoleHelp(func, info)
+	if not info then info = "" end
+	yates.console.help[func] = func.." "..info
+end
+
+--[[
+	Sets the description of a say command
+	@return void
+]]
+function setConsoleDesc(func, desc)
+	if not desc then desc = "" end
+	yates.console.desc[func] = desc
+end
+
+--[[
 	Simplifies values into a msg or msg2
 	@return void	
 ]]
