@@ -12,7 +12,7 @@
 	BE WARNED.
 ]]--
 
-function yates.func.console.helppp()
+function yates.func.console.help()
     for k, v in spairs(yates.func.console) do
         if #k > 0 then
             yatesPrint(k, "default", false)
