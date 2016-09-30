@@ -39,10 +39,10 @@ function yates.hook.bombplant(id, tilex, tiley)
 end
 addhook("bombplant", "yates.hook.bombplant")
 
-function yates.hook.break(tilex, tiley, id)
+--[[function yates.hook.break(tilex, tiley, id)
 	action("break", tilex, tiley, id)
 end
-addhook("break", "yates.hook.break")
+addhook("break", "yates.hook.break")]]
 
 function yates.hook.build(id, type, tilex, tiley, mode, objectid)
 	action("build", id, type, tilex, tiley, mode, objectid)
