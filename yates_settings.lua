@@ -37,7 +37,7 @@ yates.setting = {}
 
 yates.transferlist = {}
 
-yates.version = "1.0.2"
+yates.version = "2.0.1"
 
 _GROUP = {}
 _PLAYER = {}
