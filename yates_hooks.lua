@@ -45,12 +45,10 @@ function yates.hook.bombplant(id, tilex, tiley)
 end
 addhook("bombplant", "yates.hook.bombplant")
 
---[[ @TODO currently broken because cs2d
-function yates.hook.break(tilex, tiley, id)
-	action("break", tilex, tiley, id)
+function yates.hook.destroy(tilex, tiley, id) -- yates.hook.break
+	action("destroy", tilex, tiley, id)
 end
-addhook("break", "yates.hook.break")
-]]--
+addhook("break", "yates.hook.destroy")
 
 function yates.hook.build(id, type, tilex, tiley, mode, objectid)
 	action("build", id, type, tilex, tiley, mode, objectid)

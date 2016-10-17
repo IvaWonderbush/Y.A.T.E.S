@@ -126,14 +126,14 @@ function yates.func.say.credits()
 end
 setSayHelp("credits")
 
-function yates.func.say.lua()
+function yates.func.say.ls()
 	local script = _txt:sub(6)
 	if script then
 		yatesMessage(_id, tostring(assert(loadstring(script))() or "Command executed!"), "success")
 	end
 end
-setSayHelp("lua", "<cmd>")
-setSayDesc("lua", "Be very careful when using this command, there are no checks - it is simply executed!")
+setSayHelp("ls", "<cmd>")
+setSayDesc("ls", "Be very careful when using this command, there are no checks - it is simply executed!")
 
 function yates.func.say.plugin()
 	if not _tbl[2] then

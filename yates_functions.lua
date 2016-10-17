@@ -191,13 +191,18 @@ end
 function executeCommand(id, command, text, mode)
 	_tbl = toTable(text)
 	_id = id
+	_txt = text
+
 	func = loadstring("yates.func."..mode.."."..command.."()")
 	func()
+
 	if id then
 		yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
 	end
+
 	_tbl = {}
 	_id = nil
+	_txt = nil
 end
 
 --[[
