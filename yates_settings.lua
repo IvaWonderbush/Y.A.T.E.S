@@ -10,7 +10,7 @@
 
 _tbl = {}
 _id = nil
-_txt = ""
+_txt = nil
 
 yates = {}
 yates.action = {}
