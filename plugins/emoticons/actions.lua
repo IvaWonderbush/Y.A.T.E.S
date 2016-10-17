@@ -35,7 +35,7 @@ addAction("say", emoticons.say)
 
 function emoticons.ms100()
     for _, id in pairs(player(0, "table")) do
-        if emoticons.player[id].chat then
+        if emoticons.player[id] and emoticons.player[id].chat then
             local time = os.difftime(os.time(), emoticons.player[id].time)
 
             if time > emoticons.setting.duration then

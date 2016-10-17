@@ -10,7 +10,7 @@
 
 _tbl = {}
 _id = nil
-_txt = ""
+_txt = nil
 
 yates = {}
 yates.action = {}
@@ -23,16 +23,21 @@ yates.force_reload = false
 yates.hook = {}
 yates.func = {}
 yates.func.say = {}
+yates.func.console = {}
 
 yates.say = {}
 yates.say.help = {}
 yates.say.desc = {}
 
+yates.console = {}
+yates.console.help = {}
+yates.console.desc = {}
+
 yates.setting = {}
 
 yates.transferlist = {}
 
-yates.version = "1.0.3"
+yates.version = "2.0.1"
 
 _GROUP = {}
 _PLAYER = {}

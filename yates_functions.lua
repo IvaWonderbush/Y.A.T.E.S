@@ -64,6 +64,24 @@ function setSayDesc(func, desc)
 end
 
 --[[
+	Sets the help of a say command
+	@return void
+]]
+function setConsoleHelp(func, info)
+	if not info then info = "" end
+	yates.console.help[func] = func.." "..info
+end
+
+--[[
+	Sets the description of a say command
+	@return void
+]]
+function setConsoleDesc(func, desc)
+	if not desc then desc = "" end
+	yates.console.desc[func] = desc
+end
+
+--[[
 	Simplifies values into a msg or msg2
 	@return void	
 ]]
@@ -170,14 +188,21 @@ end
 	Executes the string's matching function name
 	@return void	
 ]]
-function executeSayCommand(id, command, text)
+function executeCommand(id, command, text, mode)
 	_tbl = toTable(text)
 	_id = id
-	func = loadstring("yates.func.say."..command.."()")
+	_txt = text
+
+	func = loadstring("yates.func."..mode.."."..command.."()")
 	func()
-	yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..command, yates.setting.date, ".txt", "a")
+
+	if id then
+		yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
+	end
+
 	_tbl = {}
 	_id = nil
+	_txt = nil
 end
 
 --[[
@@ -489,13 +514,13 @@ end
 	Checks if say command exists
 	@return boolean
 ]]
-function checkSayCommand(command)
+function checkCommand(command, mode)
 	local tmp = {}
-	for k, v in pairs(yates.func.say) do
+	for k, v in pairs(yates.func[mode]) do
 		tmp[k] = k
 	end
 
-	for cmds = 1, countIterate(yates.func.say) do
+	for cmds = 1, countIterate(yates.func[mode]) do
 		if tmp[command] then
 			if command == tmp[command] then
 				return true
@@ -639,7 +664,7 @@ end
 function toTable(str, mch)
 	local tmp = {}
 	if not mch then mch = "[^%s]+" else mch = "[^"..mch.."]+" end
-	for wrd in string.gmatch(str,mch) do
+	for wrd in string.gmatch(str, mch) do
 		table.insert(tmp, wrd)
 	end	
 	return tmp
