@@ -617,7 +617,7 @@ function yates.func.say.kill()
 		return 1
 	end
 
-	if player(_id, "health") == 0 then
+	if player(id, "health") == 0 then
 		yatesMessage(_id, "You can not kill a dead player!", "warning")
 		return 1
 	end
