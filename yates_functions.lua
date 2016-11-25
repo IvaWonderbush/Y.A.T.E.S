@@ -961,3 +961,17 @@ function getDirectories(path)
 	
 	return content
 end
+
+--[[
+	Gets a user's group level
+	@return integer
+]]
+function getPlayerGroupLevel(usgn)
+	if _PLAYER[usgn].group ~= nil then
+		if checkGroup(_PLAYER[usgn].group, false) then
+			return _GROUP[_PLAYER[usgn].group].level
+		end
+	end
+
+	return false
+end
