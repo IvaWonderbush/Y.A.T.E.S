@@ -969,7 +969,7 @@ end
 function getPlayerGroupLevel(usgn)
 	if _PLAYER[usgn] then
 		if _PLAYER[usgn].group then
-			if checkGroup(_PLAYER[usgn].group, false) then
+			if checkGroup(_PLAYER[usgn].group) then
 				return _GROUP[_PLAYER[usgn].group].level
 			end
 		end
