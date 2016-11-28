@@ -277,8 +277,8 @@ end
 	@return boolean
 ]]
 function checkGroup(group, message)
-	if message == nil then
-		message = true
+	if not message then
+		message = false
 	end
 
 	if not _GROUP[group] then
@@ -960,4 +960,20 @@ function getDirectories(path)
 	end
 	
 	return content
+end
+
+--[[
+	Gets a user's group level
+	@return integer
+]]
+function getPlayerGroupLevel(usgn)
+	if _PLAYER[usgn] then
+		if _PLAYER[usgn].group then
+			if checkGroup(_PLAYER[usgn].group) then
+				return _GROUP[_PLAYER[usgn].group].level
+			end
+		end
+	end
+
+	return false
 end
