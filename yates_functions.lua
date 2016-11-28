@@ -277,8 +277,8 @@ end
 	@return boolean
 ]]
 function checkGroup(group, message)
-	if message == nil then
-		message = true
+	if not message then
+		message = false
 	end
 
 	if not _GROUP[group] then
@@ -967,9 +967,11 @@ end
 	@return integer
 ]]
 function getPlayerGroupLevel(usgn)
-	if _PLAYER[usgn].group ~= nil then
-		if checkGroup(_PLAYER[usgn].group, false) then
-			return _GROUP[_PLAYER[usgn].group].level
+	if _PLAYER[usgn] then
+		if _PLAYER[usgn].group then
+			if checkGroup(_PLAYER[usgn].group, false) then
+				return _GROUP[_PLAYER[usgn].group].level
+			end
 		end
 	end
 
