@@ -6,3 +6,4 @@
 This page is not finished yet. Come back later to check out a full list of features, changelog and whatnot (mostly me boasting).
 
 Check out the [documentation](http://www.thomasyates.nl/docs) for an installation guide.
+
