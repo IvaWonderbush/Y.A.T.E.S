@@ -189,7 +189,7 @@ end
 	@return void	
 ]]
 function executeCommand(id, command, text, mode)
-	_tbl = tableValuesToNumber(toTable(text))
+	_tbl = toTable(text)
 	_id = id
 	_txt = text
 
