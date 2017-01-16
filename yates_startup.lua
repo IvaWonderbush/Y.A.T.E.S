@@ -60,3 +60,8 @@ setTransferList(yates.setting.transferlist_response)
 print(" ")
 print("\169100255255[Y.A.T.E.S]: Thank you for using Y.A.T.E.S.")
 print("\169100255255[Y.A.T.E.S]: Creator: Yates, U.S.G.N. ID 21431.")
+
+function addhook()
+	yatesPrint("All hooks are already registered, use action() or filter() instead!", "warning")
+	return
+end

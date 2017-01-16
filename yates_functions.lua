@@ -368,6 +368,35 @@ function createToken(length)
 end
 
 --[[
+	Get player info
+	@return
+]]
+function getPlayerInfo(id, key)
+	local usgn = player(id, "usgn")
+	local case
+
+	if usgn == 0 or not _PLAYER[usgn] then
+		return false
+	end
+
+	if _PLAYER[usgn][key] then
+		case = 1
+	elseif _PLAYER[usgn].group then
+		if _GROUP[_PLAYER[usgn].group][key] then
+			case = 2
+		end
+	end
+
+	if case == 1 then
+		return _PLAYER[usgn][key]
+	elseif case == 2 then
+		return _GROUP[_PLAYER[usgn].group][key]
+	end
+
+	return false
+end
+
+--[[
 	Add new group
 	@return boolean
 ]]
