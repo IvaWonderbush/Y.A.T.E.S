@@ -367,6 +367,10 @@ function createToken(length)
     return s
 end
 
+--[[
+	Get player info
+	@return
+]]
 function getPlayerInfo(id, key)
 	local usgn = player(id, "usgn")
 	local case
