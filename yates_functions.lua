@@ -189,7 +189,7 @@ end
 	@return void	
 ]]
 function executeCommand(id, command, text, mode)
-	_tbl = toTable(text)
+	_tbl = tableValuesToNumber(toTable(text))
 	_id = id
 	_txt = text
 
@@ -696,6 +696,21 @@ function toTable(str, mch)
 		table.insert(tmp, wrd)
 	end	
 	return tmp
+end
+
+--[[
+	Turns all string-number occurrences in a table to a number
+	@return table
+]]
+function tableValuesToNumber(tbl)
+    local vals = {}
+    for k, v in pairs(tbl) do
+        if tonumber(v) then
+            v = tonumber(v)
+        end
+        vals[k] = v
+    end
+    return vals
 end
 
 --[[
