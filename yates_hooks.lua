@@ -299,6 +299,8 @@ function yates.hook.say(id, text)
 	local tbl = toTable(text)
 	local usgn = player(id, "usgn")
 
+	text = text:gsub("\166", "")
+
 	if text:sub(1, #yates.setting.say_prefix) == yates.setting.say_prefix then
 		local command = tbl[1]:sub(#yates.setting.say_prefix+1)
 
