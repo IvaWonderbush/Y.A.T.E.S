@@ -26,7 +26,6 @@ bad_words.list = {
 	["fucking"] = "f*cking",
 	["shit"] = "sh*t",
 	["hitler"] = "h*tler",
-	["gajos"] = "gayos*",
 	["gay"] = "g*y",
 	["motherfucker"] = "motherf*cker",
 	["nigger"] = "n*gger",
