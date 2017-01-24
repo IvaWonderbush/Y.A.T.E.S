@@ -31,8 +31,8 @@ yates.setting.mute_time_default = 30
 -- The max time a player can be muted for in seconds. If you don't fully trust your administration team to not be dicks, set this to 60 seconds or something ;)
 yates.setting.mute_time_max = 60
 
--- Enables/disables the response when Y.A.T.E.S encounters an error when adding a file to the transfer list
-yates.setting.transferlist_response = false -- @TODO: Check if this actuall does what I say it does :ugly:
+-- Enables/disables the response when Y.A.T.E.S adds a ->NEW<- file to the transfer list. Good for debugging, bad for saving console space
+yates.setting.transferlist_response = false
 
 -- Colours, do not remove these entries! You may add new ones
 clr = {
