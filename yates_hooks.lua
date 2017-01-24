@@ -151,6 +151,7 @@ addhook("hostagerescue", "yates.hook.hostagerescue")
 
 function yates.hook.join(id)
 	yates.player[id] = {}
+	yates.player[id].say = true
 	yates.player[id].prefix = true
 	yates.player[id].god = false
 	yates.player[id].mute_time = 0
