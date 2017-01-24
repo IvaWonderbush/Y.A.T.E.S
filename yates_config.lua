@@ -6,7 +6,7 @@ yates.setting.check_version = true
 yates.setting.update_version = false -- Currently not in use
 
 -- WANT ADMIN AND ACCESS TO EVERYTHING? THIS IS THE VARIABLE YOU CHANGE!
--- The following U.S.G.N ID will be given access to all of the available commands within Y.A.T.E.S. This person should preferrably be you.
+-- The following U.S.G.N. ID will be given access to all of the available commands within Y.A.T.E.S. This person should preferrably be you.
 yates.setting.auth_usgn = 0 -- example: 21431 ->NOT<- "21431"
 
 -- The prefix for say commands. The prefix / is reserved by Counter-Strike 2D and cannot be used
@@ -94,6 +94,9 @@ _GROUP = {
 		colour = "025255000",
 		level = 90,
 		commands = {
+			"help",
+			"pm",
+			"credits",
 			"hide",
 			"god",
 			"mute",
