@@ -9,6 +9,9 @@ yates.setting.update_version = false -- Currently not in use
 -- The following U.S.G.N. ID will be given access to all of the available commands within Y.A.T.E.S. This person should preferrably be you.
 yates.setting.auth_usgn = 0 -- example: 21431 ->NOT<- "21431"
 
+-- The shortcode of the language you want to use within Y.A.T.E.S
+yates.setting.language = "en"
+
 -- The prefix for say commands. The prefix / is reserved by Counter-Strike 2D and cannot be used
 yates.setting.say_prefix = "!"
 

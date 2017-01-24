@@ -55,6 +55,7 @@ loadPlugins()
 print("\169100255255[Y.A.T.E.S]: Versioning the version..?")
 checkVersion()
 setTransferList(yates.setting.transferlist_response)
+getLanguageData()
 
 -- You may remove this, but I'd rather you not. People can't see it anyway.
 print(" ")

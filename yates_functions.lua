@@ -605,6 +605,7 @@ function action(name, ...)
     end
 end
 
+-- @TODO: clean
 function table.bounds(tbl)
     local f, l
     for k, v in pairs(tbl) do
@@ -614,6 +615,50 @@ function table.bounds(tbl)
         if (k < f) then f = k end
     end
     return f, l
+end
+
+language = {}
+function getLanguageData()
+
+    for item in io.enumdir(_DIR.."lang") do
+        local name, extension = item:match("([^/]+)%.([^%.]+)$")
+
+        if (name and extension == "txt") then
+            local file, err = io.open(_DIR .. "lang/" .. name .. ".txt")
+
+            if (not file) then
+                return print(_DIR .. "lang/" .. name .. ".txt: " .. err)
+            end
+
+            local currentlanguage = {}
+            local currentline = 1
+
+            for line in file:lines() do
+                currentlanguage[currentline] = line
+                currentline = currentline + 1
+            end
+
+            file:close()
+
+            language[name] = currentlanguage
+        end
+    end
+
+    print(lang(1))
+    print(lang(2))
+    print(lang(2, "Yates"))
+end
+
+function lang(line, ...)
+    local str = language[yates.setting.language] and language[yates.setting.language][line] or nil
+
+    if (str) then
+        for index, arg in ipairs({...}) do
+            str = str:gsub("$" .. index, arg)
+        end
+    end
+
+    return str
 end
 
 function checkStatus()
