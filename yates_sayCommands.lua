@@ -305,19 +305,18 @@ end
 setSayHelp("hardreload", "[<delay>] (in seconds)")
 setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing the map. Preferred over softreload.")
 
---[[ Currently not in use
-function yates.func.say.prefix()
-	if yates.player[_id].prefix then
-		yates.player[_id].prefix = false
-		yatesMessage(_id, "Your tag is no longer visible.", "success")
+
+function yates.func.say.hide()
+	if yates.player[_id].hide then
+		yates.player[_id].hide = false
+		yatesMessage(_id, "You are now hidden.", "success")
 	else
-		yates.player[_id].prefix = true
-		yatesMessage(_id, "Your tag is now visible.", "success")
+		yates.player[_id].hide = true
+		yatesMessage(_id, "You are no longer hidden.", "success")
 	end
 end
-setSayHelp("prefix")
-setSayDesc("prefix", "Toggles your prefix. Useful if you want to hide your identity to spot hackers and still chat.")
-]]--
+setSayHelp("hide")
+setSayDesc("hide", "Toggles your prefix and colour. Useful if you want to hide your identity to spot hackers and still chat.")
 
 function yates.func.say.god()
 	if yates.player[_id].god then
