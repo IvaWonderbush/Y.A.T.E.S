@@ -26,7 +26,7 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 		p = (_GROUP[yates.setting.group_default].prefix or "")
 	end
 
-	if yates.player[id].pre == 0 then
+	if not yates.player[id].pre then
 		p = ""
 	end
 
