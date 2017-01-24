@@ -309,10 +309,10 @@ setSayDesc("hardreload", "Reloads Y.A.T.E.S Lua scripts and plugins by changing 
 function yates.func.say.hide()
 	if yates.player[_id].hide then
 		yates.player[_id].hide = false
-		yatesMessage(_id, "You are now hidden.", "success")
+		yatesMessage(_id, "You are no longer hidden.", "success")
 	else
 		yates.player[_id].hide = true
-		yatesMessage(_id, "You are no longer hidden.", "success")
+		yatesMessage(_id, "You are now hidden.", "success")
 	end
 end
 setSayHelp("hide")
