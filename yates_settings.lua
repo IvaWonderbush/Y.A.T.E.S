@@ -42,4 +42,4 @@ yates.version = "2.0.1"
 _GROUP = {}
 _PLAYER = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
-_YATES = {auth_token = false, disabled_commands = {}}
+_YATES = {disabled_commands = {}}

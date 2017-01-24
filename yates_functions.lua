@@ -13,7 +13,7 @@
 	Turns chat input into output
 	@return void
 ]]
-function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat function
+function chat(id, text)
 	local usgn = player(id, "usgn")
 	local c = ""
 	local p = ""
@@ -336,31 +336,19 @@ end
 	Checks if first authentication has been complete
 	@return boolean
 ]]
-function checkInitialAuth()
-	if (_YATES.auth_token ~= false and _YATES.auth_token == true) then
-		print(clr["yates"]["default"].."[Y.A.T.E.S]: Initial authentication U.S.G.N: ".._YATES.auth_usgn)
-		return true
-	end
-	_YATES.auth_token = createToken(5)
-	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Initial authentication has not been complete.")
-	print(clr["yates"]["warning"].."[Y.A.T.E.S]: Please say !auth ".._YATES.auth_token)
-	return false
-end
-
---[[
-	Creates an authentication token
-	@return string
-]]
-function createToken(length)
-    local s = ""
-    for i = 1, length do
-    	if (math.random(0, 1) == 0) then
-        	s = s .. string.char(math.random(97, 120))
-    	else
-    		s = s .. math.random(0, 9)
-		end
+function checkAuth()
+    if not yates.setting.auth_usgn or yates.setting.auth_usgn == 0 then
+        yatesPrint("Initial authentication has not been complete.", "warning")
+        yatesPrint("Please add your U.S.G.N ID to the yates.setting.auth_usgn variable in the yates_config.lua file.", "warning")
+        return false
     end
-    return s
+
+    _PLAYER[yates.setting.auth_usgn].commands = {"all"}
+    saveData(_PLAYER, "data_player.lua")
+
+    yatesPrint("Initial authentication complete.", "success")
+    yatesPrint("The U.S.G.N ID "..yates.setting.auth_usgn.." has been given access to all commands.", "success")
+    return true
 end
 
 --[[

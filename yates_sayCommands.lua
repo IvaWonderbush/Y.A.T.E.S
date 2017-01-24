@@ -12,39 +12,6 @@
 	BE WARNED.
 ]]--
 
-function yates.func.say.auth()
-	if player(_id, "usgn") == 0 then
-		yatesMessage(id, "You need to be logged in to a U.S.G.N. account to do this!", "warning")
-		return
-	end
-
-	if not _tbl[2] then
-		yatesMessage(id, "You need to provide an authentication token!", "warning")
-		return
-	end
-
- 	if _YATES.auth_token ~= true then
-		if _tbl[2] == _YATES.auth_token then
-			yatesMessage(_id, "Authentication complete! Thank you for using Y.A.T.E.S, "..player(_id,"name")..".", "success")	
-			yatesMessage(_id, "If you want a detailed tutorial on how everything works, go ahead and say "..yates.setting.say_prefix.."tutorial", "info")
-			_YATES.auth_token = true
-			_YATES.auth_usgn = player(_id, "usgn")
-			_PLAYER[_YATES.auth_usgn] = {}
-			_PLAYER[_YATES.auth_usgn].commands = {"all"}
-			table.insert(_YATES.disabled_commands, "auth")
-
-			saveData(_YATES, "data_yates.lua")
-			saveData(_PLAYER, "data_player.lua")
-		else
-			yatesMessage(id, "Incorrect authentication token.", "warning")	
-		end
-	else
-		yatesMessage(id, "The initial authentication has already been complete!", "warning")
-	end
-end
-setSayHelp("auth", "<token>")
-setSayDesc("auth", "Authenticates the server owner or server administrator and grants access to all commands on success.")
-
 function yates.func.say.help()
 	local usgn = player(_id, "usgn") or 0
 	local everything = false
