@@ -33,6 +33,8 @@ yates.console = {}
 yates.console.help = {}
 yates.console.desc = {}
 
+yates.language = {}
+
 yates.setting = {}
 
 yates.transferlist = {}

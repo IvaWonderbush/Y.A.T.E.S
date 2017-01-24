@@ -617,18 +617,12 @@ function table.bounds(tbl)
     return f, l
 end
 
-language = {}
 function getLanguageData()
-
     for item in io.enumdir(_DIR.."lang") do
         local name, extension = item:match("([^/]+)%.([^%.]+)$")
 
         if (name and extension == "txt") then
-            local file, err = io.open(_DIR .. "lang/" .. name .. ".txt")
-
-            if (not file) then
-                return print(_DIR .. "lang/" .. name .. ".txt: " .. err)
-            end
+            local file = io.open(_DIR.."lang/"..name..".txt")
 
             local currentlanguage = {}
             local currentline = 1
@@ -640,17 +634,13 @@ function getLanguageData()
 
             file:close()
 
-            language[name] = currentlanguage
+            yates.language[name] = currentlanguage
         end
     end
-
-    print(lang(1))
-    print(lang(2))
-    print(lang(2, "Yates"))
 end
 
 function lang(line, ...)
-    local str = language[yates.setting.language] and language[yates.setting.language][line] or nil
+    local str = yates.language[yates.setting.language] and yates.language[yates.setting.language][line] or nil
 
     if (str) then
         for index, arg in ipairs({...}) do
