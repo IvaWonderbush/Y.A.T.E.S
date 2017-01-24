@@ -18,7 +18,7 @@ function chat(id, text) -- @TODO: Recreate a dynamic (yet not buggy) chat functi
 	local c = ""
 	local p = ""
 
-	if _PLAYER[usgn] and yates.player[id].prefix == true then
+	if _PLAYER[usgn] and not yates.player[id].hide then
 		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].colour)
 		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].prefix) or "")
 	else
