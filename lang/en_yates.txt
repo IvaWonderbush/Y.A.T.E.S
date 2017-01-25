@@ -32,6 +32,7 @@ Reason: $1
 
 
 #error
+The translation does not exist!
 The addhook() function is depreciated, use action() or filter() instead!
 Initial authentication has not been complete.
 Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.
