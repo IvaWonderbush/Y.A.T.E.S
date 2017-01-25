@@ -25,6 +25,9 @@ yates.setting.group_default = "default"
 yates.setting.date = os.date("%d").."-"..os.date("%m").."-"..os.date("%Y")
 yates.setting.time = os.date("%H:%M:%S")
 
+-- Enables/disables the logging of command usage
+yates.setting.log_commands = true
+
 -- Enables/disables the use of @C, true enables the use, false disables the use
 yates.setting.at_c = false
 yates.setting.at_c_replacement = "at_c"

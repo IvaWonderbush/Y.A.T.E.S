@@ -306,7 +306,7 @@ function yates.hook.say(id, text)
 
 		if checkCommand(command, "say") then
 			if not checkSayCommandUse(command) then
-				yatesMessage(id, "This command has been disabled and cannot be used!", "warning")
+				yatesMessage(id, lang("validation", 6), "warning")
 				return 1
 			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
@@ -323,10 +323,10 @@ function yates.hook.say(id, text)
 					end
 				end
 			end
-			yatesMessage(id, "You don't have the permissions to use this command!", "warning")
+			yatesMessage(id, lang("validation", 1), "warning")
 		else
-			yatesMessage(id, "This command doesn't exist!", "warning")
-			yatesMessage(id, "Say "..yates.setting.say_prefix.."help to see the available commands.", "info")
+			yatesMessage(id, lang("validation", 3), "warning")
+			yatesMessage(id, lang("help", 2, yates.setting.say_prefix), "info")
 		end
 	else
 		if yates.setting.at_c == false then
@@ -334,8 +334,8 @@ function yates.hook.say(id, text)
 		end
 
 		if yates.player[id].mute_time > 0 then
-			yatesMessage(id, "You are still muted for "..yates.player[id].mute_time.." seconds.", "warning")
-			yatesMessage(id, "Reason: "..yates.player[id].mute_reason, "info")
+			yatesMessage(id, lang("mute", 8, yates.player[id].mute_time), "warning")
+			yatesMessage(id, lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
 			return 1
 		end
 

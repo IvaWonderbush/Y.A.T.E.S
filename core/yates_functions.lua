@@ -157,26 +157,33 @@ end
 	Logs data
 	@return void	
 ]]
-function yatesLog(log, file, extension, type, date)
+function yatesLog(log, type, file, extension, mode, date)
+	if not type then
+		type = "INFO"
+	end
+
 	if not file or file == "" then
-		file = "log"
+		file = "yates"
 		if date == true then
 			file = yates.setting.date
 		end
 	else
 		if date == true then
-			file = file.."-"..yates.setting.date
+			file = file.." - "..yates.setting.date
 		end
 	end
 
 	if not extension then
-		extension = ".txt"
+		extension = ".log"
 	end
 
-	local file = io.open(_DIR.."/logs/"..file..extension, type) or io.tmpfile()
+	if not mode then
+		mode = "a"
+	end
 
-	file:write(yates.setting.date.." - "..yates.setting.time.."\n")
-	file:write(log.."\n")
+	local file = io.open(_DIR.."storage/logs/"..file..extension, mode) or io.tmpfile()
+
+	file:write("["..yates.setting.date.." - "..yates.setting.time.."]: "..type..": "..log.."\n")
 	file:close()
 end
 
@@ -192,8 +199,10 @@ function executeCommand(id, command, text, mode)
 	func = loadstring("yates.func."..mode.."."..command.."()")
 	func()
 
-	if id then
-		yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, yates.setting.date, ".txt", "a")
+	if yates.setting.log_commands then
+		if id then
+			yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text)
+		end
 	end
 
 	_tbl = {}
@@ -618,34 +627,51 @@ function table.bounds(tbl)
 end
 
 function getLanguageData()
-    for item in io.enumdir(_DIR.."lang") do
+    for item in io.enumdir(_DIR.."storage/lang") do
         local name, extension = item:match("([^/]+)%.([^%.]+)$")
 
-        if (name and extension == "txt") then
-            local file = io.open(_DIR.."lang/"..name..".txt")
+        if name and extension == "txt" then
+            local file = io.open(_DIR.."storage/lang/"..name..".txt")
 
             local currentlanguage = {}
+            local currentsection = "default"
             local currentline = 1
 
             for line in file:lines() do
-                currentlanguage[currentline] = line
-                currentline = currentline + 1
+				if not currentlanguage[currentsection] then
+					currentlanguage[currentsection] = {}
+				end
+
+				if line ~= "" then
+					if line:sub(1, 1) == ":" then
+						currentsection = line:sub(2)
+						currentline = 1
+					else
+						currentlanguage[currentsection][currentline] = line
+						currentline = currentline + 1
+					end
+				end
             end
 
             file:close()
 
             yates.language[name] = currentlanguage
+
+			yatesPrint(lang("info", 3, name), "success")
         end
-    end
+	end
 end
 
-function lang(line, ...)
-    local str = yates.language[yates.setting.language] and yates.language[yates.setting.language][line] or nil
+function lang(section, line, ...)
+    local str = yates.language[yates.setting.language] and yates.language[yates.setting.language][section] and yates.language[yates.setting.language][section][line] or nil
 
-    if (str) then
+    if str then
         for index, arg in ipairs({...}) do
             str = str:gsub("$" .. index, arg)
-        end
+		end
+	else
+		str = lang("error", 1, yates.setting.language, section, line)
+		yatesLog(lang("error", 1, yates.setting.language, section, line), "WARNING")
     end
 
     return str
@@ -757,7 +783,7 @@ function loadPlugins()
 		if all:sub(1, 1) ~= "." then
 	  		if all:sub(1, 1) ~= "_" then
 	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
-	  			yatesPrint("Loading plugin "..all.."..", "success", "[PLUGIN]: ")
+				yatesPrint(lang("info", 5, all), "success")
 	  			yates.plugin[all] = {}
 	  			yates.plugin[all]["dir"] = _DIR.."plugins/"..all.."/"
 	  			dofileLua(yates.plugin[all]["dir"].."/startup.lua")
