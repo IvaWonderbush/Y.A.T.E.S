@@ -125,12 +125,12 @@ function yates.func.say.plugin()
 					os.rename(_DIR.."plugins/_"..v, _DIR.."plugins/"..v)
 					yates.plugin[v] = {}
 					yates.plugin[v]["dir"] = _DIR.."plugins/"..v.."/"
-					dofileLua(yates.plugin[v]["dir"].."/startup.lua")
+					dofile(yates.plugin[v]["dir"].."/startup.lua")
 					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
 					_PLUGIN["off"][k] = nil
 					yatesMessage(_id, "The plugin has been enabled!", "success")
-					cachePluginData()
-					checkForceReload()
+					yates.func.cachePluginData()
+					yates.func.checkForceReload()
 					setUndo(_id, "!plugin disable ".._tbl[3])
 					return 1
 				end
@@ -263,13 +263,7 @@ setSayDesc("hardreload", lang("hardreload", 2))
 
 
 function yates.func.say.hide()
-	if yates.player[_id].hide then
-		yates.player[_id].hide = false
-		yatesMessage(_id, lang("hide", 2), "success")
-	else
-		yates.player[_id].hide = true
-		yatesMessage(_id, lang("hide", 3), "success")
-	end
+	yates.func.toggleHide(_id)
 end
 setSayHelp("hide")
 setSayDesc("hide", lang("hide", 1))
@@ -898,7 +892,7 @@ function yates.func.say.player()
 		if _PLAYER[_tbl[3]] then
 			if _tbl[4] then
 				yatesMessage(_id, "Developer player information.", "info")
-				local info = table.val_to_str(_PLAYER[_tbl[3]])
+				local info = table.valueToString(_PLAYER[_tbl[3]])
 				info = info:gsub("©","")
 				info = info:gsub("\169","")
 
@@ -911,7 +905,7 @@ function yates.func.say.player()
 						v = v:gsub("©","")
 						v = v:gsub("\169","")
 					end
-					yatesMessage(_id, k.." = "..table.val_to_str(v), "default", false)
+					yatesMessage(_id, k.." = "..table.valueToString(v), "default", false)
 				end
 			end
 			return 1
@@ -1046,7 +1040,7 @@ function yates.func.say.group()
 		if _GROUP[_tbl[3]] then
 			if _tbl[4] then
 				yatesMessage(_id, "Developer group information.", "info")
-				local info = table.val_to_str(_GROUP[_tbl[3]])
+				local info = table.valueToString(_GROUP[_tbl[3]])
 				info = info:gsub("©", "")
 				info = info:gsub("\169", "")
 
@@ -1061,7 +1055,7 @@ function yates.func.say.group()
 					v = v:gsub("©", "")
 					v = v:gsub("\169", "")
 				end
-				yatesMessage(_id, k.." = "..table.val_to_str(v), "default", false)
+				yatesMessage(_id, k.." = "..table.valueToString(v), "default", false)
 			end
 			return 1
 		end

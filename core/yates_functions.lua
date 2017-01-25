@@ -326,38 +326,11 @@ function compareLevel(id, id2)
 end
 
 --[[
-	Reloads the script with dofile
-	@return void
-]]
-function softReload()
-	dofile(_DIR.."yates_startup.lua")
-end
-
---[[
 	Reloads the script by reloading the map
 	@return void
 ]]
 function hardReload()
 	parse("map "..game("sv_map"))
-end
-
---[[
-	Checks if first authentication has been complete
-	@return boolean
-]]
-function checkAuth()
-    if not yates.setting.auth_usgn or yates.setting.auth_usgn == 0 then
-        yatesPrint("Initial authentication has not been complete.", "warning")
-        yatesPrint("Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.", "warning")
-        return false
-    end
-
-    _PLAYER[yates.setting.auth_usgn].commands = {"all"}
-    saveData(_PLAYER, "data_player.lua")
-
-    yatesPrint("Initial authentication complete.", "success")
-    yatesPrint("The U.S.G.N. ID "..yates.setting.auth_usgn.." has been given access to all commands.", "success")
-    return true
 end
 
 --[[
@@ -526,7 +499,7 @@ end
 function saveData(data, file, overwrite) -- @TODO: Add overwrite, add or merge (push) functionality
 	local file = io.open(_DIR.."data/"..file, "w+") or io.tmpfile()
 
-	local text = getTableName(data).." = " .. table.val_to_str(data) .. ""
+	local text = table.getName(data).." = " .. table.valueToString(data) .. ""
 	file:write(text)
 	file:close()
 end
@@ -614,105 +587,13 @@ function action(name, ...)
     end
 end
 
--- @TODO: clean
-function table.bounds(tbl)
-    local f, l
-    for k, v in pairs(tbl) do
-        if (not f) then f = k end
-        if (not l) then l = k end
-        if (k > l) then l = k end
-        if (k < f) then f = k end
-    end
-    return f, l
-end
+function yates.func.autoload()
+	for item in io.enumdir(_DIR.."core/autoload") do
+		local name, extension = item:match("([^/]+)%.([^%.]+)$")
 
-function getLanguageData()
-    for item in io.enumdir(_DIR.."storage/lang") do
-        local name, extension = item:match("([^/]+)%.([^%.]+)$")
-
-        if name and extension == "txt" then
-            local file = io.open(_DIR.."storage/lang/"..name..".txt")
-
-            local currentlanguage = {}
-            local currentsection = "default"
-            local currentline = 1
-
-            for line in file:lines() do
-				if not currentlanguage[currentsection] then
-					currentlanguage[currentsection] = {}
-				end
-
-				if line ~= "" then
-					if line:sub(1, 1) == ":" then
-						currentsection = line:sub(2)
-						currentline = 1
-					else
-						currentlanguage[currentsection][currentline] = line
-						currentline = currentline + 1
-					end
-				end
-            end
-
-            file:close()
-
-            yates.language[name] = currentlanguage
-
-			yatesPrint(lang("info", 3, name), "success")
-        end
-	end
-end
-
-function lang(section, line, ...)
-    local str = yates.language[yates.setting.language] and yates.language[yates.setting.language][section] and yates.language[yates.setting.language][section][line] or nil
-
-    if str then
-        for index, arg in ipairs({...}) do
-            str = str:gsub("$" .. index, arg)
+		if name and extension == "lua" then
+			dofile(_DIR.."core/autoload/"..name.."."..extension)
 		end
-	else
-		str = lang("error", 1, yates.setting.language, section, line)
-		yatesLog(lang("error", 1, yates.setting.language, section, line), "WARNING")
-    end
-
-    return str
-end
-
-function checkStatus()
-	local checkstatus = io.popen("curl -Is http://www.thomasyates.nl | head -1")
-	local status = checkstatus:read("*a")
-	if status:match("HTTP/1.1 200 OK") then
-		return true;
-	else
-		return false;
-	end
-	status:close()
-end
-
-function checkVersion()
-	if not yates.setting.check_version then
-		yatesPrint("Version check is disabled. Please enable this to stay up-to-date in yates_config.lua", "warning")
-		return
-	end
-	if not checkStatus() then 
-		yatesPrint("No connection status could be made with http://www.thomasyates.nl/", "warning")
-		return
-	end
-
-	handle = io.popen("curl http://www.thomasyates.nl/docs/version.html")
-	local git_version = tostring(handle:read("*a"))
-	local local_version = tostring(yates.version)
-	handle:close()
-
-	git_version = git_version:gsub("%.", "")
-	local_version = local_version:gsub("%.", "")
-	
-	if git_version > local_version then
-		yatesPrint("You are not up-to-date with the current version!", "warning")
-		yatesPrint("Please download the current version at http://www.thomasyates.nl/docs", "warning")
-	elseif git_version < local_version then
-		yatesPrint("You are running on a higher version of the current release. Huh? I don't even..", "alert")
-	else
-		yatesPrint("You are up-to-date with the current version!", "success")
 	end
 end
 
@@ -741,194 +622,6 @@ function toTable(str, mch)
 		table.insert(tmp, wrd)
 	end	
 	return tmp
-end
-
---[[
-	Turns all string-number occurrences in a table to a number
-	@return table
-]]
-function tableValuesToNumber(tbl)
-    local vals = {}
-    for k, v in pairs(tbl) do
-        if tonumber(v) then
-            v = tonumber(v)
-        end
-        vals[k] = v
-    end
-    return vals
-end
-
---[[
-	Gets the name of a table (not the key)
-	@return string
-]]
-function getTableName(tbl)
-	for k, v in pairs(_G) do
-		if v == tbl then
-			return k
-		end
-	end
-	return false
-end
-
---[[
-	Loads all plugins on initial start
-	@return void
-]]
-function loadPlugins()
-	local directories = getDirectories(_DIR.."plugins")
-	_PLUGIN["on"] = {}
-	_PLUGIN["off"] = {}
-	for _, all in pairs(directories) do
-		if all:sub(1, 1) ~= "." then
-	  		if all:sub(1, 1) ~= "_" then
-	  			_PLUGIN["on"][#_PLUGIN["on"]+1] = all
-				yatesPrint(lang("info", 5, all), "success")
-	  			yates.plugin[all] = {}
-	  			yates.plugin[all]["dir"] = _DIR.."plugins/"..all.."/"
-	  			dofileLua(yates.plugin[all]["dir"].."/startup.lua")
-	  			cachePluginData()
-			elseif all:sub(1, 1) == "_" then
-				_PLUGIN["off"][#_PLUGIN["off"]+1] = all:sub(2)
-			end
-		end
-	end
-	yates.force_reload = false
-end
-
---[[
-	Saves or caches all the provided plugin information
-	@return void
-]]
-function cachePluginData()
-	for k, v in pairs(yates.plugin) do
-		_PLUGIN["info"][k] = {}
-		checkPluginData(k, "title", "string")
-		checkPluginData(k, "author", "string")
-		checkPluginData(k, "usgn", "string")
-		checkPluginData(k, "version", "string")
-		checkPluginData(k, "description", "string")
-		saveData(_PLUGIN, "data_plugin.lua")
-	end
-end
-
---[[
-	Checks whether a plugin has provided certain information and saves them if it exists
-	@return void
-]]
-function checkPluginData(name, data, varType)
-	if yates.plugin[name] then
-		if yates.plugin[name][data] and type(yates.plugin[name][data]) == varType then
-			_PLUGIN["info"][name][data] = yates.plugin[name][data]
-		else
-			yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
-		end
-	end
-end
-
---[[
-	Dofiles a Lua file if it could be found or if it should be created if not found
-	@return void
-]]
-function dofileLua(path, create)
-	if not fileExists(path) then
-		if create == true then
-			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened, creating one for you instead!", "alert")
-			file = io.open(path, "w")
-			io.close(file)
-		else
-			yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened!", "warning")
-			return false
-		end
-	end
-	dofile(path)
-end
-
---[[
-	Checks whether a force restart should occur once a plugin has been enabled
-	@return void
-]]
-function checkForceReload()
-	if yates.force_reload == true then
-		yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
-		timer(5000, "parse", "lua hardReload()")
-		yates.force_reload = false
-	end
-end
-
---[[
-	Adds a file to the server transfer list table which will eventually be added to the file servertransfer.lst
-	@return boolean
-]]
-function addTransferFile(file, path)
-	if not file then
-		yatesPrint("No file name was defined to add to the server transfer list.", "warning")
-		return false
-	end
-
-	if not path then
-		yatesPrint("No file path was defined to use to add a file to the server transfer list.", "warning")
-		return false
-	end
-
-	local _, count = string.gsub(file, "%.", "")
-	if count < 1 then
-		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not have an extension!", "warning")
-		return false
-	end
-	if count > 1 then
-		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it contains more than one dot!", "warning")
-		return false
-	end
-
-	if not fileExists(path..file) then
-		yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not exist!", "warning")
-		return false
-	end
-
-	table.insert(yates.transferlist, path..file)
-	return true
-end
-
---[[
-	Adds all the files in yates.transferlist to the server transfer list
-	@return boolean
-]]
-function setTransferList(response)
-	table.fileToTable("sys/servertransfer.lst", yates.transferlist)
-
-	local file = io.open("sys/servertransfer.lst", "w+") or io.tmpfile()
-	local count = 0
-
-	yates.transferlist = table.removeDuplicate(yates.transferlist)
-
-	for k, v in pairs(yates.transferlist) do
-		local text = v.."\n"
-		file:write(text)
-		count = count + 1
-		if response then
-			yatesPrint("The file '"..v.."' has been added to the server transfer list.", "success")
-		end
-	end
-	file:close()
-
-	if count > 0 then
-		yatesPrint("The server transfer list has been updated. Please restart your server if necessary.", "info")
-	end
-end
-
---[[
-	Checks if a file exists or not with the given path
-	@return boolean
-]]
-function fileExists(path)
-	local file = io.open(path, "r")
-	if file ~= nil then 
-		io.close(file)
-		return true 
-	else 
-		return false
-	end
 end
 
 -- @TODO: Rename all functions below and clean them up, rest are fine.
@@ -968,70 +661,6 @@ function spairs(t, order)
             return keys[i], t[keys[i]]
         end
     end
-end
-
-function table.val_to_str ( v )
-	if "string" == type( v ) then
-		v = string.gsub( v, "\n", "\\n" )
-		if string.match( string.gsub(v, "[^'\"]", ""), '^"+$' ) then
-			return "'" .. v .. "'"
-		end
-		return '"' .. string.gsub(v, '"', '\\"' ) .. '"'
-	else
-		return "table" == type( v ) and table.tostring( v ) or
-			tostring( v )
-	end
-end
-
-function table.tostring( tbl )
-	local result, done = {}, {}
-	for k, v in ipairs( tbl ) do
-		if k ~= 'tmp' then
-			table.insert( result, table.val_to_str( v ) )
-			done[ k ] = true
-		end
-	end
-	for k, v in pairs( tbl ) do
-		if not done[ k ] then
-			table.insert( result, 
-				table.key_to_str( k ) .. "=" .. table.val_to_str( v ) )
-		end
-	end
-	return "{" .. table.concat( result, ", " ) .. "}"
-end
-
-function table.key_to_str ( k )
-	if "string" == type( k ) and string.match( k, "^[_%a][_%a%d]*$" ) then
-		return k
-	else
-		return "[" .. table.val_to_str( k ) .. "]"
-	end
-end
-
-function table.removeDuplicate(tbl)
-	local hash = {}
-	local res = {}
-
-	for _, v in ipairs(tbl) do
-	   if (not hash[v]) then
-	       res[#res+1] = v -- you could print here instead of saving to result table if you wanted
-	       hash[v] = true
-	   end
-	end
-
-	return res
-end
-
-function table.fileToTable(file, tbl)
-	if not tbl then
-		return
-	end
-
-	local file = io.open(file, "r");
-	
-	for line in file:lines() do
-		table.insert(tbl, line);
-	end
 end
 
 --[[

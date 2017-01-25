@@ -10,8 +10,8 @@ yates.plugin["emoticons"]["usgn"] = "21431, 5248"
 yates.plugin["emoticons"]["version"] = "0.9.0"
 yates.plugin["emoticons"]["description"] = "Displays the corresponding image when using a text emoticon abbreviation."
 
-dofileLua(yates.plugin["emoticons"]["dir"].."config.lua")
-dofileLua(yates.plugin["emoticons"]["dir"].."functions.lua")
-dofileLua(yates.plugin["emoticons"]["dir"].."actions.lua")
+dofile(yates.plugin["emoticons"]["dir"].."config.lua")
+dofile(yates.plugin["emoticons"]["dir"].."functions.lua")
+dofile(yates.plugin["emoticons"]["dir"].."actions.lua")
 
 emoticons.addToTransfer()

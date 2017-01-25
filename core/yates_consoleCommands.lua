@@ -69,7 +69,7 @@ function yates.func.console.player()
         if _PLAYER[_tbl[3]] then
             if _tbl[4] then
                 yatesPrint("Developer player information.", "info")
-                local info = table.val_to_str(_PLAYER[_tbl[3]])
+                local info = table.valueToString(_PLAYER[_tbl[3]])
                 info = info:gsub("©","")
                 info = info:gsub("\169","")
 
@@ -82,7 +82,7 @@ function yates.func.console.player()
                         v = v:gsub("©","")
                         v = v:gsub("\169","")
                     end
-                    yatesPrint(k.." = "..table.val_to_str(v), "default", false)
+                    yatesPrint(k.." = "..table.valueToString(v), "default", false)
                 end
             end
             return 1
@@ -142,7 +142,7 @@ function yates.func.console.group()
         if _GROUP[_tbl[3]] then
             if _tbl[4] then
                 yatesPrint("Developer group information.", "info")
-                local info = table.val_to_str(_GROUP[_tbl[3]])
+                local info = table.valueToString(_GROUP[_tbl[3]])
                 info = info:gsub("©", "")
                 info = info:gsub("\169", "")
 
@@ -157,7 +157,7 @@ function yates.func.console.group()
                     v = v:gsub("©", "")
                     v = v:gsub("\169", "")
                 end
-                yatesPrint(k.." = "..table.val_to_str(v), "default", false)
+                yatesPrint(k.." = "..table.valueToString(v), "default", false)
             end
             return 1
         end
