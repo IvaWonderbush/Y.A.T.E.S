@@ -50,3 +50,14 @@ Creator: Yates, U.S.G.N. ID: 21431.
 |----------------------------------------------------------|
 
 Reason: $1
+
+
+|----------------------------------------------------------|
+|                       SCRIPT ERROR                       |
+|----------------------------------------------------------|
+
+The addhook() function is depreciated, use action() or filter() instead!
+Initial authentication has not been complete.
+Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.
+Initial authentication complete.
+The U.S.G.N. ID $1 has been given access to all commands.
