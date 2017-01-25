@@ -26,7 +26,7 @@ function bad_words.chatText(id, text)
                 if emoticons then
                     emoticons.displayEmoticon(id, "cursing")
                 else
-                    yatesPrint("The emoticons plugin is not enabled! Cursing will NOT display an emoticon!", "warning")
+                    print("The emoticons plugin is not enabled! Cursing will NOT display an emoticon!", "error")
                 end
             end
         end

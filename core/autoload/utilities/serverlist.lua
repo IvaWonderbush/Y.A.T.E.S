@@ -4,27 +4,27 @@
 ]]
 function addTransferFile(file, path)
     if not file then
-        yatesPrint("No file name was defined to add to the server transfer list.", "warning")
+        print("No file name was defined to add to the server transfer list.", "error")
         return false
     end
 
     if not path then
-        yatesPrint("No file path was defined to use to add a file to the server transfer list.", "warning")
+        print("No file path was defined to use to add a file to the server transfer list.", "error")
         return false
     end
 
     local _, count = string.gsub(file, "%.", "")
     if count < 1 then
-        yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not have an extension!", "warning")
+        print("The file '"..path..file.."' cannot be added to the server transfer list as it does not have an extension!", "error")
         return false
     end
     if count > 1 then
-        yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it contains more than one dot!", "warning")
+        print("The file '"..path..file.."' cannot be added to the server transfer list as it contains more than one dot!", "error")
         return false
     end
 
     if not io.exists(path..file) then
-        yatesPrint("The file '"..path..file.."' cannot be added to the server transfer list as it does not exist!", "warning")
+        print("The file '"..path..file.."' cannot be added to the server transfer list as it does not exist!", "error")
         return false
     end
 
@@ -49,12 +49,12 @@ function yates.func.setTransferList(response)
         file:write(text)
         count = count + 1
         if response then
-            yatesPrint("The file '"..v.."' has been added to the server transfer list.", "success")
+            print("The file '"..v.."' has been added to the server transfer list.", "success")
         end
     end
     file:close()
 
     if count > 0 then
-        yatesPrint("The server transfer list has been updated. Please restart your server if necessary.", "info")
+        print("The server transfer list has been updated. Please restart your server if necessary.", "info")
     end
 end

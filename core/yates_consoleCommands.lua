@@ -15,24 +15,24 @@
 function yates.func.console.help()
     if _tbl[2] then
         if yates.console.help[_tbl[2]] then
-            yatesPrint("Usage:", "info")
-            yatesPrint(yates.console.help[_tbl[2]], "default", false)
+            print("Usage:", "info")
+            print(yates.console.help[_tbl[2]], "default", false)
             if yates.console.desc[_tbl[2]] then
-                yatesPrint(yates.console.desc[_tbl[2]], "default", false)
+                print(yates.console.desc[_tbl[2]], "default", false)
             end
-            yatesPrint("", false, false)
-            yatesPrint("A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].", "info")
-            yatesPrint("Additional parameter elaboration is displayed behind a parameter wrapped with ( ).", "info")
+            print("", false, false)
+            print("A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].", "info")
+            print("Additional parameter elaboration is displayed behind a parameter wrapped with ( ).", "info")
         else
-            yatesPrint("There is no help for this command!", "alert")
+            print("There is no help for this command!", "notice")
         end
     else
         for k, v in spairs(yates.func.console) do
             if #k > 0 then
-                yatesPrint(k, "default", false)
+                print(k, "default", false)
             end
         end
-        yatesPrint("For more information about a command, use help <command> in the console.", "info")
+        print("For more information about a command, use help <command> in the console.", "info")
     end
 end
 setConsoleHelp("help", "[<cmd>]")
@@ -41,7 +41,7 @@ function yates.func.console.ls()
     local script = _txt:sub(6)
 
     if script then
-        yatesPrint(tostring(assert(loadstring(script))() or "Command executed!"), "success")
+        print(tostring(assert(loadstring(script))() or "Command executed!"), "success")
     end
 end
 setConsoleHelp("luacommand", "<cmd>")
@@ -49,50 +49,50 @@ setConsoleDesc("luacommand", "Be very careful when using this command, there are
 
 function yates.func.console.player()
     if not _tbl[2] then
-        yatesPrint("You have not provided a sub-command, use help player for a list of sub-commands.", "warning")
+        print("You have not provided a sub-command, use help player for a list of sub-commands.", "error")
         return 1
     end
 
     if _tbl[2] == "list" then
-        yatesPrint("List of U.S.G.N.'s saved in data_player. Use player info <U.S.G.N.> for more info.", "info")
+        print("List of U.S.G.N.'s saved in data_player. Use player info <U.S.G.N.> for more info.", "info")
         for k, v in pairs(_PLAYER) do
-            yatesPrint(k, false, false)
+            print(k, false, false)
         end
     elseif _tbl[2] == "info" then
 
         if not _tbl[3] then
-            yatesPrint("You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "warning")
+            print("You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "error")
             return 1
         end
         _tbl[3] = tonumber(_tbl[3])
 
         if _PLAYER[_tbl[3]] then
             if _tbl[4] then
-                yatesPrint("Developer player information.", "info")
+                print("Developer player information.", "info")
                 local info = table.valueToString(_PLAYER[_tbl[3]])
                 info = info:gsub("©","")
                 info = info:gsub("\169","")
 
-                yatesPrint("_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
+                print("_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
             else
-                yatesMessage(_id,"Player data information.","info")
+                msg2(_id,"Player data information.","info")
                 for k, v in pairs(_PLAYER[_tbl[3]]) do
                     if type(v) ~= "table" then
                         v = tostring(v)
                         v = v:gsub("©","")
                         v = v:gsub("\169","")
                     end
-                    yatesPrint(k.." = "..table.valueToString(v), "default", false)
+                    print(k.." = "..table.valueToString(v), "default", false)
                 end
             end
             return 1
         end
-        yatesPrint("This player data does not exist!", "warning")
+        print("This player data does not exist!", "error")
         return 1
 
     elseif _tbl[2] == "edit" then
         if not _tbl[3] then
-            yatesPrint("You need to supply a U.S.G.N. ID for the player data you want to edit.", "warning")
+            print("You need to supply a U.S.G.N. ID for the player data you want to edit.", "error")
             return 1
         end
         _tbl[3] = tonumber(_tbl[3])
@@ -103,20 +103,20 @@ function yates.func.console.player()
 
         if _PLAYER[_tbl[3]] then
             if not _tbl[4] then
-                yatesPrint("You need to supply the field you want to edit.", "warning")
+                print("You need to supply the field you want to edit.", "error")
                 return 1
             end
 
             if not _tbl[5] then
-                yatesPrint("You need to supply a new variable for the field.", "warning")
+                print("You need to supply a new variable for the field.", "error")
                 return 1
             end
 
             editPlayer(_tbl[3], _tbl[4])
-            yatesPrint("The player ".._tbl[3].." has been edited!", "success")
+            print("The player ".._tbl[3].." has been edited!", "success")
             return 1
         end
-        yatesPrint("This player data does not exist!", "warning")
+        print("This player data does not exist!", "error")
     end
 end
 setConsoleHelp("player", "list / info <id> / edit <U.S.G.N.> <field> <new entry>")
@@ -124,47 +124,47 @@ setConsoleDesc("player", "A general command used to display information about pl
 
 function yates.func.console.group()
     if not _tbl[2] then
-        yatesPrint("You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "warning")
+        print("You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "error")
         return 1
     end
 
     if _tbl[2] == "list" then
-        yatesPrint("List of current groups, with their colour, prefix, name and level.", "info")
+        print("List of current groups, with their colour, prefix, name and level.", "info")
         for k, v in pairs(_GROUP) do
-            yatesPrint(k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
+            print(k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
         end
     elseif _tbl[2] == "info" then
         if not _tbl[3] then
-            yatesPrint("You need to supply a group name you wish to view the information of!", "warning")
+            print("You need to supply a group name you wish to view the information of!", "error")
             return 1
         end
 
         if _GROUP[_tbl[3]] then
             if _tbl[4] then
-                yatesPrint("Developer group information.", "info")
+                print("Developer group information.", "info")
                 local info = table.valueToString(_GROUP[_tbl[3]])
                 info = info:gsub("©", "")
                 info = info:gsub("\169", "")
 
-                yatesPrint("_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
+                print("_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
                 return 1
             end
 
-            yatesPrint("List of group fields and their values.", "info")
+            print("List of group fields and their values.", "info")
             for k, v in pairs(_GROUP[_tbl[3]]) do
                 if type(v) ~= "table" then
                     v = tostring(v)
                     v = v:gsub("©", "")
                     v = v:gsub("\169", "")
                 end
-                yatesPrint(k.." = "..table.valueToString(v), "default", false)
+                print(k.." = "..table.valueToString(v), "default", false)
             end
             return 1
         end
-        yatesPrint("This group does not exist!", "warning")
+        print("This group does not exist!", "error")
     elseif _tbl[2] == "add" then
         if not _tbl[3] then
-            yatesPrint("You need to supply a name for the group!", "warning")
+            print("You need to supply a name for the group!", "error")
             return 1
         end
 
@@ -173,17 +173,17 @@ function yates.func.console.group()
 
             if not _tbl[4] then
                 _tbl[4] = (yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)
-                yatesPrint("You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)..".", "alert")
+                print("You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)..".", "notice")
             end
             if not _tbl[5] then
                 _tbl[5] = (yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour)
-                yatesPrint("You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour).."Lorem Ipsum.", "alert")
+                print("You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour).."Lorem Ipsum.", "notice")
             else
                 _tbl[5] = "\169".._tbl[5]
             end
             if not _tbl[6] then
                 _tbl[6] = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
-                yatesPrint("You did not enter any group commands, the following default commands will be used instead:", "alert")
+                print("You did not enter any group commands, the following default commands will be used instead:", "notice")
                 local tbl = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
                 for i = 1, #tbl do
                     if cmds == "" then
@@ -192,7 +192,7 @@ function yates.func.console.group()
                         cmds = cmds..", "..tbl[i]
                     end
                 end
-                yatesPrint(cmds, "default", false)
+                print(cmds, "default", false)
             else
                 for i = 6, #_tbl do
                     if cmds == "" then
@@ -204,54 +204,54 @@ function yates.func.console.group()
             end
             setUndo(_id, "!group del ".._tbl[3])
             addGroup(_tbl[3], _tbl[4], _tbl[5], cmds)
-            yatesPrint("The group ".._tbl[3].." has been added!", "success")
+            print("The group ".._tbl[3].." has been added!", "success")
             return 1
         end
-        yatesPrint("This group already exists!", "warning")
+        print("This group already exists!", "error")
     elseif _tbl[2] == "del" or _tbl[2] == "delete" then
         if not _tbl[3] then
-            yatesPrint("You need to supply the group name you want to delete.", "warning")
+            print("You need to supply the group name you want to delete.", "error")
             return 1
         end
 
         if _GROUP[_tbl[3]] then
             if not _tbl[4] then
-                yatesPrint("You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "alert")
+                print("You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "notice")
                 _tbl[4] = yates.setting.group_default
             end
 
             if not _GROUP[_tbl[4]] then
-                yatesPrint("The new group for the players in the old group does not exist!", "warning")
+                print("The new group for the players in the old group does not exist!", "error")
                 return 1
             end
 
             deleteGroup(_tbl[3], _tbl[4])
-            yatesPrint("The group ".._tbl[3].." has been deleted!", "success")
+            print("The group ".._tbl[3].." has been deleted!", "success")
             return 1
         end
-        yatesPrint("This group does not exist!", "warning")
+        print("This group does not exist!", "error")
     elseif _tbl[2] == "edit" then
         if not _tbl[3] then
-            yatesPrint("You need to supply a name for the group you are going to edit.", "warning")
+            print("You need to supply a name for the group you are going to edit.", "error")
             return 1
         end
 
         if _GROUP[_tbl[3]] then
             if not _tbl[4] then
-                yatesPrint("You need to supply the field you want to edit.", "warning")
+                print("You need to supply the field you want to edit.", "error")
                 return 1
             end
 
             if not _tbl[5] then
-                yatesPrint("You need to supply a new variable for the field.", "warning")
+                print("You need to supply a new variable for the field.", "error")
                 return 1
             end
 
             editGroup(_tbl[3], _tbl[4])
-            yatesPrint("The group ".._tbl[3].." has been edited!", "success")
+            print("The group ".._tbl[3].." has been edited!", "success")
             return 1
         end
-        yatesPrint("This group does not exist!", "warning")
+        print("This group does not exist!", "error")
     end
 end
 setConsoleHelp("group", "list / info <group> / add <group> [<level>] [<colour>] [<commands>] / del(ete) <group> [<new group>] / edit <group> <field> <new entry>")

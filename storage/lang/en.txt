@@ -31,7 +31,7 @@ Initial authentication complete.
 The U.S.G.N. ID $1 has been given access to all commands.
 
 :error
-Language error! Language: $1, section: $2, entry: $3.
+Language: $1, section: $2, entry: $3.
 The addhook function is depreciated, use action instead!
 Initial authentication has not been complete.
 Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.

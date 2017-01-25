@@ -18,16 +18,16 @@ function yates.func.say.help()
 
 	if _tbl[2] then
 		if yates.say.help[_tbl[2]] then
-			yatesMessage(_id, lang("help", 4), "info")
-			yatesMessage(_id, yates.setting.say_prefix..yates.say.help[_tbl[2]], "default", false)
+			msg2(_id, lang("help", 4), "info")
+			msg2(_id, yates.setting.say_prefix..yates.say.help[_tbl[2]], "default", false)
 			if yates.say.desc[_tbl[2]] then
-				yatesMessage(_id, yates.say.desc[_tbl[2]], "default", false)
+				msg2(_id, yates.say.desc[_tbl[2]], "default", false)
 			end
-			yatesMessage(_id, "", false, false)
-			yatesMessage(_id, lang("help", 5), "info")
-			yatesMessage(_id, lang("help", 6), "info")
+			msg2(_id, "", false, false)
+			msg2(_id, lang("help", 5), "info")
+			msg2(_id, lang("help", 6), "info")
 		else
-			yatesMessage(_id, lang("help", 7), "alert")
+			msg2(_id, lang("help", 7), "notice")
 		end
 	else
 		if _PLAYER[usgn] and _PLAYER[usgn].commands then
@@ -36,7 +36,7 @@ function yates.func.say.help()
 					everything = true
 					break
 				end
-				yatesMessage(_id, yates.setting.say_prefix..v, "default", false)
+				msg2(_id, yates.setting.say_prefix..v, "default", false)
 			end
 		end
 		if everything ~= true then
@@ -45,18 +45,18 @@ function yates.func.say.help()
 					everything = true
 					break
 				end
-				yatesMessage(_id, yates.setting.say_prefix..v, "default", false)
+				msg2(_id, yates.setting.say_prefix..v, "default", false)
 			end
 		end
 		if everything == true then
 			for k, v in spairs(yates.func.say) do
 				if #k > 0 then
-					yatesMessage(_id, yates.setting.say_prefix..k, "default", false)
+					msg2(_id, yates.setting.say_prefix..k, "default", false)
 				end
 			end
 		end
-		yatesMessage(_id, lang("help", 8, yates.setting.say_prefix), "info")
-		yatesMessage(_id, lang("help", 9), "info")
+		msg2(_id, lang("help", 8, yates.setting.say_prefix), "info")
+		msg2(_id, lang("help", 9), "info")
 	end
 end
 setSayHelp("help", lang("help", 1))
@@ -82,21 +82,21 @@ function yates.func.say.pm()
 
 	action("pm", _id, _tbl[2], message)
 
-	yatesMessage(_id, "[->] [".._tbl[2].."] "..player(_tbl[2], "name")..": "..message, "info", "[PM]: ")
-	yatesMessage(_tbl[2], "[<-] [".._id.."] "..player(_id, "name")..": "..message, "info", "[PM]: ")
+	msg2(_id, "[->] [".._tbl[2].."] "..player(_tbl[2], "name")..": "..message, "info", "[PM]: ")
+	msg2(_tbl[2], "[<-] [".._id.."] "..player(_id, "name")..": "..message, "info", "[PM]: ")
 end
 setSayHelp("pm", lang("pm", 1))
 setSayDesc("pm", lang("pm", 2))
 
 function yates.func.say.credits()
-	yatesMessage(_id, lang("credits", 1, "Yates", 21431), "info")
-	yatesMessage(_id, lang("credits", 2, "EngiN33R", 7749), "info")
+	msg2(_id, lang("credits", 1, "Yates", 21431), "info")
+	msg2(_id, lang("credits", 2, "EngiN33R", 7749), "info")
 end
 
 function yates.func.say.ls()
 	local script = _txt:sub(4)
 	if script then
-		yatesMessage(_id, tostring(assert(loadstring(script))() or lang("ls", 3)), "success")
+		msg2(_id, tostring(assert(loadstring(script))() or lang("ls", 3)), "success")
 	end
 end
 setSayHelp("ls", lang("ls", 1))
@@ -104,17 +104,17 @@ setSayDesc("ls", lang("ls", 2))
 
 function yates.func.say.plugin()
 	if not _tbl[2] then
-        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help plugin for a list of sub-commands.", "warning")
+        msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help plugin for a list of sub-commands.", "error")
         return 1
     end
 
 	if _tbl[2] == "list" then
-		yatesMessage(_id, "List of plugins:", "info")
+		msg2(_id, "List of plugins:", "info")
 		for _, all in pairs(_PLUGIN["on"]) do
-			yatesMessage(_id, all, "success", false)
+			msg2(_id, all, "success", false)
 		end
 		for _, all in pairs(_PLUGIN["off"]) do
-			yatesMessage(_id, all, "warning", false)
+			msg2(_id, all, "error", false)
 		end
 	elseif _tbl[2] == "menu" then
 		print("menu")
@@ -128,7 +128,7 @@ function yates.func.say.plugin()
 					dofile(yates.plugin[v]["dir"].."/startup.lua")
 					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
 					_PLUGIN["off"][k] = nil
-					yatesMessage(_id, "The plugin has been enabled!", "success")
+					msg2(_id, "The plugin has been enabled!", "success")
 					yates.func.cachePluginData()
 					yates.func.checkForceReload()
 					setUndo(_id, "!plugin disable ".._tbl[3])
@@ -137,13 +137,13 @@ function yates.func.say.plugin()
 			end
 			for k, v in pairs(_PLUGIN["on"]) do
 				if v == _tbl[3] then
-					yatesMessage(_id, "This plugin is already running!", "warning")
+					msg2(_id, "This plugin is already running!", "error")
 					return 1
 				end
 			end
-			yatesMessage(_id, "This plugin does not exist!", "warning")
+			msg2(_id, "This plugin does not exist!", "error")
 		else
-			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+			msg2(_id, "You have not provided a plugin name!", "error")
 		end
 	elseif _tbl[2] == "disable" then
 		if _tbl[3] then
@@ -152,56 +152,56 @@ function yates.func.say.plugin()
 					os.rename(_DIR.."plugins/"..v, _DIR.."plugins/_"..v)
 					_PLUGIN["off"][#_PLUGIN["off"]+1] = v
 					_PLUGIN["on"][k] = nil
-					yatesMessage(_id, "The plugin has been disabled!", "success")
-					yatesMessage(_id, "Please reload the server Lua using "..yates.setting.say_prefix.."hardreload (preferred) or "..yates.setting.say_prefix.."softreload", "info")
+					msg2(_id, "The plugin has been disabled!", "success")
+					msg2(_id, "Please reload the server Lua using "..yates.setting.say_prefix.."hardreload (preferred) or "..yates.setting.say_prefix.."softreload", "info")
 					setUndo(_id, "!plugin enable ".._tbl[3])
 					return 1
 				end
 			end
 			for k, v in pairs(_PLUGIN["off"]) do
 				if v == _tbl[3] then
-					yatesMessage(_id, "This plugin is already disabled!", "warning")
+					msg2(_id, "This plugin is already disabled!", "error")
 					return 1
 				end
 			end
-			yatesMessage(_id, "This plugin does not exist!", "warning")
+			msg2(_id, "This plugin does not exist!", "error")
 		else
-			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+			msg2(_id, "You have not provided a plugin name!", "error")
 		end
 	elseif _tbl[2] == "info" then
 		if _tbl[3] then
 			if _PLUGIN["info"][_tbl[3]] then
-				yatesMessage(_id, "Plugin information:", "info")
+				msg2(_id, "Plugin information:", "info")
 				if _PLUGIN["info"][_tbl[3]]["title"] then
-					yatesMessage(_id, "Title: ".._PLUGIN["info"][_tbl[3]]["title"], false, false)
+					msg2(_id, "Title: ".._PLUGIN["info"][_tbl[3]]["title"], false, false)
 				else
-					yatesMessage(_id, "No title has been provided by the plugin or has not been cached!", false, false)
+					msg2(_id, "No title has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["author"] then
-					yatesMessage(_id, "Author: ".._PLUGIN["info"][_tbl[3]]["author"], false, false)
+					msg2(_id, "Author: ".._PLUGIN["info"][_tbl[3]]["author"], false, false)
 				else
-					yatesMessage(_id, "No author has been provided by the plugin or has not been cached!", false, false)
+					msg2(_id, "No author has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["usgn"] then
-					yatesMessage(_id, "U.S.G.N. ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
+					msg2(_id, "U.S.G.N. ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
 				else
-					yatesMessage(_id, "No U.S.G.N. ID has been provided by the plugin or has not been cached!", false, false)
+					msg2(_id, "No U.S.G.N. ID has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["version"] then
-					yatesMessage(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
+					msg2(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
 				else
-					yatesMessage(_id, "No version has been provided by the plugin or has not been cached!", false, false)
+					msg2(_id, "No version has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["description"] then
-					yatesMessage(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
+					msg2(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
 				else
-					yatesMessage(_id, "No description has been provided by the plugin or has not been cached!", false, false)
+					msg2(_id, "No description has been provided by the plugin or has not been cached!", false, false)
 				end
 			else
-				yatesMessage(_id, "No information has been provided by the plugin or has not been cached!", "warning")
+				msg2(_id, "No information has been provided by the plugin or has not been cached!", "error")
 			end
 		else
-			yatesMessage(_id, "You have not provided a plugin name!", "warning")
+			msg2(_id, "You have not provided a plugin name!", "error")
 		end
 	end
 end
@@ -210,14 +210,14 @@ setSayDesc("plugin", lang("plugin", 2))
 
 function yates.func.say.command()
 	if not _tbl[2] then
-        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help command for a list of sub-commands.", "warning")
+        msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help command for a list of sub-commands.", "error")
         return 1
     end
 
     if _tbl[2] == "list" then
-		yatesMessage(_id, "List of disabled commands:", "info")
+		msg2(_id, "List of disabled commands:", "info")
 		for _, all in pairs(_YATES.disabled_commands) do
-			yatesMessage(_id, all, "warning", false)
+			msg2(_id, all, "error", false)
 		end
 	elseif _tbl[2] == "enable" then
 		if _tbl[3] then
@@ -226,25 +226,25 @@ function yates.func.say.command()
 					_YATES.disabled_commands[k] = nil
 				end
 			end
-			yatesMessage(_id, "The command has been enabled.", "success")
+			msg2(_id, "The command has been enabled.", "success")
 			setUndo(_id, "!command disable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua")
 		else
-			yatesMessage(_id, "You have not provided a command!", "warning")
+			msg2(_id, "You have not provided a command!", "error")
 		end
 	elseif _tbl[2] == "disable" then
 		if _tbl[3] == "command" then
-			yatesMessage(_id, "Funny you.. You cannot disable this command of course!", "warning")
+			msg2(_id, "Funny you.. You cannot disable this command of course!", "error")
 			return
 		end
 
 		if _tbl[3] then
 			table.insert(_YATES.disabled_commands, _tbl[3])
-			yatesMessage(_id, "The command has been disabled.", "success")
+			msg2(_id, "The command has been disabled.", "success")
 			setUndo(_id, "!command enable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua")
 		else
-			yatesMessage(_id, "You have not provided a command!", "warning")
+			msg2(_id, "You have not provided a command!", "error")
 		end
 	end
 end
@@ -256,7 +256,7 @@ function yates.func.say.hardreload()
 		_tbl[2] = 0
 	end
 	timer(tonumber(_tbl[2]*1000), "parse", "lua hardReload()")
-	yatesMessage(false, lang("hardreload", 3), "success")
+	msg(lang("hardreload", 3), "success")
 end
 setSayHelp("hardreload", lang("hardreload", 1))
 setSayDesc("hardreload", lang("hardreload", 2))
@@ -269,13 +269,7 @@ setSayHelp("hide")
 setSayDesc("hide", lang("hide", 1))
 
 function yates.func.say.god()
-	if yates.player[_id].god then
-		yates.player[_id].god = false
-		yatesMessage(_id, lang("god", 2), "success")
-	else
-		yates.player[_id].god = true
-		yatesMessage(_id, lang("god", 3), "success")
-	end
+	yates.func.toggleGod(_id)
 end
 setSayHelp("god")
 setSayDesc("god", lang("god", 1))
@@ -289,16 +283,16 @@ function yates.func.say.mute()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
-		yatesMessage(_id, lang("mute", 3, yates.setting.mute_time_default), "info")
+		msg2(_id, lang("mute", 3, yates.setting.mute_time_default), "info")
 		_tbl[3] = yates.setting.mute_time_default
 	else
 		if tonumber(_tbl[3]) > yates.setting.mute_time_max then
-			yatesMessage(_id, lang("mute", 4, yates.setting.mute_time_max), "warning")
+			msg2(_id, lang("mute", 4, yates.setting.mute_time_max), "error")
 			return
 		end
 
 		if tonumber(_tbl[3]) < 1 then
-			yatesMessage(_id, lang("mute", 5), "warning")
+			msg2(_id, lang("mute", 5), "error")
 			return
 		end
 	end
@@ -318,13 +312,13 @@ function yates.func.say.mute()
 	end
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("mute", 6, player(_tbl[2], "name")), "success")
-	yatesMessage(_tbl[2], lang("mute", 7, yates.player[id].mute_time), "warning")
-	yatesMessage(_tbl[2], lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
+	msg2(_id, lang("mute", 6, player(_tbl[2], "name")), "success")
+	msg2(_tbl[2], lang("mute", 7, yates.player[id].mute_time), "error")
+	msg2(_tbl[2], lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
 	yates.player[_tbl[2]].mute_time = _tbl[3]
 	yates.player[_tbl[2]].mute_reason = reason
 	setUndo(_id, "!unmute ".._tbl[2])
@@ -358,8 +352,8 @@ function yates.func.say.unmute()
 		saveData(_PLAYER, "data_player.lua")
 	end
 
-	yatesMessage(_id, lang("unmute", 3, player(_tbl[2], "name")), "success")
-	yatesMessage(_tbl[2], lang("unmute", 4), "info")
+	msg2(_id, lang("unmute", 3, player(_tbl[2], "name")), "success")
+	msg2(_tbl[2], lang("unmute", 4), "info")
 	setUndo(_id, "!mute ".._tbl[2].." "..yates.player[_tbl[2]].mute_time.." "..yates.player[_tbl[2]].mute_reason)
 	yates.player[_tbl[2]].mute_time = 0
 	yates.player[_tbl[2]].mute_reason = ""
@@ -386,11 +380,11 @@ function yates.func.say.kick()
 	end
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("kick", 3, player(_tbl[2], "name")), "success")
+	msg2(_id, lang("kick", 3, player(_tbl[2], "name")), "success")
 	parse("kick ".._tbl[2].." \""..reason.."\"")
 end
 setSayHelp("kick", lang("kick", 1))
@@ -419,11 +413,11 @@ function yates.func.say.ban()
 	end
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("ban", 3, player(_tbl[2], "name")), "success")
+	msg2(_id, lang("ban", 3, player(_tbl[2], "name")), "success")
 	parse("banip "..player(_tbl[2], "ip").." ".._tbl[3].." \""..reason.."\"")
 	if checkUsgn(_tbl[2], false) then
 		parse("banusgn "..player(_tbl[2], "usgn").." ".._tbl[3].." \""..reason.."\"")
@@ -436,7 +430,7 @@ function yates.func.say.banusgn()
 	local reason = ""
 
 	if not _tbl[2] or tonumber(_tbl[2]) == nil then
-		yatesMessage(_id, lang("validation", 7), "warning")
+		msg2(_id, lang("validation", 7), "error")
 		return 1
 	end
 
@@ -454,7 +448,7 @@ function yates.func.say.banusgn()
 		end
 	end
 
-	yatesMessage(_id, lang("banusgn", 3, _tbl[2]), "success")
+	msg2(_id, lang("banusgn", 3, _tbl[2]), "success")
 	parse("banusgn ".._tbl[2].." ".._tbl[3].." \""..reason.."\"")
 	setUndo(_id, "!unban ".._tbl[2])
 end
@@ -465,7 +459,7 @@ function yates.func.say.banip()
 	local reason = ""
 
 	if not _tbl[2] then
-		yatesMessage(_id, lang("validation", 8), "warning")
+		msg2(_id, lang("validation", 8), "error")
 		return 1
 	end
 
@@ -483,7 +477,7 @@ function yates.func.say.banip()
 		end
 	end
 
-	yatesMessage(_id, lang("banip", 3, _tbl[2]), "success")
+	msg2(_id, lang("banip", 3, _tbl[2]), "success")
 	parse("banip ".._tbl[2].." ".._tbl[3].." \""..reason.."\"")
 	setUndo(_id, "!unban ".._tbl[2])
 end
@@ -492,18 +486,18 @@ setSayDesc("banip", lang("banip", 2))
 
 function yates.func.say.unban()
 	if not _tbl[2] then
-		yatesMessage(_id, lang("validation", 9), "warning")
+		msg2(_id, lang("validation", 9), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("unban", 3, _tbl[2]), "success")
+	msg2(_id, lang("unban", 3, _tbl[2]), "success")
 	parse("unban ".._tbl[2])
 end
 setSayHelp("unban", lang("unban", 1))
 setSayDesc("unban", lang("unban", 2))
 
 function yates.func.say.unbanall()
-	yatesMessage(_id, lang("unbanall", 2), "success")
+	msg2(_id, lang("unbanall", 2), "success")
 	parse("unbanall")
 end
 setSayHelp("unbanall")
@@ -511,7 +505,7 @@ setSayDesc("unbanall", lang("unbanall", 1))
 
 function yates.func.say.map()
 	if not _tbl[2] then
-		yatesMessage(_id, lang("validation", 10), "warning")
+		msg2(_id, lang("validation", 10), "error")
 		return 1
 	end
 
@@ -519,7 +513,7 @@ function yates.func.say.map()
 		_tbl[3] = 0
 	end
 	timer(tonumber(_tbl[3]*1000), "parse", "map ".._tbl[2])
-	yatesMessage(false, lang("map", 3), "success")
+	msg(lang("map", 3), "success")
 end
 setSayHelp("map", lang("map", 1))
 setSayDesc("map", lang("map", 2))
@@ -531,17 +525,17 @@ function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and sp
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
 	if player(_tbl[2], "team") == 0 then
-		yatesMessage(_id, lang("spawn", 3), "warning")
+		msg2(_id, lang("spawn", 3), "error")
 		return 1
 	end
 
 	if player(_tbl[2], "health") > 0 then
-		yatesMessage(_id, lang("spawn", 4), "warning")
+		msg2(_id, lang("spawn", 4), "error")
 		return 1
 	end
 
@@ -550,7 +544,7 @@ function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and sp
 		_tbl[4] = 0
 	end
 
-	yatesMessage(_id, lang("spawn", 5, player(_tbl[2], "name")), "success")
+	msg2(_id, lang("spawn", 5, player(_tbl[2], "name")), "success")
 	parse("spawnplayer ".._tbl[2].." ".._tbl[3].." ".._tbl[4])
 end
 setSayHelp("spawn", lang("spawn", 1))
@@ -563,16 +557,16 @@ function yates.func.say.kill()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
 	if player(_tbl[2], "health") == 0 then
-		yatesMessage(_id, lang("kill", 3), "warning")
+		msg2(_id, lang("kill", 3), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("kill", 4, player(_tbl[2], "name")), "success")
+	msg2(_id, lang("kill", 4, player(_tbl[2], "name")), "success")
 	parse("killplayer ".._tbl[2])
 end
 setSayHelp("kill", lang("kill", 1))
@@ -585,12 +579,12 @@ function yates.func.say.slap()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not compareLevel(_id, _tbl[2]) then
-		yatesMessage(_id, lang("validation", 2), "warning")
+		msg2(_id, lang("validation", 2), "error")
 		return 1
 	end
 
-	yatesMessage(_tbl[2], lang("slap", 3), "warning")
-	yatesMessage(_id, lang("slap", 4, player(_tbl[2], "name")), "success")
+	msg2(_tbl[2], lang("slap", 3), "error")
+	msg2(_id, lang("slap", 4, player(_tbl[2], "name")), "success")
 	parse("slap ".._tbl[2])
 end
 setSayHelp("slap", lang("slap", 1))
@@ -603,12 +597,12 @@ function yates.func.say.equip()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
-		yatesMessage(_id, lang("validation", 11), "warning")
+		msg2(_id, lang("validation", 11), "error")
 		return 1
 	end
 
-	yatesMessage(_tbl[2], lang("equip", 3, _tbl[3]), "info")
-	yatesMessage(_id, lang("equip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
+	msg2(_tbl[2], lang("equip", 3, _tbl[3]), "info")
+	msg2(_id, lang("equip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
 
 	parse("equip ".._tbl[2].." ".._tbl[3])
 	setUndo(_id, "!strip ".._tbl[2].." ".._tbl[3])
@@ -623,12 +617,12 @@ function yates.func.say.strip()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
-		yatesMessage(_id, lang("validation", 11), "warning")
+		msg2(_id, lang("validation", 11), "error")
 		return 1
 	end
 
-	yatesMessage(_tbl[2], lang("strip", 3, _tbl[3]), "info")
-	yatesMessage(_id, lang("strip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
+	msg2(_tbl[2], lang("strip", 3, _tbl[3]), "info")
+	msg2(_id, lang("strip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
 
 	parse("strip ".._tbl[2].." ".._tbl[3])
 	setUndo(_id, "!equip ".._tbl[2].." ".._tbl[3])
@@ -651,7 +645,7 @@ setSayDesc("goto", lang("goto", 2))
 
 function yates.func.say.goback()
 	if not yates.player[_id].tp[1] then
-		yatesMessage(_id, lang("goback", 2), "warning")
+		msg2(_id, lang("goback", 2), "error")
 		return 1
 	end
 
@@ -675,19 +669,19 @@ setSayDesc("bring", lang("bring", 2))
 
 function yates.func.say.bringback()
 	if not _tbl[2] then
-		yatesMessage(_id, lang("validation", 12), "warning")
+		msg2(_id, lang("validation", 12), "error")
 		return 1
 	end
 
 	if not player(_tbl[2], "exists") then
-		yatesMessage(_id, lang("validation", 4), "warning")
+		msg2(_id, lang("validation", 4), "error")
 		return 1
 	end
 
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not yates.player[_tbl[2]].tp[1] then
-		yatesMessage(_id, lang("bringback", 3), "warning")
+		msg2(_id, lang("bringback", 3), "error")
 		return 1
 	end
 
@@ -709,8 +703,8 @@ function yates.func.say.make()
 	elseif _tbl[3] == "2" or _tbl[3] == "ct" then
 		_tbl[3] = "ct"
 	else
-		yatesMessage(_id, lang("make", 3), "warning")
-		yatesMessage(_id, lang("make", 4), "info")
+		msg2(_id, lang("make", 3), "error")
+		msg2(_id, lang("make", 4), "info")
 		return 1
 	end
 
@@ -725,17 +719,17 @@ function yates.func.say.playerinfo()
 	end
 	_tbl[2] = tonumber(_tbl[2])
 
-	yatesMessage(_id, "Player data information.", "info")
-	yatesMessage(_id, _tbl[2], "info", "(ID): ")
-	yatesMessage(_id, player(_tbl[2], "name"), "info", "(Name): ")
+	msg2(_id, "Player data information.", "info")
+	msg2(_id, _tbl[2], "info", "(ID): ")
+	msg2(_id, player(_tbl[2], "name"), "info", "(Name): ")
 	if player(_tbl[2], "rcon") then
-        yatesMessage(_id, "Logged in.", "info", "(RCon): ")
+        msg2(_id, "Logged in.", "info", "(RCon): ")
     else
-        yatesMessage(_id, "Not logged in.", "info", "(RCon): ")
+        msg2(_id, "Not logged in.", "info", "(RCon): ")
     end
-    yatesMessage(_id, player(_tbl[2], "ip"), "info", "(IP): ")
-    yatesMessage(_id, player(_tbl[2], "usgn"), "info", "(U.S.G.N.): ")
-    yatesMessage(_id, player(_tbl[2], "idle").." seconds.", "info", "(Idle): ")
+    msg2(_id, player(_tbl[2], "ip"), "info", "(IP): ")
+    msg2(_id, player(_tbl[2], "usgn"), "info", "(U.S.G.N.): ")
+    msg2(_id, player(_tbl[2], "idle").." seconds.", "info", "(Idle): ")
 end
 setSayHelp("playerinfo", lang("playerinfo", 1))
 setSayDesc("playerinfo", lang("playerinfo", 2))
@@ -872,50 +866,50 @@ setSayDesc("playergroup", lang("playergroup", 2))
 
 function yates.func.say.player()
 	if not _tbl[2] then
-        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help player for a list of sub-commands.", "warning")
+        msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help player for a list of sub-commands.", "error")
         return 1
     end
 
 	if _tbl[2] == "list" then
-        yatesMessage(_id, "List of U.S.G.N.'s saved in data_player. Use !player info <U.S.G.N.> for more info.", "info")
+        msg2(_id, "List of U.S.G.N.'s saved in data_player. Use !player info <U.S.G.N.> for more info.", "info")
         for k, v in pairs(_PLAYER) do
-            yatesMessage(_id, k, false, false)
+            msg2(_id, k, false, false)
         end
     elseif _tbl[2] == "info" then
 
     	if not _tbl[3] then
-	        yatesMessage(_id, "You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "warning")
+	        msg2(_id, "You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "error")
 	        return 1
 	    end
 	    _tbl[3] = tonumber(_tbl[3])
 
 		if _PLAYER[_tbl[3]] then
 			if _tbl[4] then
-				yatesMessage(_id, "Developer player information.", "info")
+				msg2(_id, "Developer player information.", "info")
 				local info = table.valueToString(_PLAYER[_tbl[3]])
 				info = info:gsub("©","")
 				info = info:gsub("\169","")
 
-				yatesMessage(_id, "_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
+				msg2(_id, "_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
 			else
-				yatesMessage(_id,"Player data information.","info")
+				msg2(_id,"Player data information.","info")
 				for k, v in pairs(_PLAYER[_tbl[3]]) do
 					if type(v) ~= "table" then
 						v = tostring(v)
 						v = v:gsub("©","")
 						v = v:gsub("\169","")
 					end
-					yatesMessage(_id, k.." = "..table.valueToString(v), "default", false)
+					msg2(_id, k.." = "..table.valueToString(v), "default", false)
 				end
 			end
 			return 1
 		end
-		yatesMessage(_id, lang("validation", 4), "warning")
+		msg2(_id, lang("validation", 4), "error")
 		return 1
 
 	elseif _tbl[2] == "edit" then
     	if not _tbl[3] then
-            yatesMessage(_id, "You need to supply a U.S.G.N. ID for the player data you want to edit.", "warning")
+            msg2(_id, "You need to supply a U.S.G.N. ID for the player data you want to edit.", "error")
             return 1
         end
         _tbl[3] = tonumber(_tbl[3])
@@ -926,20 +920,20 @@ function yates.func.say.player()
 
         if _PLAYER[_tbl[3]] then
 			if not _tbl[4] then
-	            yatesMessage(_id, "You need to supply the field you want to edit.", "warning")
+	            msg2(_id, "You need to supply the field you want to edit.", "error")
 	            return 1
 	        end
 
 	        if not _tbl[5] then
-	            yatesMessage(_id, "You need to supply a new variable for the field.", "warning")
+	            msg2(_id, "You need to supply a new variable for the field.", "error")
 	            return 1
 	        end
 
         	editPlayer(_tbl[3], _tbl[4])
-    		yatesMessage(_id, "The player ".._tbl[3].." has been edited!", "success")
+    		msg2(_id, "The player ".._tbl[3].." has been edited!", "success")
         	return 1
         end
-        yatesMessage(_id, lang("validation", 4), "warning")
+        msg2(_id, lang("validation", 4), "error")
     end
 end
 setSayHelp("player", lang("player", 1))
@@ -1022,47 +1016,47 @@ setSayDesc("grouplevel", lang("grouplevel", 2))
 
 function yates.func.say.group()
     if not _tbl[2] then
-        yatesMessage(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "warning")
+        msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "error")
         return 1
     end
 
     if _tbl[2] == "list" then
-        yatesMessage(_id, "List of current groups, with their colour, prefix, name and level.", "info")
+        msg2(_id, "List of current groups, with their colour, prefix, name and level.", "info")
         for k, v in pairs(_GROUP) do
-            yatesMessage(_id, k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
+            msg2(_id, k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
         end
     elseif _tbl[2] == "info" then
     	if not _tbl[3] then
-            yatesMessage(_id, "You need to supply a group name you wish to view the information of!", "warning")
+            msg2(_id, "You need to supply a group name you wish to view the information of!", "error")
             return 1
         end
 
 		if _GROUP[_tbl[3]] then
 			if _tbl[4] then
-				yatesMessage(_id, "Developer group information.", "info")
+				msg2(_id, "Developer group information.", "info")
 				local info = table.valueToString(_GROUP[_tbl[3]])
 				info = info:gsub("©", "")
 				info = info:gsub("\169", "")
 
-				yatesMessage(_id, "_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
+				msg2(_id, "_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
 				return 1
 			end
 
-			yatesMessage(_id, "List of group fields and their values.", "info")
+			msg2(_id, "List of group fields and their values.", "info")
 			for k, v in pairs(_GROUP[_tbl[3]]) do
 				if type(v) ~= "table" then
 					v = tostring(v)
 					v = v:gsub("©", "")
 					v = v:gsub("\169", "")
 				end
-				yatesMessage(_id, k.." = "..table.valueToString(v), "default", false)
+				msg2(_id, k.." = "..table.valueToString(v), "default", false)
 			end
 			return 1
 		end
-		yatesMessage(_id, lang("validation", 5), "warning")
+		msg2(_id, lang("validation", 5), "error")
     elseif _tbl[2] == "add" then
         if not _tbl[3] then
-            yatesMessage(_id, "You need to supply a name for the group!", "warning")
+            msg2(_id, "You need to supply a name for the group!", "error")
             return 1
         end
 
@@ -1071,17 +1065,17 @@ function yates.func.say.group()
 
             if not _tbl[4] then
                 _tbl[4] = (yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)
-                yatesMessage(_id, "You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)..".", "alert")
+                msg2(_id, "You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)..".", "notice")
             end
             if not _tbl[5] then
                 _tbl[5] = (yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour)
-                yatesMessage(_id, "You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour).."Lorem Ipsum.", "alert")
+                msg2(_id, "You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour).."Lorem Ipsum.", "notice")
             else
             	_tbl[5] = "\169".._tbl[5]
         	end
             if not _tbl[6] then
                 _tbl[6] = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
-                yatesMessage(_id, "You did not enter any group commands, the following default commands will be used instead:", "alert")
+                msg2(_id, "You did not enter any group commands, the following default commands will be used instead:", "notice")
                 local tbl = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
                 for i = 1, #tbl do
             		if cmds == "" then
@@ -1090,7 +1084,7 @@ function yates.func.say.group()
 						cmds = cmds..", "..tbl[i]
 					end
 				end
-				yatesMessage(_id, cmds, "default", false)
+				msg2(_id, cmds, "default", false)
             else
             	for i = 6, #_tbl do
             		if cmds == "" then
@@ -1102,54 +1096,54 @@ function yates.func.say.group()
 			end
 			setUndo(_id, "!group del ".._tbl[3])
             addGroup(_tbl[3], _tbl[4], _tbl[5], cmds)
-            yatesMessage(_id, "The group ".._tbl[3].." has been added!", "success")
+            msg2(_id, "The group ".._tbl[3].." has been added!", "success")
             return 1
         end
-        yatesMessage(_id, "This group already exists!", "warning")
+        msg2(_id, "This group already exists!", "error")
     elseif _tbl[2] == "del" or _tbl[2] == "delete" then
     	if not _tbl[3] then
-            yatesMessage(_id, "You need to supply the group name you want to delete.", "warning")
+            msg2(_id, "You need to supply the group name you want to delete.", "error")
             return 1
         end
 
 		if _GROUP[_tbl[3]] then
 			if not _tbl[4] then
-	            yatesMessage(_id, "You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "alert")
+	            msg2(_id, "You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "notice")
 	            _tbl[4] = yates.setting.group_default
 	        end
 
 	        if not _GROUP[_tbl[4]] then
-	        	yatesMessage(_id, "The new group for the players in the old group does not exist!", "warning")
+	        	msg2(_id, "The new group for the players in the old group does not exist!", "error")
 	        	return 1
         	end
 
         	deleteGroup(_tbl[3], _tbl[4])
-    		yatesMessage(_id, "The group ".._tbl[3].." has been deleted!", "success")
+    		msg2(_id, "The group ".._tbl[3].." has been deleted!", "success")
 			return 1
 		end
-		yatesMessage(_id, lang("validation", 5), "warning")
+		msg2(_id, lang("validation", 5), "error")
     elseif _tbl[2] == "edit" then
     	if not _tbl[3] then
-            yatesMessage(_id, "You need to supply a name for the group you are going to edit.", "warning")
+            msg2(_id, "You need to supply a name for the group you are going to edit.", "error")
             return 1
         end
 
         if _GROUP[_tbl[3]] then
 			if not _tbl[4] then
-	            yatesMessage(_id, "You need to supply the field you want to edit.", "warning")
+	            msg2(_id, "You need to supply the field you want to edit.", "error")
 	            return 1
 	        end
 
 	        if not _tbl[5] then
-	            yatesMessage(_id, "You need to supply a new variable for the field.", "warning")
+	            msg2(_id, "You need to supply a new variable for the field.", "error")
 	            return 1
 	        end
 
         	editGroup(_tbl[3], _tbl[4])
-    		yatesMessage(_id, "The group ".._tbl[3].." has been edited!", "success")
+    		msg2(_id, "The group ".._tbl[3].." has been edited!", "success")
         	return 1
         end
-        yatesMessage(_id, lang("validation", 5), "warning")
+        msg2(_id, lang("validation", 5), "error")
     end
 end
 setSayHelp("group", lang("group", 1))
@@ -1157,11 +1151,11 @@ setSayDesc("group", lang("group", 2))
 
 function yates.func.say.undo()
 	if not _PLAYER[player(_id, "usgn")] or not _PLAYER[player(_id, "usgn")].undo then
-		yatesMessage(_id, lang("undo", 2), "warning")
+		msg2(_id, lang("undo", 2), "error")
 		return 1
 	end
 
-	yatesMessage(_id, lang("undo", 3, _PLAYER[player(_id, "usgn")].undo), "info")
+	msg2(_id, lang("undo", 3, _PLAYER[player(_id, "usgn")].undo), "info")
 	yates.hook.say(_id, _PLAYER[player(_id, "usgn")].undo)
 end
 setSayHelp("undo")

@@ -9,223 +9,19 @@
 	BE WARNED.
 ]]--
 
---[[
-	Turns chat input into output
-	@return void
-]]
-function chat(id, text)
-	local usgn = player(id, "usgn")
-	local c = ""
-	local p = ""
+function yates.func.autoload()
+	dofile(_DIR.."core/autoload/utilities/file.lua")
 
-	if _PLAYER[usgn] and not yates.player[id].hide then
-		c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].colour)
-		p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].prefix) or "")
-	else
-		c = (_GROUP[yates.setting.group_default].colour or "")
-		p = (_GROUP[yates.setting.group_default].prefix or "")
-	end
+	local directories = io.getDirectories(_DIR.."core/autoload/")
+	for _, all in pairs(directories) do
+		for item in io.enumdir(_DIR.."core/autoload/"..all) do
+			local name, extension = item:match("([^/]+)%.([^%.]+)$")
 
-	c = c:gsub("©","")
-	c = c:gsub("\169","")
-	c = "\169"..c
-
-	c = filter("chatColour", id, text, c, p, usgn) or c
-	p = filter("chatPrefix", id, text, c, p, usgn) or p
-	text = filter("chatText", id, text, c, p, usgn) or text
-
-	if p ~= "" then
-		p = p.." "
-	end
-
-	msg(c..p..player(id, "name")..": "..clr["yates"]["chat"]..text)
-end
-
---[[
-	Sets the help of a say command
-	@return void	
-]]
-function setSayHelp(func, info)
-	if not info then info = "" end
-	yates.say.help[func] = func.." "..info
-end
-
---[[
-	Sets the description of a say command
-	@return void	
-]]
-function setSayDesc(func, desc)
-	if not desc then desc = "" end
-	yates.say.desc[func] = desc
-end
-
---[[
-	Sets the help of a say command
-	@return void
-]]
-function setConsoleHelp(func, info)
-	if not info then info = "" end
-	yates.console.help[func] = func.." "..info
-end
-
---[[
-	Sets the description of a say command
-	@return void
-]]
-function setConsoleDesc(func, desc)
-	if not desc then desc = "" end
-	yates.console.desc[func] = desc
-end
-
---[[
-	Simplifies values into a msg or msg2
-	@return void	
-]]
-function yatesMessage(id, text, type, prefix)
-	if not type then type = "default" end
-	if not text then return 1 end -- This is so things don't go batshitmad
-
-	local colour = type
-	local pre = ""
-
-	if clr["yates"][type] then
-		colour = clr["yates"][type]
-	end
-
-	colour = colour:gsub("©","")
-	colour = colour:gsub("\169","")
-	colour = "\169"..colour
-
-	if prefix == nil then
-		pre = (yates.setting.message_prefix or prefix)
-	else
-		if prefix ~= false then
-			pre = prefix
+			if name and name ~= "file" and extension == "lua" then
+				dofile(_DIR.."core/autoload/"..all.."/"..name.."."..extension)
+			end
 		end
 	end
-
-	local message = colour..pre..clr["yates"]["default"]..text
-
-	if pre == "" then
-		message = colour..text
-	end
-
-	if not id then
-		msg(message)
-	else
-		msg2(id, message)
-	end
-end
-
---[[
-	Simplifies values into a print or print2
-	@return void	
-]]
-function yatesPrint(text, type, prefix)
-	if not type then type = "default" end
-	if not text then return 1 end -- This is so things don't go batshitmad
-
-	local colour = type
-	local pre = ""
-
-	if clr["yates"][type] then
-		colour = clr["yates"][type]
-	end
-
-	colour = colour:gsub("©","")
-	colour = colour:gsub("\169","")
-	colour = "\169"..colour
-
-	if prefix == nil then
-		pre = (yates.setting.message_prefix or prefix)
-	else
-		if prefix ~= false then
-			pre = prefix
-		end
-	end
-
-	local message = colour..pre..clr["yates"]["default"]..text
-
-	if pre == "" then
-		message = colour..text
-	end
-
-	print(message)
-end
-
---[[
-	Logs data
-	@return void	
-]]
-function yatesLog(log, type, file, extension, mode, date)
-	if not type then
-		type = "INFO"
-	end
-
-	if not file or file == "" then
-		file = "yates"
-		if date == true then
-			file = yates.setting.date
-		end
-	else
-		if date == true then
-			file = file.." - "..yates.setting.date
-		end
-	end
-
-	if not extension then
-		extension = ".log"
-	end
-
-	if not mode then
-		mode = "a"
-	end
-
-	local file = io.open(_DIR.."storage/logs/"..file..extension, mode) or io.tmpfile()
-
-	file:write("["..yates.setting.date.." - "..yates.setting.time.."]: "..type..": "..log.."\n")
-	file:close()
-end
-
---[[
-	Executes the string's matching function name
-	@return void	
-]]
-function executeCommand(id, command, text, mode)
-	_tbl = toTable(text)
-	_id = id
-	_txt = text
-
-	func = loadstring("yates.func."..mode.."."..command.."()")
-	func()
-
-	if yates.setting.log_commands then
-		if id then
-			yatesLog("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text)
-		end
-	end
-
-	_tbl = {}
-	_id = nil
-	_txt = nil
-end
-
---[[
-	Sets a player's undo command
-	@return void
-]]
-function setUndo(id, command)
-	if not checkUsgn(id, false) then
-		yatesMessage(id, "An undo command cannot be set as you are not logged in to a U.S.G.N account.", "alert")
-		return false
-	end
-
-	if not _PLAYER[player(id, "usgn")] then
-		_PLAYER[player(id, "usgn")] = {}
-	end
-
-	_PLAYER[player(id, "usgn")].undo = command
-	saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -239,14 +35,14 @@ function checkPlayer(id, message)
 
 	if not id or tonumber(id) == nil then
 		if message then
-			yatesMessage(_id, "You have not supplied a player id!", "warning")
+			msg2(_id, "You have not supplied a player id!", "error")
 		end
 		return false
 	end
 
 	if not player(id, "exists") then
 		if message then
-			yatesMessage(_id, "This player does not exist!", "warning")
+			msg2(_id, "This player does not exist!", "error")
 		end
 		return false
 	end
@@ -269,7 +65,7 @@ function checkUsgn(id, message)
 
 	if player(id, "usgn") == 0 then
 		if message then
-			yatesMessage(_id, "This player does not have a U.S.G.N. ID!", "warning")
+			msg2(_id, "This player does not have a U.S.G.N. ID!", "error")
 		end
 		return false
 	end
@@ -287,7 +83,7 @@ function checkGroup(group, message)
 	end
 
 	if not _GROUP[group] then
-		yatesMessage(_id, "This group does not exist!", "warning")
+		msg2(_id, "This group does not exist!", "error")
 		return false
 	end
 
@@ -429,7 +225,7 @@ function editGroup(group, field)
 					end
 				end
 			end
-			_GROUP[group][field] = toTable(v)
+			_GROUP[group][field] = string.toTable(v)
 		else
 			for i = 5, #_tbl do
 	    		if v == "" then
@@ -477,7 +273,7 @@ function editPlayer(player, field)
 					end
 				end
 			end
-			_PLAYER[player][field] = toTable(v)
+			_PLAYER[player][field] = string.toTable(v)
 		else
 			for i = 5, #_tbl do
 	    		if v == "" then
@@ -527,7 +323,7 @@ end
 function checkSayCommandUse(command)
 	if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
 	if not command then
-		yatesPrint("No command was provided to check if the use of it is allowed!", "warning")
+		print("No command was provided to check if the use of it is allowed!", "error")
 		return true
 	end
 
@@ -587,16 +383,6 @@ function action(name, ...)
     end
 end
 
-function yates.func.autoload()
-	for item in io.enumdir(_DIR.."core/autoload") do
-		local name, extension = item:match("([^/]+)%.([^%.]+)$")
-
-		if name and extension == "lua" then
-			dofile(_DIR.."core/autoload/"..name.."."..extension)
-		end
-	end
-end
-
 --[[
 	Iterate array and count
 	@return numeric
@@ -609,19 +395,6 @@ function countIterate(arr)
 		end
 	end
 	return amount
-end
-
---[[
-	Turns a string into a table
-	@return table	
-]]
-function toTable(str, mch)
-	local tmp = {}
-	if not mch then mch = "[^%s]+" else mch = "[^"..mch.."]+" end
-	for wrd in string.gmatch(str, mch) do
-		table.insert(tmp, wrd)
-	end	
-	return tmp
 end
 
 -- @TODO: Rename all functions below and clean them up, rest are fine.
@@ -661,22 +434,6 @@ function spairs(t, order)
             return keys[i], t[keys[i]]
         end
     end
-end
-
---[[
-	Gets all directories in a certain path
-	@return table
-]]
-function getDirectories(path)
-	local content = {}
-	
-	for name in io.enumdir(path) do
-		if name ~= "." and name ~= ".." then
-			content[ #content + 1 ] = name
-		end
-	end
-	
-	return content
 end
 
 --[[

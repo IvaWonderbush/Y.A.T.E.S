@@ -11,11 +11,11 @@ end
 
 function yates.func.checkVersion()
     if not yates.setting.check_version then
-        yatesPrint("Version check is disabled. Please enable this to stay up-to-date in yates_config.lua", "warning")
+        print("Version check is disabled. Please enable this to stay up-to-date in yates_config.lua", "error")
         return
     end
     if not yates.func.checkStatus() then
-        yatesPrint("No connection status could be made with http://www.thomasyates.nl/", "warning")
+        print("No connection status could be made with http://www.thomasyates.nl/", "error")
         return
     end
 
@@ -28,11 +28,11 @@ function yates.func.checkVersion()
     local_version = local_version:gsub("%.", "")
 
     if git_version > local_version then
-        yatesPrint("You are not up-to-date with the current version!", "warning")
-        yatesPrint("Please download the current version at http://www.thomasyates.nl/docs", "warning")
+        print("You are not up-to-date with the current version!", "error")
+        print("Please download the current version at http://www.thomasyates.nl/docs", "error")
     elseif git_version < local_version then
-        yatesPrint("You are running on a higher version of the current release. Huh? I don't even..", "alert")
+        print("You are running on a higher version of the current release. Huh? I don't even..", "notice")
     else
-        yatesPrint("You are up-to-date with the current version!", "success")
+        print("You are up-to-date with the current version!", "success")
     end
 end

@@ -3,14 +3,14 @@
 	@return void
 ]]
 function yates.func.loadPlugins()
-    local directories = getDirectories(_DIR.."plugins")
+    local directories = io.getDirectories(_DIR.."plugins")
     _PLUGIN["on"] = {}
     _PLUGIN["off"] = {}
     for _, all in pairs(directories) do
         if all:sub(1, 1) ~= "." then
             if all:sub(1, 1) ~= "_" then
                 _PLUGIN["on"][#_PLUGIN["on"]+1] = all
-                yatesPrint(lang("info", 5, all), "success")
+                print(lang("info", 5, all), "success")
                 yates.plugin[all] = {}
                 yates.plugin[all]["dir"] = _DIR.."plugins/"..all.."/"
                 dofile(yates.plugin[all]["dir"].."/startup.lua")
@@ -48,7 +48,7 @@ function yates.func.checkPluginData(name, data, varType)
         if yates.plugin[name][data] and type(yates.plugin[name][data]) == varType then
             _PLUGIN["info"][name][data] = yates.plugin[name][data]
         else
-            yatesPrint("Plugin information for "..data.." not set or is not a "..varType.."!", "alert", "[PLUGIN]: ")
+            print("Plugin information for "..data.." not set or is not a "..varType.."!", "notice", "[PLUGIN]: ")
         end
     end
 end
@@ -59,7 +59,7 @@ end
 ]]
 function yates.func.checkForceReload()
     if yates.force_reload == true then
-        yatesMessage(false, "A plugin has been enabled which requires a server restart, please stay!", "success")
+        msg("A plugin has been enabled which requires a server restart, please stay!", "success")
         timer(5000, "parse", "lua hardReload()")
         yates.force_reload = false
     end

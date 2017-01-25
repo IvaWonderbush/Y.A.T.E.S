@@ -29,7 +29,7 @@ function yates.func.getLanguageData()
 
             yates.language[name] = currentlanguage
 
-            yatesPrint(lang("info", 3, name), "success")
+            print(lang("info", 3, name), "success")
         end
     end
 end
@@ -43,7 +43,7 @@ function lang(section, line, ...)
         end
     else
         str = lang("error", 1, yates.setting.language, section, line)
-        yatesLog(lang("error", 1, yates.setting.language, section, line), "WARNING")
+        log(lang("error", 1, yates.setting.language, section, line), "error")
     end
 
     return str

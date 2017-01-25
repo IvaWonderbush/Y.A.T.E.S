@@ -161,7 +161,7 @@ function yates.hook.join(id)
 		yates.player[id].mute_time = _PLAYER[player(id, "usgn")].mute_time
 		yates.player[id].mute_reason = _PLAYER[player(id, "usgn")].mute_reason
 
-		yatesMessage(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds.", "warning")
+		msg2(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds.", "error")
 		action("joinMute", id)
 	end
 
@@ -245,7 +245,7 @@ end
 addhook("objectupgrade", "yates.hook.objectupgrade")
 
 function yates.hook.parse(text)
-	local tbl = toTable(text)
+	local tbl = string.toTable(text)
 	if not tbl[1] then
 		return 0
 	end
@@ -273,7 +273,7 @@ end
 addhook("radio", "yates.hook.radio")
 
 function yates.hook.rcon(cmds, id, ip, port)
-	local tbl = toTable(cmds)
+	local tbl = string.toTable(cmds)
 
 	if not tbl[1] then
 		return 1
@@ -295,7 +295,7 @@ end
 addhook("reload", "yates.hook.reload")
 
 function yates.hook.say(id, text)
-	local tbl = toTable(text)
+	local tbl = string.toTable(text)
 	local usgn = player(id, "usgn")
 
 	text = text:gsub("\166", "")
@@ -306,7 +306,7 @@ function yates.hook.say(id, text)
 
 		if checkCommand(command, "say") then
 			if not checkSayCommandUse(command) then
-				yatesMessage(id, lang("validation", 6), "warning")
+				msg2(id, lang("validation", 6), "error")
 				return 1
 			end
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
@@ -323,10 +323,10 @@ function yates.hook.say(id, text)
 					end
 				end
 			end
-			yatesMessage(id, lang("validation", 1), "warning")
+			msg2(id, lang("validation", 1), "error")
 		else
-			yatesMessage(id, lang("validation", 3), "warning")
-			yatesMessage(id, lang("help", 2, yates.setting.say_prefix), "info")
+			msg2(id, lang("validation", 3), "error")
+			msg2(id, lang("help", 2, yates.setting.say_prefix), "info")
 		end
 	else
 		if yates.setting.at_c == false then
@@ -334,8 +334,8 @@ function yates.hook.say(id, text)
 		end
 
 		if yates.player[id].mute_time > 0 then
-			yatesMessage(id, lang("mute", 8, yates.player[id].mute_time), "warning")
-			yatesMessage(id, lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
+			msg2(id, lang("mute", 8, yates.player[id].mute_time), "error")
+			msg2(id, lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
 			return 1
 		end
 
@@ -371,7 +371,7 @@ function yates.hook.second()
 
 			if yates.player[id].mute_time == 0 then
 				yates.player[id].mute_reason = ""
-				yatesMessage(id, "You are no longer muted.", "info")
+				msg2(id, "You are no longer muted.", "info")
 
 				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_reason then
 					_PLAYER[player(id, "usgn")].mute_reason = nil

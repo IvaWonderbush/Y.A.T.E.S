@@ -6,11 +6,11 @@ _dofile = dofile
 function dofile(path, create)
     if not io.exists(path) then
         if create == true then
-            yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened, creating one for you instead!", "alert")
+            print("Uh-oh! The file '"..path.."' could not be found or opened, creating one for you instead!", "notice")
             file = io.open(path, "w")
             io.close(file)
         else
-            yatesPrint("Uh-oh! The file '"..path.."' could not be found or opened!", "warning")
+            print("Uh-oh! The file '"..path.."' could not be found or opened!", "error")
             return false
         end
     end
@@ -29,4 +29,20 @@ function io.exists(path)
     else
         return false
     end
+end
+
+--[[
+	Gets all directories in a certain path
+	@return table
+]]
+function io.getDirectories(path)
+    local content = {}
+
+    for name in io.enumdir(path) do
+        if name ~= "." and name ~= ".." then
+            content[#content + 1] = name
+        end
+    end
+
+    return content
 end
