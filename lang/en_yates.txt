@@ -7,15 +7,7 @@
 |                      @TODO: ADD URL                      |
 |----------------------------------------------------------|
 
-
-
-
-
-
-
-|----------------------------------------------------------|
-|                        VALIDATION                        |
-|----------------------------------------------------------|
+#validation
 
 You do not have sufficient permissions to use this command!
 You do not have sufficient permissions over this player!
@@ -25,10 +17,7 @@ The supplied player does not exist!
 The supplied group does not exist!
 You have not supplied a $1!
 
-
-|----------------------------------------------------------|
-|                           HELP                           |
-|----------------------------------------------------------|
+#help
 
 Say $1help to see all of the commands available to you.
 A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].
@@ -36,26 +25,17 @@ Additional parameter elaboration is displayed behind a parameter wrapped with ( 
 There is no help for this command!
 For more information about a command, use $1help <command> in the console.
 
-
-|----------------------------------------------------------|
-|                        INFORMATION                       |
-|----------------------------------------------------------|
+#info
 
 Thank you for using Y.A.T.E.S.
 Creator: Yates, U.S.G.N. ID: 21431.
-
-
-|----------------------------------------------------------|
-|                          WARNING                         |
-|----------------------------------------------------------|
-
 Reason: $1
 
+#warning
 
-|----------------------------------------------------------|
-|                       SCRIPT ERROR                       |
-|----------------------------------------------------------|
 
+
+#error
 The addhook() function is depreciated, use action() or filter() instead!
 Initial authentication has not been complete.
 Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.
