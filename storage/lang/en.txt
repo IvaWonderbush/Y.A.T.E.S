@@ -7,13 +7,20 @@
 |                      @TODO: ADD URL                      |
 |----------------------------------------------------------|
 
-:validation
+:validation_permission
 You do not have sufficient permissions to use this command!
 You do not have sufficient permissions over this player!
+The provided command has been disabled!
+
+
+:validation_exist
 The provided command does not exist!
 The provided player does not exist!
 The provided group does not exist!
-The provided command has been disabled!
+The provided item ID does not exist!
+The provided object ID does not exist!
+
+:validation_provided
 You have not provided a U.S.G.N. ID!
 You have not provided an IP!
 You have not provided a U.S.G.N. ID or IP!
