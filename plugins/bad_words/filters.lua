@@ -24,7 +24,7 @@ function bad_words.chatText(id, text)
         if bad_words.setting.emoticon then
             if count > 0 then
                 if emoticons then
-                    emoticons.displayEmoticon(id, "cursing")
+                    bad_words.cursing_id = id
                 else
                     print("The emoticons plugin is not enabled! Cursing will NOT display an emoticon!", "error")
                 end

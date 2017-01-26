@@ -31,7 +31,7 @@ function emoticons.say(id, text)
         emoticons.displayEmoticon(id, "chat")
     end
 end
-addAction("say", emoticons.say)
+addAction("say", emoticons.say, 100)
 
 function emoticons.ms100()
     for _, id in pairs(player(0, "table")) do

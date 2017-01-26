@@ -58,6 +58,41 @@ function executeCommand(id, command, text, mode)
 end
 
 --[[
+	Checks if say command exists
+	@return boolean
+]]
+function checkCommand(command, mode)
+    local tmp = {}
+    for k, v in pairs(yates.func[mode]) do
+        tmp[k] = k
+    end
+
+    for cmds = 1, table.countValues(yates.func[mode]) do
+        if tmp[command] then
+            if command == tmp[command] then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function checkSayCommandUse(command)
+    if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
+    if not command then
+        print("No command was provided to check if the use of it is allowed!", "error")
+        return true
+    end
+
+    for k, v in pairs(_YATES.disabled_commands) do
+        if command == v then
+            return false
+        end
+    end
+    return true
+end
+
+--[[
 	Sets a player's undo command
 	@return void
 ]]

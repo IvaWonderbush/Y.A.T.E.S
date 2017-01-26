@@ -98,3 +98,36 @@ function table.getName(tbl)
     end
     return false
 end
+
+--[[
+	Iterate table and count
+	@return numeric
+]]
+function table.countValues(tbl)
+    local amount = 0
+    for k, v in pairs(tbl) do
+        if #k > 0 then
+            amount = amount + 1
+        end
+    end
+    return amount
+end
+
+function spairs(tbl, order)
+    local keys = {}
+    for k in pairs(tbl) do keys[#keys + 1] = k end
+
+    if order then
+        table.sort(keys, function(a, b) return order(tbl, a, b) end)
+    else
+        table.sort(keys)
+    end
+
+    local i = 0
+    return function()
+        i = i + 1
+        if keys[i] then
+            return keys[i], tbl[keys[i]]
+        end
+    end
+end

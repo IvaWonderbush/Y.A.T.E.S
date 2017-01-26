@@ -32,3 +32,6 @@ bad_words.list = {
 	["nobhead"] = "n*bhead",
 	["wanker"] = "w*nker",
 }
+
+-- Used to save the player id that has sweared to display a curse icon
+bad_words.cursing_id = nil
