@@ -337,7 +337,7 @@ function yates.hook.say(id, text)
 
 		if yates.player[id].mute_time > 0 then
 			msg2(id, lang("mute", 8, yates.player[id].mute_time), "error")
-			msg2(id, lang("mute", 10, "Reason", yates.player[id].mute_reason), "info")
+			msg2(id, lang("mute", 10, yates.player[id].mute_reason), "info")
 			return 1
 		end
 

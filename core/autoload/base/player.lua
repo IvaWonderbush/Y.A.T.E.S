@@ -75,36 +75,10 @@ function editPlayer(player, field)
 end
 
 --[[
-	Checks whether a player exists or not
-	@return boolean
-]]
-function checkPlayer(id, message)
-    if message == nil then
-        message = true
-    end
-
-    if not id or tonumber(id) == nil then
-        if message then
-            msg2(_id, "You have not supplied a player id!", "error")
-        end
-        return false
-    end
-
-    if not player(id, "exists") then
-        if message then
-            msg2(_id, "This player does not exist!", "error")
-        end
-        return false
-    end
-
-    return true
-end
-
---[[
 	Compares two player/group levels
 	@return boolean
 ]]
-function compareLevel(id, id2)
+function yates.func.compareLevel(id, id2)
     local usgn = player(id, "usgn")
     local usgn2 = player(id2, "usgn")
 
@@ -128,6 +102,7 @@ function compareLevel(id, id2)
     if lvl >= lvl2 then
         return true
     end
+
     return false
 end
 
@@ -139,10 +114,6 @@ end
 function checkUsgn(id, message)
     if message == nil then
         message = true
-    end
-
-    if not checkPlayer(id, message) then
-        return false
     end
 
     if player(id, "usgn") == 0 then

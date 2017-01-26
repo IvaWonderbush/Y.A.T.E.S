@@ -22,6 +22,9 @@ map
 map name
 U.S.G.N. ID
 IP address
+message
+reason
+command
 
 :validation
 You do not have sufficient permissions to use this $1!
@@ -79,7 +82,7 @@ General command to show information about (a) plugin(s) or to enable/disable the
 list / <enable/disable> <command>
 General command to show information about disabled commands or to enable/disable them.
 
-:hardreload
+:reload
 [<delay>] (in seconds)
 Reloads Y.A.T.E.S Lua scripts and plugins by changing the map to its current one.
 We are reloading our lua scripts! Please stay.

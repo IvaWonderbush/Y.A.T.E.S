@@ -46,3 +46,15 @@ function io.getDirectories(path)
 
     return content
 end
+
+--[[
+	Saves (table) data to file output as Lua
+	@return void
+]]
+function saveData(data, file, overwrite) -- @TODO: Add overwrite, add or merge (push) functionality
+    local file = io.open(_DIR.."data/"..file, "w+") or io.tmpfile()
+
+    local text = table.getName(data).." = " .. table.valueToString(data) .. ""
+    file:write(text)
+    file:close()
+end
