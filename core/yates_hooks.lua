@@ -306,9 +306,10 @@ function yates.hook.say(id, text)
 
 		if checkCommand(command, "say") then
 			if not checkSayCommandUse(command) then
-				msg2(id, lang("validation", 6), "error")
+				msg2(id, lang("validation", 5, lang("global", 1)), "error")
 				return 1
 			end
+
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
 					executeCommand(id, command, text, "say")
@@ -323,9 +324,10 @@ function yates.hook.say(id, text)
 					end
 				end
 			end
-			msg2(id, lang("validation", 1), "error")
+			msg2(id, lang("validation", 1, lang("global", 1)), "error")
+
 		else
-			msg2(id, lang("validation", 3), "error")
+			msg2(id, lang("validation", 3, lang("global", 1)), "error")
 			msg2(id, lang("help", 2, yates.setting.say_prefix), "info")
 		end
 	else

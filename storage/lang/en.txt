@@ -7,19 +7,30 @@
 |                      @TODO: ADD URL                      |
 |----------------------------------------------------------|
 
+:global
+command
+player
+player ID
+group
+plugin
+plugin name
+item
+item ID
+object
+object ID
+map
+map name
+U.S.G.N. ID
+IP address
+
 :validation
-You do not have sufficient permissions to use this command!
-You do not have sufficient permissions over this player!
-The provided command does not exist!
-The provided player does not exist!
-The provided group does not exist!
-The provided command has been disabled!
-You have not provided a U.S.G.N. ID!
-You have not provided an IP!
-You have not provided a U.S.G.N. ID or IP!
-You have not provided a map name!
-You have not provided a weapon ID!
-You have not provided a player ID!
+You do not have sufficient permissions to use this $1!
+You do not have sufficient permissions over this $1!
+The provided $1 does not exist!
+The provided $1 does not have any data!
+The provided $1 has been disabled!
+You have not provided a $1!
+You have not provided an $1!
 
 :info
 Thank you for using Y.A.T.E.S.
