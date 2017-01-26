@@ -12,6 +12,8 @@ command
 player
 player ID
 group
+plugin
+plugin name
 item
 item ID
 object
