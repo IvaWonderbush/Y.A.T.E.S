@@ -12,6 +12,7 @@ command
 player
 player ID
 group
+group name
 plugin
 plugin name
 item
@@ -25,6 +26,8 @@ IP address
 message
 reason
 command
+field
+value
 
 :validation
 You do not have sufficient permissions to use this $1!
@@ -229,6 +232,11 @@ Sets the player group
 :player
 list / info <id> / edit <U.S.G.N. ID> <field> <new entry>
 A general command used to display information about players and edit their data
+You have not provided a sub-command, say $1help player for a list of sub-commands
+List of U.S.G.N.'s saved in data_player. Use $1player info <U.S.G.N.> for more info
+Player data information:
+The player $1 has been edited!
+This player is not logged in!
 
 :groupprefix
 <group> <prefix>
@@ -245,6 +253,17 @@ Sets the group level
 :group
 list / info <group> / add <group> [<level>] [<colour>] [<commands>] / del(ete) <group> [<new group>] / edit <group> <field> <new entry>
 A general command used to display information about groups and edit them
+You have not provided a sub-command, say $1help group for a list of sub-commands
+List of current groups, with their colour, prefix, name and level
+Group data information:
+You did not enter a group level, the default level will be used instead: $1
+You did not enter a group colour, the default color will be used instead: $1hello
+You did not enter any group commands, the following default commands will be used instead:
+The group $1 has been added!
+A group with this name already exists!
+You did not enter a new group, the default group will be used instead: $1
+The group $1 has been deleted!
+The group $1 has been edited!
 
 :undo
 Certain commands have an undo option, this command will undo the most recent undoable command

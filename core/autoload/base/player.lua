@@ -112,12 +112,12 @@ end
 ]]
 function yates.func.checkPlayer(id)
     if not id or tonumber(id) == nil then
-        msg2(_id, "You have not supplied a player id!", "error") -- @TODO: lang
+        msg2(_id, lang("validation", 6, lang("global", 3)), "error")
         return false
     end
 
     if not player(id, "exists") then
-        msg2(_id, "This player does not exist!", "error") -- @TODO: lang
+        msg2(_id, lang("validation", 3, lang("global", 3)), "error")
         return false
     end
 
@@ -130,7 +130,7 @@ end
 ]]
 function yates.func.checkUsgn(id)
     if player(id, "usgn") == 0 then
-        msg2(_id, "This player does not have a U.S.G.N. ID!", "error")
+        msg2(_id, lang("player", 7), "error")
         return false
     end
 
@@ -147,7 +147,7 @@ function checkGroup(group, message)
     end
 
     if not _group[group] then
-        msg2(_id, "This group does not exist!", "error")
+        msg2(_id, lang("validation", 3, lang("global", 4)), "error")
         return false
     end
 

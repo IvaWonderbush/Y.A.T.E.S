@@ -313,7 +313,7 @@ function yates.func.say.banusgn()
 	local reason = ""
 
 	if not _tbl[2] or tonumber(_tbl[2]) == nil then
-		msg2(_id, lang("validation", 6, lang("global", 13)), "error")
+		msg2(_id, lang("validation", 6, lang("global", 14)), "error")
 		return 1
 	end
 
@@ -345,7 +345,7 @@ function yates.func.say.banip()
 	local reason = ""
 
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 14)), "error")
+		msg2(_id, lang("validation", 6, lang("global", 15)), "error")
 		return 1
 	end
 
@@ -375,8 +375,8 @@ setSayDesc("banip", lang("banip", 2))
 
 function yates.func.say.unban()
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 13)), "error")
 		msg2(_id, lang("validation", 6, lang("global", 14)), "error")
+		msg2(_id, lang("validation", 6, lang("global", 15)), "error")
 		return 1
 	end
 
@@ -395,7 +395,7 @@ setSayDesc("unbanall", lang("unbanall", 1))
 
 function yates.func.say.map()
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 12)), "error")
+		msg2(_id, lang("validation", 6, lang("global", 13)), "error")
 		return 1
 	end
 
@@ -756,48 +756,50 @@ setSayDesc("playergroup", lang("playergroup", 2))
 
 function yates.func.say.player()
 	if not _tbl[2] then
-		msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help player for a list of sub-commands.", "error")
+		msg2(_id, lang("player", 3, yates.setting.say_prefix), "error")
 		return 1
 	end
 
 	if _tbl[2] == "list" then
-		msg2(_id, "List of U.S.G.N.'s saved in data_player. Use !player info <U.S.G.N.> for more info.", "info")
+		msg2(_id, lang("player", 4, yates.setting.say_prefix), "info")
 		for k, v in pairs(_player) do
 			msg2(_id, k, false, false)
 		end
 	elseif _tbl[2] == "info" then
 
 		if not _tbl[3] then
-			msg2(_id, "You need to supply a player (U.S.G.N.) ID you wish to view the information of!", "error")
+			msg2(_id, lang("validation", 6, lang("global", 14)), "error")
 			return 1
 		end
 		_tbl[3] = tonumber(_tbl[3])
 
 		if _player[_tbl[3]] then
+			msg2(_id, lang("player", 5), "info")
+
 			if _tbl[4] then
-				msg2(_id, "Developer player information.", "info")
 				local info = table.valueToString(_player[_tbl[3]])
 				info = info:gsub("©","")
 				info = info:gsub("\169","")
 
 				msg2(_id, "_player[\"".._tbl[3].."\"] = "..info, "default", false)
-			else
-				msg2(_id,"Player data information.","info")
-				for k, v in pairs(_player[_tbl[3]]) do
-					if type(v) ~= "table" then
-						v = tostring(v)
-						v = v:gsub("©","")
-						v = v:gsub("\169","")
-					end
-					msg2(_id, k.." = "..table.valueToString(v), "default", false)
-				end
+				return 1
 			end
+
+			for k, v in pairs(_player[_tbl[3]]) do
+				if type(v) ~= "table" then
+					v = tostring(v)
+					v = v:gsub("©","")
+					v = v:gsub("\169","")
+				end
+				msg2(_id, k.." = "..table.valueToString(v), "default", false)
+			end
+			return 1
 		end
-		msg2(_id, lang("validation", 3, lang("global", 13)), "error")
+		msg2(_id, lang("validation", 3, lang("global", 14)), "error")
 
 	elseif _tbl[2] == "edit" then
 		if not _tbl[3] then
-			msg2(_id, "You need to supply a U.S.G.N. ID for the player data you want to edit.", "error")
+			msg2(_id, lang("validation", 6, lang("global", 14)), "error")
 			return 1
 		end
 		_tbl[3] = tonumber(_tbl[3])
@@ -808,17 +810,17 @@ function yates.func.say.player()
 
 		if _player[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, "You need to supply the field you want to edit.", "error")
+				msg2(_id, lang("validation", 6, lang("global", 18)), "error")
 				return 1
 			end
 
 			if not _tbl[5] then
-				msg2(_id, "You need to supply a new variable for the field.", "error")
+				msg2(_id, lang("validation", 6, lang("global", 20)), "error")
 				return 1
 			end
 
 			editPlayer(_tbl[3], _tbl[4])
-			msg2(_id, "The player ".._tbl[3].." has been edited!", "success")
+			msg2(_id, lang("player", 6, _tbl[3]), "success")
 		end
 	end
 end
@@ -902,24 +904,25 @@ setSayDesc("grouplevel", lang("grouplevel", 2))
 
 function yates.func.say.group()
 	if not _tbl[2] then
-		msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help group for a list of sub-commands.", "error")
+		msg2(_id, lang("group", 3, yates.setting.say_prefix), "error")
 		return 1
 	end
 
 	if _tbl[2] == "list" then
-		msg2(_id, "List of current groups, with their colour, prefix, name and level.", "info")
+		msg2(_id, lang("group", 4), "info")
 		for k, v in pairs(_group) do
 			msg2(_id, k.." ".._group[k].level.." "..(_group[k].prefix or ""), _group[k].colour, false)
 		end
 	elseif _tbl[2] == "info" then
 		if not _tbl[3] then
-			msg2(_id, "You need to supply a group name you wish to view the information of!", "error")
+			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
 			return 1
 		end
 
 		if _group[_tbl[3]] then
+			msg2(_id, lang("group", 5), "info")
+
 			if _tbl[4] then
-				msg2(_id, "Developer group information.", "info")
 				local info = table.valueToString(_group[_tbl[3]])
 				info = info:gsub("©", "")
 				info = info:gsub("\169", "")
@@ -928,7 +931,6 @@ function yates.func.say.group()
 				return 1
 			end
 
-			msg2(_id, "List of group fields and their values.", "info")
 			for k, v in pairs(_group[_tbl[3]]) do
 				if type(v) ~= "table" then
 					v = tostring(v)
@@ -943,7 +945,7 @@ function yates.func.say.group()
 
 	elseif _tbl[2] == "add" then
 		if not _tbl[3] then
-			msg2(_id, "You need to supply a name for the group!", "error")
+			msg2(_id, lang("validation", 6, lang("global", 5)), "error")
 			return 1
 		end
 
@@ -952,17 +954,17 @@ function yates.func.say.group()
 
 			if not _tbl[4] then
 				_tbl[4] = (yates.setting.group_default_level or _group[yates.setting.group_default].level)
-				msg2(_id, "You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _group[yates.setting.group_default].level)..".", "notice")
+				msg2(_id, lang("group", 6, (yates.setting.group_default_level or _group[yates.setting.group_default].level)), "notice")
 			end
 			if not _tbl[5] then
 				_tbl[5] = (yates.setting.group_default_colour or _group[yates.setting.group_default].colour)
-				msg2(_id, "You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _group[yates.setting.group_default].colour).."Lorem Ipsum.", "notice")
+				msg2(_id, lang("group", 7, (yates.setting.group_default_colour or _group[yates.setting.group_default].colour)), "notice")
 			else
 				_tbl[5] = "\169".._tbl[5]
 			end
 			if not _tbl[6] then
 				_tbl[6] = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
-				msg2(_id, "You did not enter any group commands, the following default commands will be used instead:", "notice")
+				msg2(_id, lang("group", 8), "notice")
 				local tbl = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
 				for i = 1, #tbl do
 					if cmds == "" then
@@ -983,52 +985,53 @@ function yates.func.say.group()
 			end
 			setUndo(_id, "!group del ".._tbl[3])
 			addGroup(_tbl[3], _tbl[4], _tbl[5], cmds)
-			msg2(_id, "The group ".._tbl[3].." has been added!", "success")
+			msg2(_id, lang("group", 9, _tbl[3]), "success")
 			return 1
 		end
-		msg2(_id, "This group already exists!", "error")
+		msg2(_id, lang("group", 10), "error")
+
 	elseif _tbl[2] == "del" or _tbl[2] == "delete" then
 		if not _tbl[3] then
-			msg2(_id, "You need to supply the group name you want to delete.", "error")
+			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
 			return 1
 		end
 
 		if _group[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, "You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "notice")
+				msg2(_id, lang("group", 11, yates.setting.group_default), "notice")
 				_tbl[4] = yates.setting.group_default
 			end
 
 			if not _group[_tbl[4]] then
-				msg2(_id, "The new group for the players in the old group does not exist!", "error")
+				msg2(_id, lang("validation", 6, lang("global", 4)), "error")
 				return 1
 			end
 
 			deleteGroup(_tbl[3], _tbl[4])
-			msg2(_id, "The group ".._tbl[3].." has been deleted!", "success")
+			msg2(_id, lang("group", 12, _tbl[3]), "success")
 			return 1
 		end
 		msg2(_id, lang("validation", 3, lang("global", 4)), "error")
 
 	elseif _tbl[2] == "edit" then
 		if not _tbl[3] then
-			msg2(_id, "You need to supply a name for the group you are going to edit.", "error")
+			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
 			return 1
 		end
 
 		if _group[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, "You need to supply the field you want to edit.", "error")
+				msg2(_id, lang("validation", 6, lang("global", 19)), "error")
 				return 1
 			end
 
 			if not _tbl[5] then
-				msg2(_id, "You need to supply a new variable for the field.", "error")
+				msg2(_id, lang("validation", 6, lang("global", 20)), "error")
 				return 1
 			end
 
 			editGroup(_tbl[3], _tbl[4])
-			msg2(_id, "The group ".._tbl[3].." has been edited!", "success")
+			msg2(_id, lang("group", 13, _tbl[3]), "success")
 			return 1
 		end
 		msg2(_id, lang("validation", 3, lang("global", 4)), "error")

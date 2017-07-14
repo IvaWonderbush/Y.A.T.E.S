@@ -28,7 +28,6 @@ local path = scriptPath()
 path = string.sub(path,1,-2)
 sys, lua, path, core = path:match("([^,]+)/([^,]+)/([^,]+)/([^,]+)")
 
--- You don't need this
 _DIR = "sys/lua/"..path.."/"
 
 print("\169100255255[Y.A.T.E.S]: Setting the settings..")
