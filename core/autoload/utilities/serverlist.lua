@@ -4,12 +4,12 @@
 ]]
 function addTransferFile(file, path)
     if not file then
-        print("No file name was defined to add to the server transfer list.", "error")
+        print("No file name was defined to add to the server transfer list", "error")
         return false
     end
 
     if not path then
-        print("No file path was defined to use to add a file to the server transfer list.", "error")
+        print("No file path was defined to use to add a file to the server transfer list", "error")
         return false
     end
 
@@ -49,12 +49,12 @@ function yates.func.setTransferList(response)
         file:write(text)
         count = count + 1
         if response then
-            print("The file '"..v.."' has been added to the server transfer list.", "success")
+            print("The file '"..v.."' has been added to the server transfer list", "success")
         end
     end
     file:close()
 
     if count > 0 then
-        print("The server transfer list has been updated. Please restart your server if necessary.", "info")
+        print("The server transfer list has been updated. Please restart your server if necessary", "info")
     end
 end

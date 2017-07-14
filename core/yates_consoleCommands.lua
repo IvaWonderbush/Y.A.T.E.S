@@ -3,7 +3,7 @@
 --[[
 	WARNING:
 	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
-	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	Anything you wish to change can be done using plugins! Many useful hooks and filters have been added
 	so you can even change function outcomes from outside of the core.
 	Check (@TODO add url) to learn more
 
@@ -17,9 +17,11 @@ function yates.func.console.help()
         if yates.console.help[_tbl[2]] then
             print("Usage:", "info")
             print(yates.console.help[_tbl[2]], "default", false)
+
             if yates.console.desc[_tbl[2]] then
                 print(yates.console.desc[_tbl[2]], "default", false)
             end
+
             print("", false, false)
             print("A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].", "info")
             print("Additional parameter elaboration is displayed behind a parameter wrapped with ( ).", "info")
@@ -51,7 +53,7 @@ function yates.func.console.player()
 
     if _tbl[2] == "list" then
         print("List of U.S.G.N.'s saved in data_player. Use player info <U.S.G.N.> for more info.", "info")
-        for k, v in pairs(_PLAYER) do
+        for k, v in pairs(_player) do
             print(k, false, false)
         end
     elseif _tbl[2] == "info" then
@@ -62,17 +64,17 @@ function yates.func.console.player()
         end
         _tbl[3] = tonumber(_tbl[3])
 
-        if _PLAYER[_tbl[3]] then
+        if _player[_tbl[3]] then
             if _tbl[4] then
                 print("Developer player information.", "info")
-                local info = table.valueToString(_PLAYER[_tbl[3]])
+                local info = table.valueToString(_player[_tbl[3]])
                 info = info:gsub("©","")
                 info = info:gsub("\169","")
 
-                print("_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
+                print("_player[\"".._tbl[3].."\"] = "..info, "default", false)
             else
                 msg2(_id,"Player data information.","info")
-                for k, v in pairs(_PLAYER[_tbl[3]]) do
+                for k, v in pairs(_player[_tbl[3]]) do
                     if type(v) ~= "table" then
                         v = tostring(v)
                         v = v:gsub("©","")
@@ -93,11 +95,11 @@ function yates.func.console.player()
         end
         _tbl[3] = tonumber(_tbl[3])
 
-        if not _PLAYER[_tbl[3]] then
-            _PLAYER[_tbl[3]] = {}
+        if not _player[_tbl[3]] then
+            _player[_tbl[3]] = {}
         end
 
-        if _PLAYER[_tbl[3]] then
+        if _player[_tbl[3]] then
             if not _tbl[4] then
                 print("You need to supply the field you want to edit.", "error")
                 return 1
@@ -126,8 +128,8 @@ function yates.func.console.group()
 
     if _tbl[2] == "list" then
         print("List of current groups, with their colour, prefix, name and level.", "info")
-        for k, v in pairs(_GROUP) do
-            print(k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
+        for k, v in pairs(_group) do
+            print(k.." ".._group[k].level.." "..(_group[k].prefix or ""), _group[k].colour, false)
         end
     elseif _tbl[2] == "info" then
         if not _tbl[3] then
@@ -135,19 +137,19 @@ function yates.func.console.group()
             return 1
         end
 
-        if _GROUP[_tbl[3]] then
+        if _group[_tbl[3]] then
             if _tbl[4] then
                 print("Developer group information.", "info")
-                local info = table.valueToString(_GROUP[_tbl[3]])
+                local info = table.valueToString(_group[_tbl[3]])
                 info = info:gsub("©", "")
                 info = info:gsub("\169", "")
 
-                print("_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
+                print("_group[\"".._tbl[3].."\"] = "..info, "default", false)
                 return 1
             end
 
             print("List of group fields and their values.", "info")
-            for k, v in pairs(_GROUP[_tbl[3]]) do
+            for k, v in pairs(_group[_tbl[3]]) do
                 if type(v) ~= "table" then
                     v = tostring(v)
                     v = v:gsub("©", "")
@@ -164,23 +166,23 @@ function yates.func.console.group()
             return 1
         end
 
-        if not _GROUP[_tbl[3]] then
+        if not _group[_tbl[3]] then
             local cmds = ""
 
             if not _tbl[4] then
-                _tbl[4] = (yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)
-                print("You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)..".", "notice")
+                _tbl[4] = (yates.setting.group_default_level or _group[yates.setting.group_default].level)
+                print("You did not enter a group level, the default level will be used instead: "..(yates.setting.group_default_level or _group[yates.setting.group_default].level)..".", "notice")
             end
             if not _tbl[5] then
-                _tbl[5] = (yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour)
-                print("You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour).."Lorem Ipsum.", "notice")
+                _tbl[5] = (yates.setting.group_default_colour or _group[yates.setting.group_default].colour)
+                print("You did not enter a group colour, the default color will be used instead: "..(yates.setting.group_default_colour or _group[yates.setting.group_default].colour).."Lorem Ipsum.", "notice")
             else
                 _tbl[5] = "\169".._tbl[5]
             end
             if not _tbl[6] then
-                _tbl[6] = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
+                _tbl[6] = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
                 print("You did not enter any group commands, the following default commands will be used instead:", "notice")
-                local tbl = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
+                local tbl = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
                 for i = 1, #tbl do
                     if cmds == "" then
                         cmds = tbl[i]
@@ -210,13 +212,13 @@ function yates.func.console.group()
             return 1
         end
 
-        if _GROUP[_tbl[3]] then
+        if _group[_tbl[3]] then
             if not _tbl[4] then
                 print("You did not enter a new group, the default group will be used instead: "..yates.setting.group_default..".", "notice")
                 _tbl[4] = yates.setting.group_default
             end
 
-            if not _GROUP[_tbl[4]] then
+            if not _group[_tbl[4]] then
                 print("The new group for the players in the old group does not exist!", "error")
                 return 1
             end
@@ -232,7 +234,7 @@ function yates.func.console.group()
             return 1
         end
 
-        if _GROUP[_tbl[3]] then
+        if _group[_tbl[3]] then
             if not _tbl[4] then
                 print("You need to supply the field you want to edit.", "error")
                 return 1

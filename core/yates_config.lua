@@ -7,7 +7,7 @@ yates.setting.update_version = false -- Currently not in use
 
 -- WANT ADMIN AND ACCESS TO EVERYTHING? THIS IS THE VARIABLE YOU CHANGE!
 -- The following U.S.G.N. ID will be given access to all of the available commands within Y.A.T.E.S. This person should preferrably be you.
-yates.setting.auth_usgn = 0 -- example: 21431 ->NOT<- "21431"
+yates.setting.auth_usgn = 0 -- example: 21431 **NOT**: "21431"
 
 -- The shortcode of the language you want to use within Y.A.T.E.S
 yates.setting.language = "en"
@@ -41,7 +41,7 @@ yates.setting.mute_time_default = 30
 -- The max time a player can be muted for in seconds. If you don't fully trust your administration team to not be dicks, set this to 60 seconds or something ;)
 yates.setting.mute_time_max = 60
 
--- Enables/disables the response when Y.A.T.E.S adds a ->NEW<- file to the transfer list. Good for debugging, bad for saving console space
+-- Enables/disables the response when Y.A.T.E.S adds a **NEW** file to the transfer list. Good for debugging, bad for saving console space
 yates.setting.transferlist_response = false
 
 -- Colours, do not remove these entries! You may add new ones
@@ -51,7 +51,7 @@ clr = {
 		["chat"] 		= "\169255255255",
 		["info"] 		= "\169100255255",
 		["success"] 	= "\169100255100",
-		["error"] 	= "\169255100100",
+		["error"] 		= "\169255100100",
 		["notice"] 		= "\169255255100"
 	},
 	["ply"] = {
@@ -70,7 +70,7 @@ yates.setting.constant = {
 
 --[[
 	WARNING:
-	Do not touch the _PLAYER or _GROUP tables if you do not know how to!
+	Do not touch the _player or _group tables if you do not know how to!
 	Everything player and group defined can be changed IN-GAME, so editing this is pretty pointless
 	unless you want to define data if data_player or data_group cannot be loaded or are empty.
 	I would advise not to do this as data_player and data_group override this data anyway.
@@ -78,7 +78,7 @@ yates.setting.constant = {
 ]]--
 
 -- This can set default player values if the data_player cannot be loaded
-_PLAYER = {
+_player = {
 	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple (purple is my favourite colour, now you know..)
 	[21431] = {
 		colour = "180000250"
@@ -86,7 +86,7 @@ _PLAYER = {
 }
 
 -- This sets the default groups if the data_group file cannot be loaded
-_GROUP = {
+_group = {
 	["admin"] = {
 		prefix = "[Admin]",
 		colour = "255025000",

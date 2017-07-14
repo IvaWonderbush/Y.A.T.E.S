@@ -26,8 +26,8 @@ function yates.func.displayHelpList(id)
     local everything = false
     local usgn = player(id, "usgn")
 
-    if _PLAYER[usgn] and _PLAYER[usgn].commands then
-        for k, v in spairs(_PLAYER[usgn].commands) do
+    if _player[usgn] and _player[usgn].commands then
+        for k, v in spairs(_player[usgn].commands) do
             if v == "all" then
                 everything = true
                 break
@@ -36,7 +36,7 @@ function yates.func.displayHelpList(id)
         end
     end
     if everything ~= true then
-        for k, v in spairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
+        for k, v in spairs(_group[(_player[usgn] and _player[usgn].group or yates.setting.group_default)].commands) do
             if v == "all" then
                 everything = true
                 break

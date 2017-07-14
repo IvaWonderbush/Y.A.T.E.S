@@ -3,151 +3,151 @@
 --[[
 	WARNING:
 	Do not touch anything in this file. This file is part of the Y.A.T.E.S core.
-	Anything you wish to change can be done using plugins! Many useful actions and filters have been added
+	Anything you wish to change can be done using plugins! Many useful hooks and filters have been added
 	so you can even change function outcomes from outside of the core.
 	Check (@TODO add url) to learn more
 	BE WARNED.
 ]]--
 
 function yates.hook.always()
-	action("always")
+	hook("always")
 end
-addhook("always", "yates.hook.always")
+_addhook("always", "yates.hook.always")
 
 function yates.hook.attack(id)
-	action("attack", id)
+	hook("attack", id)
 end
-addhook("attack", "yates.hook.attack")
+_addhook("attack", "yates.hook.attack")
 
 function yates.hook.attack2(id, mode)
-	action("attack2", id, mode)
+	hook("attack2", id, mode)
 end
-addhook("attack2", "yates.hook.attack2")
+_addhook("attack2", "yates.hook.attack2")
 
 function yates.hook.bombdefuse(id)
-	action("bombdefuse", id)
+	hook("bombdefuse", id)
 
     return filter("bombdefuse", id) or 0
 end
-addhook("bombdefuse", "yates.hook.bombdefuse")
+_addhook("bombdefuse", "yates.hook.bombdefuse")
 
 function yates.hook.bombexplode(id, tilex, tiley)
-	action("bombexplode", id, tilex, tiley)
+	hook("bombexplode", id, tilex, tiley)
 
     return filter("bombexplode", id, tilex, tiley) or 0
 end
-addhook("bombexplode", "yates.hook.bombexplode")
+_addhook("bombexplode", "yates.hook.bombexplode")
 
 function yates.hook.bombplant(id, tilex, tiley)
-	action("bombplant", id, tilex, tiley)
+	hook("bombplant", id, tilex, tiley)
 
     return filter("bombplant", id, tilex, tiley) or 0
 end
-addhook("bombplant", "yates.hook.bombplant")
+_addhook("bombplant", "yates.hook.bombplant")
 
 function yates.hook.destroy(tilex, tiley, id) -- yates.hook.break
-	action("destroy", tilex, tiley, id)
+	hook("destroy", tilex, tiley, id)
 end
-addhook("break", "yates.hook.destroy")
+_addhook("break", "yates.hook.destroy")
 
 function yates.hook.build(id, type, tilex, tiley, mode, objectid)
-	action("build", id, type, tilex, tiley, mode, objectid)
+	hook("build", id, type, tilex, tiley, mode, objectid)
 
     return filter("build", id, type, tilex, tiley, mode, objectid) or 0
 end
-addhook("build", "yates.hook.build")
+_addhook("build", "yates.hook.build")
 
 function yates.hook.buildattempt(id, type, tilex, tiley, mode)
-	action("buildattempt", id, type, tilex, tiley, mode)
+	hook("buildattempt", id, type, tilex, tiley, mode)
 
     return filter("buildattempt", id, type, tilex, tiley, mode) or 0
 end
-addhook("buildattempt", "yates.hook.buildattempt")
+_addhook("buildattempt", "yates.hook.buildattempt")
 
 function yates.hook.buy(id, weapon)
-	action("buy", id, weapon)
+	hook("buy", id, weapon)
 
     return filter("buy", id, weapon) or 0
 end
-addhook("buy", "yates.hook.buy")
+_addhook("buy", "yates.hook.buy")
 
 function yates.hook.clientdata(id, mode, data1, data2)
-	action("clientdata", id, mode, data1, data2)
+	hook("clientdata", id, mode, data1, data2)
 end
-addhook("clientdata", "yates.hook.clientdata")
+_addhook("clientdata", "yates.hook.clientdata")
 
 function yates.hook.collect(id, iid, type, ain, a, mode)
-	action("collect", id, iid, type, ain, a, mode)
+	hook("collect", id, iid, type, ain, a, mode)
 end
-addhook("collect", "yates.hook.collect")
+_addhook("collect", "yates.hook.collect")
 
 function yates.hook.die(victim, killer, weapon, x, y, objectid)
-	action("die", victim, killer, weapon, x, y, objectid)
+	hook("die", victim, killer, weapon, x, y, objectid)
 
     return filter("die", victim, killer, weapon, x, y, objectid) or 0
 end
-addhook("die", "yates.hook.die")
+_addhook("die", "yates.hook.die")
 
 function yates.hook.dominate(id, team, tilex, tiley)
-	action("dominate", id, team, tilex, tiley)
+	hook("dominate", id, team, tilex, tiley)
 
     return filter("dominate", id, team, tilex, tiley) or 0
 end
-addhook("dominate", "yates.hook.dominate")
+_addhook("dominate", "yates.hook.dominate")
 
 function yates.hook.drop(id, iid, type, ain, a, mode, tilex, tiley)
-	action("drop", id, iid, type, ain, a, mode, tilex, tiley)
+	hook("drop", id, iid, type, ain, a, mode, tilex, tiley)
 
     return filter("drop", id, iid, type, ain, a, mode, tilex, tiley) or 0
 end
-addhook("drop", "yates.hook.drop")
+_addhook("drop", "yates.hook.drop")
 
 function yates.hook.endround(mode)
-	action("endround", mode)
+	hook("endround", mode)
 end
-addhook("endround", "yates.hook.endround")
+_addhook("endround", "yates.hook.endround")
 
 function yates.hook.flagcapture(id, team, tilex, tiley)
-	action("flagcapture", id, team, tilex, tiley)
+	hook("flagcapture", id, team, tilex, tiley)
 
     return filter("flagcapture", id, team, tilex, tiley) or 0
 end
-addhook("flagcapture", "yates.hook.flagcapture")
+_addhook("flagcapture", "yates.hook.flagcapture")
 
 function yates.hook.flagtake(id, team, tilex, tiley)
-	action("flagtake", id, team, tilex, tiley)
+	hook("flagtake", id, team, tilex, tiley)
 
     return filter("flagtake", id, team, tilex, tiley) or 0
 end
-addhook("flagtake", "yates.hook.flagtake")
+_addhook("flagtake", "yates.hook.flagtake")
 
 function yates.hook.flashlight(id, mode)
-	action("flashlight", id, mode)
+	hook("flashlight", id, mode)
 end
-addhook("flashlight", "yates.hook.flashlight")
+_addhook("flashlight", "yates.hook.flashlight")
 
 function yates.hook.hit(id, source, weapon, hpdmg, apdmg, rawdmg, object)
 	if yates.player[id].god then
 		return filter("hitGod", id, source, weapon, hpdmg, apdmg, rawdmg, object) or 1
 	end
 
-	action("hit", id, source, weapon, hpdmg, apdmg, rawdmg, object)
+	hook("hit", id, source, weapon, hpdmg, apdmg, rawdmg, object)
 
     return filter("hit", id, source, weapon, hpdmg, apdmg, rawdmg, object) or 0
 end
-addhook("hit", "yates.hook.hit")
+_addhook("hit", "yates.hook.hit")
 
 function yates.hook.hitzone(imageid, id, objectid, weapon, x, y, damage)
-	action("hitzone", imageid, id, objectid, weapon, x, y, damage)
+	hook("hitzone", imageid, id, objectid, weapon, x, y, damage)
 
     return filter("hitzone", imageid, id, objectid, weapon, x, y, damage) or 0
 end
-addhook("hitzone", "yates.hook.hitzone")
+_addhook("hitzone", "yates.hook.hitzone")
 
 function yates.hook.hostagerescue(id, tilex, tiley)
-	action("hostagerescue", id, tilex, tiley)
+	hook("hostagerescue", id, tilex, tiley)
 end
-addhook("hostagerescue", "yates.hook.hostagerescue")
+_addhook("hostagerescue", "yates.hook.hostagerescue")
 
 function yates.hook.join(id)
 	yates.player[id] = {}
@@ -157,92 +157,92 @@ function yates.hook.join(id)
 	yates.player[id].mute_reason = ""
 	yates.player[id].tp = {}
 
-	if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_time then
-		yates.player[id].mute_time = _PLAYER[player(id, "usgn")].mute_time
-		yates.player[id].mute_reason = _PLAYER[player(id, "usgn")].mute_reason
+	if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time then
+		yates.player[id].mute_time = _player[player(id, "usgn")].mute_time
+		yates.player[id].mute_reason = _player[player(id, "usgn")].mute_reason
 
-		msg2(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds.", "error")
-		action("joinMute", id)
+		msg2(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds", "error")
+		hook("joinMute", id)
 	end
 
-	action("join", id)
+	hook("join", id)
 end
-addhook("join", "yates.hook.join")
+_addhook("join", "yates.hook.join")
 
 function yates.hook.kill(killer, victim, weapon, x, y, objectid)
-	action("kill", killer, victim, weapon, x, y, objectid)
+	hook("kill", killer, victim, weapon, x, y, objectid)
 end
-addhook("kill", "yates.hook.kill")
+_addhook("kill", "yates.hook.kill")
 
 function yates.hook.leave(id)
 	yates.player[id] = {}
 
-	action("leave", id)
+	hook("leave", id)
 end
-addhook("leave", "yates.hook.leave")
+_addhook("leave", "yates.hook.leave")
 
 function yates.hook.log(text)
-    -- action("log", text) @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
+    -- hook("log", text) @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 
     -- return filter("log", text) or 0 @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 end
-addhook("log", "yates.hook.log")
+_addhook("log", "yates.hook.log")
 
 function yates.hook.mapchange(map)
-	action("mapchange", map)
+	hook("mapchange", map)
 end
-addhook("mapchange", "yates.hook.mapchange")
+_addhook("mapchange", "yates.hook.mapchange")
 
 function yates.hook.menu(id, title, button)
-	action("menu", id, title, button)
+	hook("menu", id, title, button)
 end
-addhook("menu", "yates.hook.menu")
+_addhook("menu", "yates.hook.menu")
 
 function yates.hook.minute()
-	action("minute")
+	hook("minute")
 end
-addhook("minute", "yates.hook.minute")
+_addhook("minute", "yates.hook.minute")
 
 function yates.hook.move(id, x, y, mode)
-	action("move", id, x, y, mode)
+	hook("move", id, x, y, mode)
 end
-addhook("move", "yates.hook.move")
+_addhook("move", "yates.hook.move")
 
 function yates.hook.movetile(id, tilex, tiley)
-	action("movetile", id, tilex, tiley)
+	hook("movetile", id, tilex, tiley)
 end
-addhook("movetile", "yates.hook.movetile")
+_addhook("movetile", "yates.hook.movetile")
 
 function yates.hook.ms100()
-	action("ms100")
+	hook("ms100")
 end
-addhook("ms100", "yates.hook.ms100")
+_addhook("ms100", "yates.hook.ms100")
 
 function yates.hook.name(id, oldname, newname, forced)
-	action("name", id, oldname, newname, forced)
+	hook("name", id, oldname, newname, forced)
 
     return filter("name", id, oldname, newname, forced) or 0
 end
-addhook("name", "yates.hook.name")
+_addhook("name", "yates.hook.name")
 
 function yates.hook.objectdamage(objectid, damage, id)
-	action("objectdamage", objectid, damage, id)
+	hook("objectdamage", objectid, damage, id)
 
     return filter("objectdamage", objectid, damage, id) or 0
 end
-addhook("objectdamage", "yates.hook.objectdamage")
+_addhook("objectdamage", "yates.hook.objectdamage")
 
 function yates.hook.objectkill(objectid, id)
-	action("objectkill", objectid, id)
+	hook("objectkill", objectid, id)
 end
-addhook("objectkill", "yates.hook.objectkill")
+_addhook("objectkill", "yates.hook.objectkill")
 
 function yates.hook.objectupgrade(objectid, id, progress, total)
-	action("objectupgrade", objectid, id, progress, total)
+	hook("objectupgrade", objectid, id, progress, total)
 
     return filter("objectupgrade", objectid, id, progress, total) or 0
 end
-addhook("objectupgrade", "yates.hook.objectupgrade")
+_addhook("objectupgrade", "yates.hook.objectupgrade")
 
 function yates.hook.parse(text)
 	local tbl = string.toTable(text)
@@ -251,26 +251,26 @@ function yates.hook.parse(text)
 	end
 	local command = tbl[1]
 
-	action("parse", text)
-	if checkCommand(command, "console") then
+	hook("parse", text)
+	if yates.func.checkCommand(command, "console") then
 		return 2
 	end
 
     return filter("parse", text) or 0
 end
-addhook("parse", "yates.hook.parse")
+_addhook("parse", "yates.hook.parse")
 
 function yates.hook.projectile(id, weapon, x, y)
-	action("projectile", id, weapon, x, y)
+	hook("projectile", id, weapon, x, y)
 end
-addhook("projectile", "yates.hook.projectile")
+_addhook("projectile", "yates.hook.projectile")
 
 function yates.hook.radio(id, message)
-	action("radio", id, message)
+	hook("radio", id, message)
 
     return filter("radio", id, message) or 0
 end
-addhook("radio", "yates.hook.radio")
+_addhook("radio", "yates.hook.radio")
 
 function yates.hook.rcon(cmds, id, ip, port)
 	local tbl = string.toTable(cmds)
@@ -280,19 +280,19 @@ function yates.hook.rcon(cmds, id, ip, port)
 	end
 	local command = tbl[1]
 
-	if checkCommand(command, "console") then
-		executeCommand(false, command, cmds, "console")
+	if yates.func.checkCommand(command, "console") then
+		yates.func.executeCommand(false, command, cmds, "console")
 	end
-	action("rcon", cmds, id, ip, port)
+	hook("rcon", cmds, id, ip, port)
 
     return filter("rcon", cmds, id, ip, port) or 0
 end
-addhook("rcon", "yates.hook.rcon")
+_addhook("rcon", "yates.hook.rcon")
 
 function yates.hook.reload(id, mode)
-	action("reload", id, mode)
+	hook("reload", id, mode)
 end
-addhook("reload", "yates.hook.reload")
+_addhook("reload", "yates.hook.reload")
 
 function yates.hook.say(id, text)
 	local tbl = string.toTable(text)
@@ -304,22 +304,22 @@ function yates.hook.say(id, text)
 	if text:sub(1, #yates.setting.say_prefix) == yates.setting.say_prefix then
 		local command = tbl[1]:sub(#yates.setting.say_prefix+1)
 
-		if checkCommand(command, "say") then
-			if not checkSayCommandUse(command) then
+		if yates.func.checkCommand(command, "say") then
+			if not yates.func.checkSayCommandUse(command) then
 				msg2(id, lang("validation", 5, lang("global", 1)), "error")
 				return 1
 			end
 
-			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
+			for k, v in pairs(_group[(_player[usgn] and _player[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
-					executeCommand(id, command, text, "say")
+					yates.func.executeCommand(id, command, text, "say")
 					return 1
 				end
 			end
-			if _PLAYER[usgn] and _PLAYER[usgn].commands then
-				for k, v in pairs(_PLAYER[usgn].commands) do
+			if _player[usgn] and _player[usgn].commands then
+				for k, v in pairs(_player[usgn].commands) do
 					if command == v or v == "all" then
-						executeCommand(id, command, text, "say")
+						yates.func.executeCommand(id, command, text, "say")
 						return 1
 					end
 				end
@@ -328,7 +328,7 @@ function yates.hook.say(id, text)
 
 		else
 			msg2(id, lang("validation", 3, lang("global", 1)), "error")
-			msg2(id, lang("help", 2, yates.setting.say_prefix), "info")
+			msg2(id, lang("help", 3, yates.setting.say_prefix), "info")
 		end
 	else
 		if yates.setting.at_c == false then
@@ -343,147 +343,147 @@ function yates.hook.say(id, text)
 
 		chat(id, text)
     end
-    action("say", id, text)
+    hook("say", id, text)
 
     return filter("say", id, text) or 1
 end
-addhook("say", "yates.hook.say")
+_addhook("say", "yates.hook.say")
 
 function yates.hook.sayteam(id, message)
-	action("sayteam", id, message)
+	hook("sayteam", id, message)
 
     return filter("sayteam", id, message) or 0
 end
-addhook("sayteam", "yates.hook.sayteam")
+_addhook("sayteam", "yates.hook.sayteam")
 
 function yates.hook.second()
 	for _, id in pairs(player(0, "table")) do
 		if yates.player[id].mute_time > 0 then
 			yates.player[id].mute_time = yates.player[id].mute_time - 1
 
-			if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_time and _PLAYER[player(id, "usgn")].mute_time > 0 then
-				_PLAYER[player(id, "usgn")].mute_time = _PLAYER[player(id, "usgn")].mute_time - 1
+			if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
+				_player[player(id, "usgn")].mute_time = _player[player(id, "usgn")].mute_time - 1
 
-				if _PLAYER[player(id, "usgn")].mute_time == 0 then
-					_PLAYER[player(id, "usgn")].mute_time = nil
+				if _player[player(id, "usgn")].mute_time == 0 then
+					_player[player(id, "usgn")].mute_time = nil
 				end
 
-				saveData(_PLAYER, "data_player.lua")
+				saveData(_player, "data_player.lua")
 			end
 
 			if yates.player[id].mute_time == 0 then
 				yates.player[id].mute_reason = ""
-				msg2(id, "You are no longer muted.", "info")
+				msg2(id, "You are no longer muted", "info")
 
-				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_reason then
-					_PLAYER[player(id, "usgn")].mute_reason = nil
-					saveData(_PLAYER, "data_player.lua")
+				if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_reason then
+					_player[player(id, "usgn")].mute_reason = nil
+					saveData(_player, "data_player.lua")
 				end
 			end
 		end
 	end
-	action("second")
+	hook("second")
 end
-addhook("second", "yates.hook.second")
+_addhook("second", "yates.hook.second")
 
 function yates.hook.select(id, type, mode)
-	action("select", id, type, mode)
+	hook("select", id, type, mode)
 end
-addhook("select", "yates.hook.select")
+_addhook("select", "yates.hook.select")
 
 function yates.hook.serveraction(id, mode)
-	action("serveraction", id, mode)
+	hook("serveraction", id, mode)
 end
-addhook("serveraction", "yates.hook.serveraction")
+_addhook("serveraction", "yates.hook.serveraction")
 
 function yates.hook.shieldhit(id, source, weapon, direction, objectid)
-	action("shieldhit", id, source, weapon, direction, objectid)
+	hook("shieldhit", id, source, weapon, direction, objectid)
 end
-addhook("shieldhit", "yates.hook.shieldhit")
+_addhook("shieldhit", "yates.hook.shieldhit")
 
 function yates.hook.shutdown()
-	action("shutdown")
+	hook("shutdown")
 end
-addhook("shutdown", "yates.hook.shutdown")
+_addhook("shutdown", "yates.hook.shutdown")
 
 function yates.hook.spawn(id)
-	action("spawn", id)
+	hook("spawn", id)
 
     return filter("spawn", id) or 0
 end
-addhook("spawn", "yates.hook.spawn")
+_addhook("spawn", "yates.hook.spawn")
 
 function yates.hook.specswitch(id, target)
-	action("specswitch", id, target)
+	hook("specswitch", id, target)
 end
-addhook("specswitch", "yates.hook.specswitch")
+_addhook("specswitch", "yates.hook.specswitch")
 
 function yates.hook.spray(id)
-	action("spray", id)
+	hook("spray", id)
 end
-addhook("spray", "yates.hook.spray")
+_addhook("spray", "yates.hook.spray")
 
 function yates.hook.startround(mode)
-	action("startround", mode)
+	hook("startround", mode)
 end
-addhook("startround", "yates.hook.startround")
+_addhook("startround", "yates.hook.startround")
 
 function yates.hook.startround_prespawn(mode)
-	action("startround_prespawn", mode)
+	hook("startround_prespawn", mode)
 end
-addhook("startround_prespawn", "yates.hook.startround_prespawn")
+_addhook("startround_prespawn", "yates.hook.startround_prespawn")
 
 function yates.hook.suicide(id)
-	action("suicide", id)
+	hook("suicide", id)
 
     return filter("suicide", id) or 0
 end
-addhook("suicide", "yates.hook.suicide")
+_addhook("suicide", "yates.hook.suicide")
 
 function yates.hook.team(id, team, look)
-	action("team", id, team, look)
+	hook("team", id, team, look)
 
     return filter("team", id, team, look) or 0
 end
-addhook("team", "yates.hook.team")
+_addhook("team", "yates.hook.team")
 
 function yates.hook.trigger(trigger, source)
-	action("trigger", trigger, source)
+	hook("trigger", trigger, source)
 
     return filter("trigger", trigger, source) or 0
 end
-addhook("trigger", "yates.hook.trigger")
+_addhook("trigger", "yates.hook.trigger")
 
 function yates.hook.triggerentity(tilex, tiley)
-	action("triggerentity", tilex, tiley)
+	hook("triggerentity", tilex, tiley)
 
     return filter("triggerentity", tilex, tiley) or 0
 end
-addhook("triggerentity", "yates.hook.triggerentity")
+_addhook("triggerentity", "yates.hook.triggerentity")
 
 function yates.hook.use(id, event, data, tilex, tiley)
-	action("use", id, event, data, tilex, tiley)
+	hook("use", id, event, data, tilex, tiley)
 end
-addhook("use", "yates.hook.use")
+_addhook("use", "yates.hook.use")
 
 function yates.hook.usebutton(id, tilex, tiley)
-	action("usebutton", id, tilex, tiley)
+	hook("usebutton", id, tilex, tiley)
 end
-addhook("usebutton", "yates.hook.usebutton")
+_addhook("usebutton", "yates.hook.usebutton")
 
 function yates.hook.vipescape(id, tilex, tiley)
-	action("vipescape", id, tilex, tiley)
+	hook("vipescape", id, tilex, tiley)
 end
-addhook("vipescape", "yates.hook.vipescape")
+_addhook("vipescape", "yates.hook.vipescape")
 
 function yates.hook.vote(id, mode, param)
-	action("vote", id, mode, param)
+	hook("vote", id, mode, param)
 end
-addhook("vote", "yates.hook.vote")
+_addhook("vote", "yates.hook.vote")
 
 function yates.hook.walkover(id, iid, type, ain, a, mode)
-	action("walkover", id, iid, type, ain, a, mode)
+	hook("walkover", id, iid, type, ain, a, mode)
 
     return filter("walkover", id, iid, type, ain, a, mode) or 0
 end
-addhook("walkover", "yates.hook.walkover")
+_addhook("walkover", "yates.hook.walkover")

@@ -41,7 +41,7 @@ yates.transferlist = {}
 
 yates.version = "2.0.1"
 
-_GROUP = {}
-_PLAYER = {}
+_group = {}
+_player = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
 _YATES = {disabled_commands = {}}

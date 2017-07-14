@@ -8,5 +8,5 @@ function yates.func.reload()
     end
 
     timer(tonumber(_tbl[2]*1000), "parse", "map "..game("sv_map"))
-    msg(lang("hardreload", 3), "success")
+    msg(lang("reload", 3), "success")
 end

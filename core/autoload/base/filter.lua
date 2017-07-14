@@ -3,9 +3,15 @@
 	@return void
 ]]
 function addFilter(name, func, priority)
-    if not yates.filter[name] then yates.filter[name] = {} end
-    if priority then table.insert(yates.filter[name], priority, func)
-    else table.insert(yates.filter[name], func) end
+    if not yates.filter[name] then
+        yates.filter[name] = {}
+    end
+
+    if priority then
+        table.insert(yates.filter[name], priority, func)
+    else
+        table.insert(yates.filter[name], func)
+    end
 end
 
 --[[
@@ -16,8 +22,10 @@ function filter(name, ...)
     if yates.filter[name] then
         local f, l = table.bounds(yates.filter[name])
         for i = f, l do
-            local func = yates.filter[name][i]
-            if (func) then return func(...) end
+            local func = loadstring("return "..yates.filter[name][i])()
+            if (func) then
+                return func(...)
+            end
         end
     end
 end

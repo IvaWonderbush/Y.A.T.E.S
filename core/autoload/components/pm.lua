@@ -15,7 +15,7 @@ function yates.func.pm(id, target, message)
         return
     end
 
-    action("pm", id, target, message)
+    hook("pm", id, target, message)
 
     msg2(id, "[->] ["..target.."] "..player(target, "name")..": "..message, "info", "[PM]: ")
     msg2(target, "[<-] ["..id.."] "..player(id, "name")..": "..message, "info", "[PM]: ")

@@ -38,7 +38,7 @@ end
 	Executes the matching string function name
 	@return void
 ]]
-function executeCommand(id, command, text, mode)
+function yates.func.executeCommand(id, command, text, mode)
     _tbl = string.toTable(text)
     _id = id
     _usgn = player(id, "usgn")
@@ -49,7 +49,7 @@ function executeCommand(id, command, text, mode)
 
     if yates.setting.log_commands then
         if id then
-            log("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text)
+            log("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, false, "chat")
         end
     end
 
@@ -63,7 +63,7 @@ end
 	Checks if say command exists
 	@return boolean
 ]]
-function checkCommand(command, mode)
+function yates.func.checkCommand(command, mode)
     local tmp = {}
     for k, v in pairs(yates.func[mode]) do
         tmp[k] = k
@@ -79,7 +79,7 @@ function checkCommand(command, mode)
     return false
 end
 
-function checkSayCommandUse(command)
+function yates.func.checkSayCommandUse(command)
     if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
     if not command then
         print("No command was provided to check if the use of it is allowed!", "error")
@@ -99,15 +99,15 @@ end
 	@return void
 ]]
 function setUndo(id, command)
-    if not checkUsgn(id, false) then
-        msg2(id, "An undo command cannot be set as you are not logged in to a U.S.G.N. account.", "notice")
+    if player(id, "usgn") == 0 then
+        msg2(id, "An undo command cannot be set as you are not logged in to a U.S.G.N. account", "notice")
         return false
     end
 
-    if not _PLAYER[player(id, "usgn")] then
-        _PLAYER[player(id, "usgn")] = {}
+    if not _player[player(id, "usgn")] then
+        _player[player(id, "usgn")] = {}
     end
 
-    _PLAYER[player(id, "usgn")].undo = command
-    saveData(_PLAYER, "data_player.lua")
+    _player[player(id, "usgn")].undo = command
+    saveData(_player, "data_player.lua")
 end

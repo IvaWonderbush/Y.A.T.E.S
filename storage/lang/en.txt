@@ -37,37 +37,37 @@ You have not provided an $1!
 
 :info
 Thank you for using Y.A.T.E.S.
-Creator: $1, U.S.G.N. ID: $2.
-Loading language: $1.
-Utilizing language: $1.
-Loading plugin: $1.
-Initial authentication complete.
-The U.S.G.N. ID $1 has been given access to all commands.
+Creator: $1, U.S.G.N. ID: $2
+Loading language: $1
+Utilizing language: $1
+Loading plugin: $1
+Initial authentication complete
+The U.S.G.N. ID $1 has been given access to all commands
 
 :error
-Language: $1, section: $2, entry: $3.
+Language: $1, section: $2, entry: $3
 The addhook function is depreciated, use action instead!
-Initial authentication has not been complete.
-Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file.
+Initial authentication has not been complete
+Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file
 
 :help
 [<cmd>]
-Displays a list of commands available to you or more information about a command.
-Say $1help to see all of the commands available to you.
+Displays a list of commands available to you or more information about a command
+Say $1help to see all of the commands available to you
 Usage:
-A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ].
-Additional parameter elaboration is displayed behind a parameter wrapped with ( ).
+A parameter is wrapped with < >, a parameter that is optional is wrapped with [ ]
+Additional parameter elaboration is displayed behind a parameter wrapped with ( )
 There is no help for this command!
-For more information about a command, use $1help <command>.
-If the list is too long for you, open your console.
+For more information about a command, use $1help <command>
+If the list is too long for you, open your console
 
 :pm
 <id> <message>
-Sends a private message (pm) to the accoding player.
+Sends a private message (pm) to the accoding player
 
 :credits
-Y.A.T.E.S was made by $1, U.S.G.N. ID: $2.
-Crucial functions and assistance provided by $1, U.S.G.N. ID: $2.
+Y.A.T.E.S was made by $1, U.S.G.N. ID: $2
+Crucial functions and assistance provided by $1, U.S.G.N. ID: $2
 
 :ls
 <cmd>
@@ -76,174 +76,177 @@ Command executed!
 
 :plugin
 list / <info/enable/disable> <plugin>
-General command to show information about (a) plugin(s) or to enable/disable them.
+General command to show information about (a) plugin(s) or to enable/disable them
 
 :command
 list / <enable/disable> <command>
-General command to show information about disabled commands or to enable/disable them.
+General command to show information about disabled commands or to enable/disable them
 
 :reload
 [<delay>] (in seconds)
-Reloads Y.A.T.E.S Lua scripts and plugins by changing the map to its current one.
-We are reloading our lua scripts! Please stay.
+Reloads Y.A.T.E.S Lua scripts and plugins by changing the map to its current one
+We are reloading our lua scripts! Please stay
 
 :hide
-Toggles your prefix and colour. Useful if you want to hide your identity to spot hackers and still chat.
-You are no longer hidden.
-You are now hidden.
+Toggles your prefix and colour. Useful if you want to hide your identity to spot hackers and still chat
+You are no longer hidden
+You are now hidden
 
 :god
-Turns on God mode. During this mode you cannot be dealt damage (you can still die).
-You are no longer in God mode.
-You are now in God mode.
+Turns on God mode. During this mode you cannot be dealt damage (you can still die)
+You are no longer in God mode
+You are now in God mode
 
 :mute
 <id> [<duration>] (default $1 seconds) [<reason>]
-Mutes the player. The player is then no longer allowed to talk.
-You did not define a time. The default of $1 seconds will be used instead.
+Mutes the player. The player is then no longer allowed to talk
+You did not define a time. The default of $1 seconds will be used instead
 You cannot mute a player longer than $1 seconds!
 You cannot mute a player for less than 1 second!
-$1 has been muted.
-You have been muted for $1 seconds.
-You are still muted for $1 seconds.
-No reason defined.
+$1 has been muted
+You have been muted for $1 seconds
+You are still muted for $1 seconds
+No reason defined
 Reason: $1
 
 :unmute
 <id>
-Unmutes the player.
-$1 has been unmuted.
-You have been unmuted.
+Unmutes the player
+$1 has been unmuted
+You have been unmuted
 
 :kick
 <id> [<reason>]
-Kicks the player from the server. The player however can rejoin instantly if they want to.
-$1 has been kicked.
+Kicks the player from the server. The player however can rejoin instantly if they want to
+$1 has been kicked
 
 :ban
 <id> [<duration>] (0 for infinite, -1 for server setting) [<reason>]
-Bans the player from the server. The player can no longer rejoin until unbanned.
-$1 has been banned.
+Bans the player from the server. The player can no longer rejoin until unbanned
+$1 has been banned
 
 :banusgn
 <U.S.G.N.> [<duration>] (0 for infinite, -1 for server setting) [<reason>]
-Bans a specific U.S.G.N. ID. Anyone logged in with this ID can no longer rejoin until unbanned.
-The U.S.G.N. ID $1 has been banned.
+Bans a specific U.S.G.N. ID. Anyone logged in with this ID can no longer rejoin until unbanned
+The U.S.G.N. ID $1 has been banned
 
 :banip
 <ip> [<duration>] (0 for infinite, -1 for server setting) [<reason>]
-Bans a specific IP address or range. Anyone trying to connect with this IP can no longer join until unbanned.
-The IP address $1 has been banned.
+Bans a specific IP address or range. Anyone trying to connect with this IP can no longer join until unbanned
+The IP address $1 has been banned
 
 :unban
 <U.S.G.N. ID/IP>
-Unbans a specific U.S.G.N. ID or IP address.
-The U.S.G.N. ID/IP address $1 has been unbanned.
+Unbans a specific U.S.G.N. ID or IP address
+The U.S.G.N. ID/IP address $1 has been unbanned
 
 :unbanall
-Removes all the bans from the ban list (EVERYTHING WILL BE LOST).
+Removes all the bans from the ban list (EVERYTHING WILL BE LOST)
 All of the bans have been removed!
 
 :map
 <map> [<delay>] (in seconds)
-Changes the map of the server.
-We are changing the map! Please stay.
+Changes the map of the server
+We are changing the map! Please stay
 
 :spawn
 <id> [<tilex>] [<tiley>]
-Spawns the player, if no x and y are provided the player will be spawn at a random spawn entity.
+Spawns the player, if no x and y are provided the player will be spawn at a random spawn entity
 This player is on the spectators team, you cannot spawn him!
 This player is already alive!
-$1 has been spawned.
+$1 has been spawned
 
 :kill
 <id>
-Kills the player.
+Kills the player
 You can not kill a dead player!
-$1 has been killed.
+$1 has been killed
 
 :slap
 <id>
-Slaps the player.
-You have been slapped.
-$1 has been slapped.
+Slaps the player
+You have been slapped
+$1 has been slapped
 
 :equip
 <id> <item id>
-Equips the player with the provided item ID.
-You have been given a $1.
-$1 has been equipped a $2.
+Equips the player with the provided item ID
+You have been given a $1
+$1 has been equipped a $2
 
 :strip
 <id> <item id>
-Strips the player from the provided item ID.
-You have been stripped from the $1.
-$1 has been stripped from the $2.
+Strips the player from the provided item ID
+You have been stripped from the $1
+$1 has been stripped from the $2
 
 :goto
 <id>
-Teleports you to the player.
+Teleports you to the player
 
 :goback
-Teleports you back to your original location.
+Teleports you back to your original location
 You do not have an original location!
 
 :bring
 <id>
-Teleports the player to you.
+Teleports the player to you
 
 :bringback
 <id>
-Teleports the player back to their original location.
+Teleports the player back to their original location
 This player does not have an original location!
 
 :make
 <id> <team> (id or abbreviation)
-Sets the player to the given team.
+Sets the player to the given team
 The provided team does not exist!
-Please use spec (or 0), t (or 1) or ct (or 2) to set a player's team.
+Please use spec (or 0), t (or 1) or ct (or 2) to set a player's team
 
 :playerinfo
 <id>
-Displays the player information.
+Displays the player information
+Player data information
+Name
+Idle
 
 :playerprefix
 <id> <prefix>
-Sets the player say prefix.
+Sets the player say prefix
 
 :playercolour
 <id> <colour>
-Sets the player prefix colour.
+Sets the player prefix colour
 
 :playerlevel
 <id> <level>
-Sets the player level.
+Sets the player level
 
 :playergroup
 <id> <group>
-Sets the player group.
+Sets the player group
 
 :player
 list / info <id> / edit <U.S.G.N. ID> <field> <new entry>
-A general command used to display information about players and edit their data.
+A general command used to display information about players and edit their data
 
 :groupprefix
 <group> <prefix>
-Sets the group say prefix.
+Sets the group say prefix
 
 :groupcolour
 <group> <colour>
-Sets the group prefix colour.
+Sets the group prefix colour
 
 :grouplevel
 <group> <level>
-Sets the group level.
+Sets the group level
 
 :group
 list / info <group> / add <group> [<level>] [<colour>] [<commands>] / del(ete) <group> [<new group>] / edit <group> <field> <new entry>
-A general command used to display information about groups and edit them.
+A general command used to display information about groups and edit them
 
 :undo
-Certain commands have an undo option, this command will undo the most recent undoable command.
+Certain commands have an undo option, this command will undo the most recent undoable command
 You have not executed any command to undo!
 Executing the following command: $1

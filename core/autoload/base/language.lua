@@ -43,7 +43,7 @@ function lang(section, line, ...)
         end
     else
         str = lang("error", 1, yates.setting.language, section, line)
-        log(lang("error", 1, yates.setting.language, section, line), "error")
+        log(lang("error", 1, yates.setting.language, section, line), "error", "debug")
     end
 
     return str
