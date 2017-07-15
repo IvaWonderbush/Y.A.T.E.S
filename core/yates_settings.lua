@@ -36,10 +36,13 @@ yates.console.desc = {}
 yates.language = {}
 
 yates.setting = {}
+yates.setting.domain = "https://www.thomasyates.nl/"
+yates.setting.domainVersion = "https://www.thomasyates.nl/docs/version.html"
+yates.setting.domainDownload = "https://www.thomasyates.nl/docs"
 
 yates.transferlist = {}
 
-yates.version = "2.0.1"
+yates.version = "3.0.0"
 
 _group = {}
 _player = {}

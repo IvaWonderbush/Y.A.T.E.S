@@ -1,6 +1,6 @@
 function yates.func.ls(id, command)
     if not command or command == "" then
-        msg2(id, lang("validation", 6, lang("global", 18)), "error")
+        msg2(id, lang("validation", 8, lang("global", 18)), "error")
         return
     end
     yates.func.executeLua(command)

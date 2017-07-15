@@ -106,18 +106,18 @@ function yates.func.compareLevel(id, id2)
     return false
 end
 
---[[
+--[[checkPlayer
 	Checks whether a player exists or not
 	@return boolean
 ]]
 function yates.func.checkPlayer(id)
     if not id or tonumber(id) == nil then
-        msg2(_id, lang("validation", 6, lang("global", 3)), "error")
+        msg2(_id, lang("validation", 8, lang("global", 3)), "error")
         return false
     end
 
     if not player(id, "exists") then
-        msg2(_id, lang("validation", 3, lang("global", 3)), "error")
+        msg2(_id, lang("validation", 3, lang("global", 2)), "error")
         return false
     end
 
@@ -128,9 +128,16 @@ end
 	Checks whether a player has a U.S.G.N. ID or not
 	@return boolean
 ]]
-function yates.func.checkUsgn(id)
+function yates.func.checkUsgn(id, message)
+    if not message then
+        message = false
+    end
+
     if player(id, "usgn") == 0 then
-        msg2(_id, lang("player", 7), "error")
+        if message then
+            msg2(_id, lang("player", 7), "error")
+        end
+
         return false
     end
 
@@ -147,7 +154,10 @@ function checkGroup(group, message)
     end
 
     if not _group[group] then
-        msg2(_id, lang("validation", 3, lang("global", 4)), "error")
+        if message then
+            msg2(_id, lang("validation", 3, lang("global", 4)), "error")
+        end
+
         return false
     end
 

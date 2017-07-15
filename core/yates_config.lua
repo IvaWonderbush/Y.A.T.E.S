@@ -7,7 +7,7 @@ yates.setting.update_version = false -- Currently not in use
 
 -- WANT ADMIN AND ACCESS TO EVERYTHING? THIS IS THE VARIABLE YOU CHANGE!
 -- The following U.S.G.N. ID will be given access to all of the available commands within Y.A.T.E.S. This person should preferrably be you.
-yates.setting.auth_usgn = 0 -- example: 21431 **NOT**: "21431"
+yates.setting.auth_usgn = 21431 -- example: 21431 **NOT**: "21431"
 
 -- The shortcode of the language you want to use within Y.A.T.E.S
 yates.setting.language = "en"

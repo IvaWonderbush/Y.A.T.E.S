@@ -2,7 +2,7 @@
 	Creates a filter to be called in a function
 	@return void
 ]]
-function addFilter(name, func, priority)
+function addfilter(name, func, priority)
     if not yates.filter[name] then
         yates.filter[name] = {}
     end

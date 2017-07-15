@@ -1,6 +1,6 @@
 function yates.func.mute(id, target, time, reason)
     if not target then
-        msg2(id, lang("validation", 6, lang("global", 3)), "error")
+        msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return
     end
 
@@ -20,6 +20,11 @@ function yates.func.mute(id, target, time, reason)
         time = yates.setting.mute_time_default
     else
         time = tonumber(time)
+
+        if type(time) ~= "number" then
+            msg2(id, lang("validation", 6, lang("global", 19), lang("type", 2)), "error")
+            return
+        end
 
         if time > yates.setting.mute_time_max then
             msg2(id, lang("mute", 4, yates.setting.mute_time_max), "error")
@@ -47,7 +52,7 @@ end
 
 function yates.func.unmute(id, target)
     if not target then
-        msg2(id, lang("validation", 6, lang("global", 3)), "error")
+        msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return
     end
 

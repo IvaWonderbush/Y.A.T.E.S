@@ -1,6 +1,6 @@
 function yates.func.pm(id, target, message)
     if not target then
-        msg2(id, lang("validation", 6, lang("global", 3)), "error")
+        msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return
     end
 
@@ -11,7 +11,7 @@ function yates.func.pm(id, target, message)
     target = tonumber(target)
 
     if not message or message == "" then
-        msg2(id, lang("validation", 6, lang("global", 16)), "error")
+        msg2(id, lang("validation", 8, lang("global", 16)), "error")
         return
     end
 

@@ -1,7 +1,7 @@
 function yates.func.checkStatus()
-    local checkstatus = io.popen("curl -Is http://www.thomasyates.nl | head -1")
+    local checkstatus = io.popen("curl -Is "..yates.setting.domain.." | head -1")
     local status = checkstatus:read("*a")
-    if status:match("HTTP/1.1 200 OK") then
+    if status:match("HTTP/2 200") then
         return true;
     else
         return false;
@@ -11,15 +11,15 @@ end
 
 function yates.func.checkVersion()
     if not yates.setting.check_version then
-        print("Version check is disabled. Please enable this to stay up-to-date in yates_config.lua", "error")
+        print(lang("version", 1), "error")
         return
     end
     if not yates.func.checkStatus() then
-        print("No connection status could be made with http://www.thomasyates.nl/", "error")
+        print(lang("version", 2, yates.setting.domain), "error")
         return
     end
 
-    handle = io.popen("curl http://www.thomasyates.nl/docs/version.html")
+    handle = io.popen("curl "..yates.setting.domainVersion)
     local git_version = tostring(handle:read("*a"))
     local local_version = tostring(yates.version)
     handle:close()
@@ -28,11 +28,11 @@ function yates.func.checkVersion()
     local_version = local_version:gsub("%.", "")
 
     if git_version > local_version then
-        print("You are not up-to-date with the current version!", "error")
-        print("Please download the current version at http://www.thomasyates.nl/docs", "error")
+        print(lang("version", 3), "error")
+        print(lang("version", 4, yates.setting.domainDownload), "error")
     elseif git_version < local_version then
-        print("You are running on a higher version of the current release. Huh? I don't even..", "notice")
+        print(lang("version", 5), "notice")
     else
-        print("You are up-to-date with the current version!", "success")
+        print(lang("version", 6), "success")
     end
 end

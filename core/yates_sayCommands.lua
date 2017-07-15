@@ -118,31 +118,21 @@ function yates.func.say.plugin()
 				msg2(_id, "Plugin information:", "info")
 				if _PLUGIN["info"][_tbl[3]]["title"] then
 					msg2(_id, "Title: ".._PLUGIN["info"][_tbl[3]]["title"], false, false)
-				else
-					msg2(_id, "No title has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["author"] then
 					msg2(_id, "Author: ".._PLUGIN["info"][_tbl[3]]["author"], false, false)
-				else
-					msg2(_id, "No author has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["usgn"] then
 					msg2(_id, "U.S.G.N. ID: ".._PLUGIN["info"][_tbl[3]]["usgn"], false, false)
-				else
-					msg2(_id, "No U.S.G.N. ID has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["version"] then
 					msg2(_id, "Version: ".._PLUGIN["info"][_tbl[3]]["version"], false, false)
-				else
-					msg2(_id, "No version has been provided by the plugin or has not been cached!", false, false)
 				end
 				if _PLUGIN["info"][_tbl[3]]["description"] then
 					msg2(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
-				else
-					msg2(_id, "No description has been provided by the plugin or has not been cached!", false, false)
 				end
 			else
-				msg2(_id, "No information has been provided by the plugin or has not been cached!", "error")
+				msg2(_id, "This plugin has not provided any information!", "error")
 			end
 		else
 			msg2(_id, "You have not provided a plugin name!", "error")
@@ -200,7 +190,6 @@ function yates.func.say.reload()
 end
 setSayHelp("reload", lang("reload", 1))
 setSayDesc("reload", lang("reload", 2))
-
 
 function yates.func.say.hide()
 	yates.func.toggleHide(_id)
@@ -300,10 +289,13 @@ function yates.func.say.ban()
 		return 1
 	end
 
+	local ip = player(_tbl[2], "ip")
+	local usgn = player(_tbl[2], "usgn")
+
 	msg2(_id, lang("ban", 3, player(_tbl[2], "name")), "success")
-	parse("banip "..player(_tbl[2], "ip").." ".._tbl[3].." \""..reason.."\"")
+	parse("banip "..ip.." ".._tbl[3].." \""..reason.."\"")
 	if yates.func.checkUsgn(_tbl[2], false) then
-		parse("banusgn "..player(_tbl[2], "usgn").." ".._tbl[3].." \""..reason.."\"")
+		parse("banusgn "..usgn.." ".._tbl[3].." \""..reason.."\"")
 	end
 end
 setSayHelp("ban", lang("ban", 1))
@@ -313,7 +305,7 @@ function yates.func.say.banusgn()
 	local reason = ""
 
 	if not _tbl[2] or tonumber(_tbl[2]) == nil then
-		msg2(_id, lang("validation", 6, lang("global", 14)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 14)), "error")
 		return 1
 	end
 
@@ -345,7 +337,7 @@ function yates.func.say.banip()
 	local reason = ""
 
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 15)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 15)), "error")
 		return 1
 	end
 
@@ -375,8 +367,8 @@ setSayDesc("banip", lang("banip", 2))
 
 function yates.func.say.unban()
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 14)), "error")
-		msg2(_id, lang("validation", 6, lang("global", 15)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 14)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 15)), "error")
 		return 1
 	end
 
@@ -395,7 +387,7 @@ setSayDesc("unbanall", lang("unbanall", 1))
 
 function yates.func.say.map()
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 13)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 13)), "error")
 		return 1
 	end
 
@@ -408,7 +400,7 @@ end
 setSayHelp("map", lang("map", 1))
 setSayDesc("map", lang("map", 2))
 
-function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and spawn if x & y are not given
+function yates.func.say.spawn()
 	if not yates.func.checkPlayer(_tbl[2]) then
 		return 1
 	end
@@ -430,8 +422,20 @@ function yates.func.say.spawn() -- @TODO: Loop through all spawn entities and sp
 	end
 
 	if not _tbl[3] then
-		_tbl[3] = 0
-		_tbl[4] = 0
+		local entities = entitylist(player(_tbl[2], "team") - 1)
+		local list = {}
+
+		for _, e in pairs(entities) do
+			table.insert(list, {e.x, e.y})
+		end
+
+		if #list > 0 then
+			_tbl[3] = list[math.random(#list)][1] * 32 + 16
+			_tbl[4] = list[math.random(#list)][2] * 32 + 16
+		else
+			_tbl[3] = 0
+			_tbl[4] = 0
+		end
 	end
 
 	msg2(_id, lang("spawn", 5, player(_tbl[2], "name")), "success")
@@ -487,12 +491,12 @@ function yates.func.say.equip()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
-		msg2(_id, lang("validation", 6, lang("global", 3)), "error")
+		msg2(_id, lang("validation", 9, lang("global", 9)), "error")
 		return 1
 	end
 
-	msg2(_tbl[2], lang("equip", 3, _tbl[3]), "info")
-	msg2(_id, lang("equip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
+	msg2(_tbl[2], lang("equip", 3, itemtype(_tbl[3], "name")), "info")
+	msg2(_id, lang("equip", 4, player(_tbl[2], "name"), itemtype(_tbl[3], "name")), "success")
 
 	parse("equip ".._tbl[2].." ".._tbl[3])
 	setUndo(_id, "!strip ".._tbl[2].." ".._tbl[3])
@@ -507,12 +511,12 @@ function yates.func.say.strip()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if not _tbl[3] then
-		msg2(_id, lang("validation", 6, lang("global", 3)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
 		return 1
 	end
 
-	msg2(_tbl[2], lang("strip", 3, _tbl[3]), "info")
-	msg2(_id, lang("strip", 4, player(_tbl[2], "name"), _tbl[3]), "success")
+	msg2(_tbl[2], lang("strip", 3, itemtype(_tbl[3], "name")), "info")
+	msg2(_id, lang("strip", 4, player(_tbl[2], "name"), itemtype(_tbl[3], "name")), "success")
 
 	parse("strip ".._tbl[2].." ".._tbl[3])
 	setUndo(_id, "!equip ".._tbl[2].." ".._tbl[3])
@@ -559,7 +563,7 @@ setSayDesc("bring", lang("bring", 2))
 
 function yates.func.say.bringback()
 	if not _tbl[2] then
-		msg2(_id, lang("validation", 6, lang("global", 3)), "error")
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
 		return 1
 	end
 
@@ -768,7 +772,7 @@ function yates.func.say.player()
 	elseif _tbl[2] == "info" then
 
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 14)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 14)), "error")
 			return 1
 		end
 		_tbl[3] = tonumber(_tbl[3])
@@ -799,7 +803,7 @@ function yates.func.say.player()
 
 	elseif _tbl[2] == "edit" then
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 14)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 14)), "error")
 			return 1
 		end
 		_tbl[3] = tonumber(_tbl[3])
@@ -810,12 +814,12 @@ function yates.func.say.player()
 
 		if _player[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, lang("validation", 6, lang("global", 18)), "error")
+				msg2(_id, lang("validation", 8, lang("global", 18)), "error")
 				return 1
 			end
 
 			if not _tbl[5] then
-				msg2(_id, lang("validation", 6, lang("global", 20)), "error")
+				msg2(_id, lang("validation", 8, lang("global", 20)), "error")
 				return 1
 			end
 
@@ -915,7 +919,7 @@ function yates.func.say.group()
 		end
 	elseif _tbl[2] == "info" then
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 4)), "error")
 			return 1
 		end
 
@@ -945,7 +949,7 @@ function yates.func.say.group()
 
 	elseif _tbl[2] == "add" then
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 5)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 5)), "error")
 			return 1
 		end
 
@@ -992,7 +996,7 @@ function yates.func.say.group()
 
 	elseif _tbl[2] == "del" or _tbl[2] == "delete" then
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 4)), "error")
 			return 1
 		end
 
@@ -1003,7 +1007,7 @@ function yates.func.say.group()
 			end
 
 			if not _group[_tbl[4]] then
-				msg2(_id, lang("validation", 6, lang("global", 4)), "error")
+				msg2(_id, lang("validation", 8, lang("global", 4)), "error")
 				return 1
 			end
 
@@ -1015,18 +1019,18 @@ function yates.func.say.group()
 
 	elseif _tbl[2] == "edit" then
 		if not _tbl[3] then
-			msg2(_id, lang("validation", 6, lang("global", 4)), "error")
+			msg2(_id, lang("validation", 8, lang("global", 4)), "error")
 			return 1
 		end
 
 		if _group[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, lang("validation", 6, lang("global", 19)), "error")
+				msg2(_id, lang("validation", 8, lang("global", 19)), "error")
 				return 1
 			end
 
 			if not _tbl[5] then
-				msg2(_id, lang("validation", 6, lang("global", 20)), "error")
+				msg2(_id, lang("validation", 8, lang("global", 20)), "error")
 				return 1
 			end
 

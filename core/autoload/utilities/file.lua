@@ -51,8 +51,8 @@ end
 	Saves (table) data to file output as Lua
 	@return void
 ]]
-function saveData(data, file, overwrite) -- @TODO: Add overwrite, add or merge (push) functionality
-    local file = io.open(_DIR.."data/"..file, "w+") or io.tmpfile()
+function saveData(data, file)
+    local file = io.open(_DIR.."storage/data/"..file, "w+") or io.tmpfile()
 
     local text = table.getName(data).." = " .. table.valueToString(data) .. ""
     file:write(text)

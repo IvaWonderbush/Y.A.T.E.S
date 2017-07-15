@@ -157,7 +157,7 @@ function yates.hook.join(id)
 	yates.player[id].mute_reason = ""
 	yates.player[id].tp = {}
 
-	if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time then
+	if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
 		yates.player[id].mute_time = _player[player(id, "usgn")].mute_time
 		yates.player[id].mute_reason = _player[player(id, "usgn")].mute_reason
 
@@ -358,22 +358,27 @@ _addhook("sayteam", "yates.hook.sayteam")
 
 function yates.hook.second()
 	for _, id in pairs(player(0, "table")) do
-		if yates.player[id].mute_time > 0 then
-			yates.player[id].mute_time = yates.player[id].mute_time - 1
+		if yates.player[id] then
+			if yates.player[id].mute_time > 0 then
+				yates.player[id].mute_time = yates.player[id].mute_time - 1
 
-			if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
-				_player[player(id, "usgn")].mute_time = _player[player(id, "usgn")].mute_time - 1
+				if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
+					_player[player(id, "usgn")].mute_time = _player[player(id, "usgn")].mute_time - 1
 
-				if _player[player(id, "usgn")].mute_time == 0 then
-					_player[player(id, "usgn")].mute_time = nil
+					if _player[player(id, "usgn")].mute_time == 0 then
+						_player[player(id, "usgn")].mute_time = nil
+					end
+
+					saveData(_player, "data_player.lua")
 				end
 
-				saveData(_player, "data_player.lua")
+				if yates.player[id].mute_time == 0 then
+					msg2(id, "You are no longer muted", "info")
+				end
 			end
 
 			if yates.player[id].mute_time == 0 then
 				yates.player[id].mute_reason = ""
-				msg2(id, "You are no longer muted", "info")
 
 				if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_reason then
 					_player[player(id, "usgn")].mute_reason = nil

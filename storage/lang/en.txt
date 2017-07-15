@@ -26,8 +26,14 @@ IP address
 message
 reason
 command
+time
 field
 value
+
+:type
+string
+number
+table
 
 :validation
 You do not have sufficient permissions to use this $1!
@@ -35,6 +41,8 @@ You do not have sufficient permissions over this $1!
 The provided $1 does not exist!
 The provided $1 does not have any data!
 The provided $1 has been disabled!
+The provided $1 is not a $2!
+The provided $1 is not an $2!
 You have not provided a $1!
 You have not provided an $1!
 
@@ -52,6 +60,14 @@ Language: $1, section: $2, entry: $3
 The addhook function is depreciated, use action instead!
 Initial authentication has not been complete
 Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file
+
+:version
+Version check is disabled. Please enable this to stay up-to-date in yates_config.lua
+No connection status could be made with $1
+You are not up-to-date with the current version!
+Please download the current version at $1
+You are running on a higher version of the current release. Huh? I don't even..
+You are up-to-date with the current version!
 
 :help
 [<cmd>]
