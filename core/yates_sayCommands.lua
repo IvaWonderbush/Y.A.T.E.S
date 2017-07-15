@@ -638,6 +638,7 @@ function yates.func.say.playerprefix()
 	end
 
 	local id = _tbl[2]
+	local undo = false
 
 	_tbl[5] = _tbl[3]
 	_tbl[4] = "prefix"
@@ -670,6 +671,7 @@ function yates.func.say.playercolour()
 	end
 
 	local id = _tbl[2]
+	local undo = false
 
 	_tbl[5] = _tbl[3]
 	_tbl[4] = "colour"
@@ -687,8 +689,6 @@ function yates.func.say.playercolour()
 		undo = "!playercolour "..id.." /nil"
 	end
 
-	print(undo)
-
 	if yates.func.say.player() then
 		if undo then
 			setUndo(_id, undo)
@@ -704,6 +704,7 @@ function yates.func.say.playerlevel()
 	end
 
 	local id = _tbl[2]
+	local undo = false
 
 	_tbl[5] = _tbl[3]
 	_tbl[4] = "level"
@@ -736,6 +737,7 @@ function yates.func.say.playergroup()
 	end
 
 	local id = _tbl[2]
+	local undo = false
 
 	_tbl[5] = _tbl[3]
 	_tbl[4] = "group"
