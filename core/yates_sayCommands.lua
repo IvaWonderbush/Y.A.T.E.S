@@ -144,12 +144,12 @@ setSayDesc("plugin", lang("plugin", 2))
 
 function yates.func.say.command()
 	if not _tbl[2] then
-		msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help command for a list of sub-commands.", "error")
+		msg2(_id, lang("validation", 10, yates.setting.say_prefix, "command"), "error")
 		return 1
 	end
 
 	if _tbl[2] == "list" then
-		msg2(_id, "List of disabled commands:", "info")
+		msg2(_id, lang("command", 3), "info")
 		for _, all in pairs(_YATES.disabled_commands) do
 			msg2(_id, all, "error", false)
 		end
@@ -160,27 +160,31 @@ function yates.func.say.command()
 					_YATES.disabled_commands[k] = nil
 				end
 			end
-			msg2(_id, "The command has been enabled.", "success")
+			msg2(_id, lang("command", 4), "success")
 			setUndo(_id, "!command disable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua")
-		else
-			msg2(_id, "You have not provided a command!", "error")
+			return
 		end
+
+		msg2(_id, lang("validation", 8, lang("global", 1)), "error")
 	elseif _tbl[2] == "disable" then
 		if _tbl[3] == "command" then
-			msg2(_id, "Funny you.. You cannot disable this command of course!", "error")
+			msg2(_id, lang("command", 6), "error")
 			return
 		end
 
 		if _tbl[3] then
 			table.insert(_YATES.disabled_commands, _tbl[3])
-			msg2(_id, "The command has been disabled.", "success")
+			msg2(_id, lang("command", 5), "success")
 			setUndo(_id, "!command enable ".._tbl[3])
 			saveData(_YATES, "data_yates.lua")
-		else
-			msg2(_id, "You have not provided a command!", "error")
+			return
 		end
+
+		msg2(_id, lang("validation", 8, lang("global", 1)), "error")
 	end
+
+	msg2(_id, lang("validation", 10, yates.setting.say_prefix, "command"), "error")
 end
 setSayHelp("command", lang("command", 1))
 setSayDesc("command", lang("command", 2))
@@ -607,27 +611,6 @@ end
 setSayHelp("make", lang("make", 1))
 setSayDesc("make", lang("make", 2))
 
-function yates.func.say.playerinfo()
-	if not yates.func.checkPlayer(_tbl[2]) then
-		return 1
-	end
-	_tbl[2] = tonumber(_tbl[2])
-
-	msg2(_id, lang("playerinfo", 3), "info")
-	msg2(_id, _tbl[2], "info", "(ID): ")
-	msg2(_id, player(_tbl[2], "name"), "info", "("..lang("playerinfo", 4).."): ")
-	if player(_tbl[2], "rcon") then
-		msg2(_id, "Logged in.", "info", "(RCon): ")
-	else
-		msg2(_id, "Not logged in.", "info", "(RCon): ")
-	end
-	msg2(_id, player(_tbl[2], "ip"), "info", "(IP): ")
-	msg2(_id, player(_tbl[2], "usgn"), "info", "(U.S.G.N.): ")
-	msg2(_id, player(_tbl[2], "idle").." seconds.", "info", "("..lang("playerinfo", 5).."): ")
-end
-setSayHelp("playerinfo", lang("playerinfo", 1))
-setSayDesc("playerinfo", lang("playerinfo", 2))
-
 function yates.func.say.playerprefix()
 	if not yates.func.checkUsgn(_tbl[2]) then
 		return 1
@@ -640,13 +623,13 @@ function yates.func.say.playerprefix()
 	_tbl[3] = player(_tbl[2], "usgn")
 	_tbl[2] = "edit"
 
-	if not _player[_tbl[3]] then
-		_player[_tbl[3]] = {}
+	if not _PLAYER[_tbl[3]] then
+		_PLAYER[_tbl[3]] = {}
 		undo = "!playerprefix "..id.." /nil"
 	end
 
-	if _player[_tbl[3]].prefix then
-		undo = "!playerprefix "..id.." ".._player[_tbl[3]].prefix
+	if _PLAYER[_tbl[3]].prefix then
+		undo = "!playerprefix "..id.." ".._PLAYER[_tbl[3]].prefix
 	else
 		undo = "!playerprefix "..id.." /nil"
 	end
@@ -672,13 +655,13 @@ function yates.func.say.playercolour()
 	_tbl[3] = player(_tbl[2], "usgn")
 	_tbl[2] = "edit"
 
-	if not _player[_tbl[3]] then
-		_player[_tbl[3]] = {}
+	if not _PLAYER[_tbl[3]] then
+		_PLAYER[_tbl[3]] = {}
 		undo = "!playercolour "..id.." /nil"
 	end
 
-	if _player[_tbl[3]].colour then
-		undo = "!playercolour "..id.." ".._player[_tbl[3]].colour
+	if _PLAYER[_tbl[3]].colour then
+		undo = "!playercolour "..id.." ".._PLAYER[_tbl[3]].colour
 	else
 		undo = "!playercolour "..id.." /nil"
 	end
@@ -706,13 +689,13 @@ function yates.func.say.playerlevel()
 	_tbl[3] = player(_tbl[2], "usgn")
 	_tbl[2] = "edit"
 
-	if not _player[_tbl[3]] then
-		_player[_tbl[3]] = {}
+	if not _PLAYER[_tbl[3]] then
+		_PLAYER[_tbl[3]] = {}
 		undo = "!playerlevel "..id.." /nil"
 	end
 
-	if _player[_tbl[3]].level then
-		undo = "!playerlevel "..id.." ".._player[_tbl[3]].level
+	if _PLAYER[_tbl[3]].level then
+		undo = "!playerlevel "..id.." ".._PLAYER[_tbl[3]].level
 	else
 		undo = "!playerlevel "..id.." /nil"
 	end
@@ -738,13 +721,13 @@ function yates.func.say.playergroup()
 	_tbl[3] = player(_tbl[2], "usgn")
 	_tbl[2] = "edit"
 
-	if not _player[_tbl[3]] then
-		_player[_tbl[3]] = {}
+	if not _PLAYER[_tbl[3]] then
+		_PLAYER[_tbl[3]] = {}
 		undo = "!playergroup "..id.." /nil"
 	end
 
-	if _player[_tbl[3]].group then
-		undo = "!playergroup "..id.." ".._player[_tbl[3]].group
+	if _PLAYER[_tbl[3]].group then
+		undo = "!playergroup "..id.." ".._PLAYER[_tbl[3]].group
 	else
 		undo = "!playergroup "..id.." /nil"
 	end
@@ -760,13 +743,13 @@ setSayDesc("playergroup", lang("playergroup", 2))
 
 function yates.func.say.player()
 	if not _tbl[2] then
-		msg2(_id, lang("player", 3, yates.setting.say_prefix), "error")
+		msg2(_id, lang("validation", 10, yates.setting.say_prefix, "player"), "error")
 		return 1
 	end
 
 	if _tbl[2] == "list" then
-		msg2(_id, lang("player", 4, yates.setting.say_prefix), "info")
-		for k, v in pairs(_player) do
+		msg2(_id, lang("player", 3, yates.setting.say_prefix), "info")
+		for k, v in pairs(_PLAYER) do
 			msg2(_id, k, false, false)
 		end
 	elseif _tbl[2] == "info" then
@@ -777,19 +760,19 @@ function yates.func.say.player()
 		end
 		_tbl[3] = tonumber(_tbl[3])
 
-		if _player[_tbl[3]] then
-			msg2(_id, lang("player", 5), "info")
+		if _PLAYER[_tbl[3]] then
+			msg2(_id, lang("player", 4), "info")
 
 			if _tbl[4] then
-				local info = table.valueToString(_player[_tbl[3]])
+				local info = table.valueToString(_PLAYER[_tbl[3]])
 				info = info:gsub("©","")
 				info = info:gsub("\169","")
 
-				msg2(_id, "_player[\"".._tbl[3].."\"] = "..info, "default", false)
+				msg2(_id, "_PLAYER[\"".._tbl[3].."\"] = "..info, "default", false)
 				return 1
 			end
 
-			for k, v in pairs(_player[_tbl[3]]) do
+			for k, v in pairs(_PLAYER[_tbl[3]]) do
 				if type(v) ~= "table" then
 					v = tostring(v)
 					v = v:gsub("©","")
@@ -808,11 +791,11 @@ function yates.func.say.player()
 		end
 		_tbl[3] = tonumber(_tbl[3])
 
-		if not _player[_tbl[3]] then
-			_player[_tbl[3]] = {}
+		if not _PLAYER[_tbl[3]] then
+			_PLAYER[_tbl[3]] = {}
 		end
 
-		if _player[_tbl[3]] then
+		if _PLAYER[_tbl[3]] then
 			if not _tbl[4] then
 				msg2(_id, lang("validation", 8, lang("global", 18)), "error")
 				return 1
@@ -824,9 +807,11 @@ function yates.func.say.player()
 			end
 
 			editPlayer(_tbl[3], _tbl[4])
-			msg2(_id, lang("player", 6, _tbl[3]), "success")
+			msg2(_id, lang("player", 5, _tbl[3]), "success")
 		end
 	end
+
+	msg2(_id, lang("validation", 10, yates.setting.say_prefix, "player"), "error")
 end
 setSayHelp("player", lang("player", 1))
 setSayDesc("player", lang("player", 2))
@@ -840,8 +825,8 @@ function yates.func.say.groupprefix()
 	_tbl[2] = "edit"
 
 	if checkGroup(_tbl[3], false) then
-		if _group[_tbl[3]].prefix then
-			undo = "!groupprefix ".._tbl[3].." ".._group[_tbl[3]].prefix
+		if _GROUP[_tbl[3]].prefix then
+			undo = "!groupprefix ".._tbl[3].." ".._GROUP[_tbl[3]].prefix
 		else
 			undo = "!groupprefix ".._tbl[3].." /nil"
 		end
@@ -865,8 +850,8 @@ function yates.func.say.groupcolour()
 	_tbl[2] = "edit"
 
 	if checkGroup(_tbl[3], false) then
-		if _group[_tbl[3]].colour then
-			undo = "!groupcolour ".._tbl[3].." ".._group[_tbl[3]].colour
+		if _GROUP[_tbl[3]].colour then
+			undo = "!groupcolour ".._tbl[3].." ".._GROUP[_tbl[3]].colour
 		else
 			undo = "!groupcolour ".._tbl[3].." /nil"
 		end
@@ -890,8 +875,8 @@ function yates.func.say.grouplevel()
 	_tbl[2] = "edit"
 
 	if checkGroup(_tbl[3], false) then
-		if _group[_tbl[3]].level then
-			undo = "!grouplevel ".._tbl[3].." ".._group[_tbl[3]].level
+		if _GROUP[_tbl[3]].level then
+			undo = "!grouplevel ".._tbl[3].." ".._GROUP[_tbl[3]].level
 		else
 			undo = "!grouplevel ".._tbl[3].." /nil"
 		end
@@ -908,14 +893,14 @@ setSayDesc("grouplevel", lang("grouplevel", 2))
 
 function yates.func.say.group()
 	if not _tbl[2] then
-		msg2(_id, lang("group", 3, yates.setting.say_prefix), "error")
+		msg2(_id, lang("validation", 10, yates.setting.say_prefix, "group"), "error")
 		return 1
 	end
 
 	if _tbl[2] == "list" then
-		msg2(_id, lang("group", 4), "info")
-		for k, v in pairs(_group) do
-			msg2(_id, k.." ".._group[k].level.." "..(_group[k].prefix or ""), _group[k].colour, false)
+		msg2(_id, lang("group", 3), "info")
+		for k, v in pairs(_GROUP) do
+			msg2(_id, k.." ".._GROUP[k].level.." "..(_GROUP[k].prefix or ""), _GROUP[k].colour, false)
 		end
 	elseif _tbl[2] == "info" then
 		if not _tbl[3] then
@@ -923,19 +908,19 @@ function yates.func.say.group()
 			return 1
 		end
 
-		if _group[_tbl[3]] then
-			msg2(_id, lang("group", 5), "info")
+		if _GROUP[_tbl[3]] then
+			msg2(_id, lang("group", 4), "info")
 
 			if _tbl[4] then
-				local info = table.valueToString(_group[_tbl[3]])
+				local info = table.valueToString(_GROUP[_tbl[3]])
 				info = info:gsub("©", "")
 				info = info:gsub("\169", "")
 
-				msg2(_id, "_group[\"".._tbl[3].."\"] = "..info, "default", false)
+				msg2(_id, "_GROUP[\"".._tbl[3].."\"] = "..info, "default", false)
 				return 1
 			end
 
-			for k, v in pairs(_group[_tbl[3]]) do
+			for k, v in pairs(_GROUP[_tbl[3]]) do
 				if type(v) ~= "table" then
 					v = tostring(v)
 					v = v:gsub("©", "")
@@ -953,23 +938,23 @@ function yates.func.say.group()
 			return 1
 		end
 
-		if not _group[_tbl[3]] then
+		if not _GROUP[_tbl[3]] then
 			local cmds = ""
 
 			if not _tbl[4] then
-				_tbl[4] = (yates.setting.group_default_level or _group[yates.setting.group_default].level)
-				msg2(_id, lang("group", 6, (yates.setting.group_default_level or _group[yates.setting.group_default].level)), "notice")
+				_tbl[4] = (yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)
+				msg2(_id, lang("group", 5, (yates.setting.group_default_level or _GROUP[yates.setting.group_default].level)), "notice")
 			end
 			if not _tbl[5] then
-				_tbl[5] = (yates.setting.group_default_colour or _group[yates.setting.group_default].colour)
-				msg2(_id, lang("group", 7, (yates.setting.group_default_colour or _group[yates.setting.group_default].colour)), "notice")
+				_tbl[5] = (yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour)
+				msg2(_id, lang("group", 6, (yates.setting.group_default_colour or _GROUP[yates.setting.group_default].colour)), "notice")
 			else
 				_tbl[5] = "\169".._tbl[5]
 			end
 			if not _tbl[6] then
-				_tbl[6] = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
-				msg2(_id, lang("group", 8), "notice")
-				local tbl = (yates.setting.group_default_commands or _group[yates.setting.group_default].commands)
+				_tbl[6] = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
+				msg2(_id, lang("group", 7), "notice")
+				local tbl = (yates.setting.group_default_commands or _GROUP[yates.setting.group_default].commands)
 				for i = 1, #tbl do
 					if cmds == "" then
 						cmds = tbl[i]
@@ -989,10 +974,10 @@ function yates.func.say.group()
 			end
 			setUndo(_id, "!group del ".._tbl[3])
 			addGroup(_tbl[3], _tbl[4], _tbl[5], cmds)
-			msg2(_id, lang("group", 9, _tbl[3]), "success")
+			msg2(_id, lang("group", 8, _tbl[3]), "success")
 			return 1
 		end
-		msg2(_id, lang("group", 10), "error")
+		msg2(_id, lang("group", 9), "error")
 
 	elseif _tbl[2] == "del" or _tbl[2] == "delete" then
 		if not _tbl[3] then
@@ -1000,19 +985,19 @@ function yates.func.say.group()
 			return 1
 		end
 
-		if _group[_tbl[3]] then
+		if _GROUP[_tbl[3]] then
 			if not _tbl[4] then
-				msg2(_id, lang("group", 11, yates.setting.group_default), "notice")
+				msg2(_id, lang("group", 10, yates.setting.group_default), "notice")
 				_tbl[4] = yates.setting.group_default
 			end
 
-			if not _group[_tbl[4]] then
+			if not _GROUP[_tbl[4]] then
 				msg2(_id, lang("validation", 8, lang("global", 4)), "error")
 				return 1
 			end
 
 			deleteGroup(_tbl[3], _tbl[4])
-			msg2(_id, lang("group", 12, _tbl[3]), "success")
+			msg2(_id, lang("group", 11, _tbl[3]), "success")
 			return 1
 		end
 		msg2(_id, lang("validation", 3, lang("global", 4)), "error")
@@ -1023,7 +1008,7 @@ function yates.func.say.group()
 			return 1
 		end
 
-		if _group[_tbl[3]] then
+		if _GROUP[_tbl[3]] then
 			if not _tbl[4] then
 				msg2(_id, lang("validation", 8, lang("global", 19)), "error")
 				return 1
@@ -1035,24 +1020,26 @@ function yates.func.say.group()
 			end
 
 			editGroup(_tbl[3], _tbl[4])
-			msg2(_id, lang("group", 13, _tbl[3]), "success")
+			msg2(_id, lang("group", 12, _tbl[3]), "success")
 			return 1
 		end
 		msg2(_id, lang("validation", 3, lang("global", 4)), "error")
 
 	end
+
+	msg2(_id, lang("validation", 10, yates.setting.say_prefix, "group"), "error")
 end
 setSayHelp("group", lang("group", 1))
 setSayDesc("group", lang("group", 2))
 
 function yates.func.say.undo()
-	if not _player[_usgn] or not _player[_usgn].undo then
+	if not _PLAYER[_usgn] or not _PLAYER[_usgn].undo then
 		msg2(_id, lang("undo", 2), "error")
 		return 1
 	end
 
-	msg2(_id, lang("undo", 3, _player[_usgn].undo), "info")
-	yates.hook.say(_id, _player[_usgn].undo)
+	msg2(_id, lang("undo", 3, _PLAYER[_usgn].undo), "info")
+	yates.hook.say(_id, _PLAYER[_usgn].undo)
 end
 setSayHelp("undo")
 setSayDesc("undo", lang("undo", 1))

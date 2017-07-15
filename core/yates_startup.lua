@@ -55,8 +55,8 @@ dofile(_DIR.."core/yates_consoleCommands.lua")
 
 print("Loading data..", "info")
 dofile(_DIR.."storage/data/data_yates.lua", true)
-dofile(_DIR.."storage/data/data_group.lua", true)
-dofile(_DIR.."storage/data/data_player.lua", true)
+dofile(_DIR.."storage/data/data_GROUP.lua", true)
+dofile(_DIR.."storage/data/data_PLAYER.lua", true)
 dofile(_DIR.."storage/data/data_plugin.lua", true)
 
 print("Checking first use..", "info")

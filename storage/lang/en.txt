@@ -45,6 +45,7 @@ The provided $1 is not a $2!
 The provided $1 is not an $2!
 You have not provided a $1!
 You have not provided an $1!
+You have not provided a (valid) sub-command, say $1help $2 for a list of sub-commands
 
 :info
 Thank you for using Y.A.T.E.S.
@@ -100,6 +101,10 @@ General command to show information about (a) plugin(s) or to enable/disable the
 :command
 list / <enable/disable> <command>
 General command to show information about disabled commands or to enable/disable them
+List of disabled commands:
+The command has been enabled
+The command has been disabled
+Good one! But you can't disable this command :P
 
 :reload
 [<delay>] (in seconds)
@@ -222,13 +227,6 @@ Sets the player to the given team
 The provided team does not exist!
 Please use spec (or 0), t (or 1) or ct (or 2) to set a player's team
 
-:playerinfo
-<id>
-Displays the player information
-Player data information
-Name
-Idle
-
 :playerprefix
 <id> <prefix>
 Sets the player say prefix
@@ -248,8 +246,7 @@ Sets the player group
 :player
 list / info <id> / edit <U.S.G.N. ID> <field> <new entry>
 A general command used to display information about players and edit their data
-You have not provided a sub-command, say $1help player for a list of sub-commands
-List of U.S.G.N.'s saved in data_player. Use $1player info <U.S.G.N.> for more info
+List of U.S.G.N.'s saved in data_PLAYER. Use $1player info <U.S.G.N.> for more info
 Player data information:
 The player $1 has been edited!
 This player is not logged in!
@@ -269,7 +266,6 @@ Sets the group level
 :group
 list / info <group> / add <group> [<level>] [<colour>] [<commands>] / del(ete) <group> [<new group>] / edit <group> <field> <new entry>
 A general command used to display information about groups and edit them
-You have not provided a sub-command, say $1help group for a list of sub-commands
 List of current groups, with their colour, prefix, name and level
 Group data information:
 You did not enter a group level, the default level will be used instead: $1

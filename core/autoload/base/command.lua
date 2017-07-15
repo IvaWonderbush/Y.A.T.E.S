@@ -104,10 +104,10 @@ function setUndo(id, command)
         return false
     end
 
-    if not _player[player(id, "usgn")] then
-        _player[player(id, "usgn")] = {}
+    if not _PLAYER[player(id, "usgn")] then
+        _PLAYER[player(id, "usgn")] = {}
     end
 
-    _player[player(id, "usgn")].undo = command
-    saveData(_player, "data_player.lua")
+    _PLAYER[player(id, "usgn")].undo = command
+    saveData(_PLAYER, "data_PLAYER.lua")
 end

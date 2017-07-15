@@ -3,11 +3,11 @@
 	@return boolean
 ]]
 function addGroup(name, lvl, clr, cmds)
-    _group[name] = {}
-    _group[name].level = lvl
-    _group[name].colour = ""..clr..""
-    _group[name].commands = {cmds}
-    saveData(_group, "data_group.lua")
+    _GROUP[name] = {}
+    _GROUP[name].level = lvl
+    _GROUP[name].colour = ""..clr..""
+    _GROUP[name].commands = {cmds}
+    saveData(_GROUP, "data_GROUP.lua")
 end
 
 --[[
@@ -15,12 +15,12 @@ end
 	@return void
 ]]
 function deleteGroup(old, new)
-    for tk, tv in pairs(_player) do
-        for pk, pv in pairs(_player[tk]) do
+    for tk, tv in pairs(_PLAYER) do
+        for pk, pv in pairs(_PLAYER[tk]) do
             if type(pv) ~= "table" then
                 if pk == "group" then
                     if pv == old then
-                        _player[tk].group = new
+                        _PLAYER[tk].group = new
                     end
                     break
                 end
@@ -28,9 +28,9 @@ function deleteGroup(old, new)
         end
     end
 
-    _group[old] = nil
-    saveData(_group, "data_group.lua")
-    saveData(_player, "data_player.lua")
+    _GROUP[old] = nil
+    saveData(_GROUP, "data_GROUP.lua")
+    saveData(_PLAYER, "data_PLAYER.lua")
 end
 
 --[[
@@ -38,19 +38,19 @@ end
 	@return void
 ]]
 function editGroup(group, field)
-    local t = type(_group[group][field])
+    local t = type(_GROUP[group][field])
     local v = ""
 
     if _tbl[5]:sub(1, 1) == "/" then
-        _group[group][field] = yates.constant[_tbl[5]:sub(2)]
+        _GROUP[group][field] = yates.constant[_tbl[5]:sub(2)]
     else
         if t == "table" then
-            for i = 1, #_group[group][field] do
-                if _group[group][field][i] ~= "," then
+            for i = 1, #_GROUP[group][field] do
+                if _GROUP[group][field][i] ~= "," then
                     if v == "" then
-                        v = _group[group][field][i]
+                        v = _GROUP[group][field][i]
                     else
-                        v = v.." ".._group[group][field][i]
+                        v = v.." ".._GROUP[group][field][i]
                     end
                 end
             end
@@ -66,7 +66,7 @@ function editGroup(group, field)
                     end
                 end
             end
-            _group[group][field] = string.toTable(v)
+            _GROUP[group][field] = string.toTable(v)
         else
             for i = 5, #_tbl do
                 if v == "" then
@@ -75,10 +75,10 @@ function editGroup(group, field)
                     v = v.." ".._tbl[i]
                 end
             end
-            _group[group][field] = v
+            _GROUP[group][field] = v
         end
     end
-    saveData(_group, "data_group.lua")
+    saveData(_GROUP, "data_GROUP.lua")
 end
 
 --[[
@@ -86,10 +86,10 @@ end
 	@return integer
 ]]
 function getPlayerGroupLevel(usgn)
-    if _player[usgn] then
-        if _player[usgn].group then
-            if checkGroup(_player[usgn].group) then
-                return _group[_player[usgn].group].level
+    if _PLAYER[usgn] then
+        if _PLAYER[usgn].group then
+            if checkGroup(_PLAYER[usgn].group) then
+                return _GROUP[_PLAYER[usgn].group].level
             end
         end
     end

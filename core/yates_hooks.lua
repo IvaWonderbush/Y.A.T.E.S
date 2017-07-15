@@ -157,9 +157,9 @@ function yates.hook.join(id)
 	yates.player[id].mute_reason = ""
 	yates.player[id].tp = {}
 
-	if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
-		yates.player[id].mute_time = _player[player(id, "usgn")].mute_time
-		yates.player[id].mute_reason = _player[player(id, "usgn")].mute_reason
+	if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_time and _PLAYER[player(id, "usgn")].mute_time > 0 then
+		yates.player[id].mute_time = _PLAYER[player(id, "usgn")].mute_time
+		yates.player[id].mute_reason = _PLAYER[player(id, "usgn")].mute_reason
 
 		msg2(id, "Welcome back! You are still muted for "..yates.player[id].mute_time.." seconds", "error")
 		hook("joinMute", id)
@@ -310,14 +310,14 @@ function yates.hook.say(id, text)
 				return 1
 			end
 
-			for k, v in pairs(_group[(_player[usgn] and _player[usgn].group or yates.setting.group_default)].commands) do
+			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
 					yates.func.executeCommand(id, command, text, "say")
 					return 1
 				end
 			end
-			if _player[usgn] and _player[usgn].commands then
-				for k, v in pairs(_player[usgn].commands) do
+			if _PLAYER[usgn] and _PLAYER[usgn].commands then
+				for k, v in pairs(_PLAYER[usgn].commands) do
 					if command == v or v == "all" then
 						yates.func.executeCommand(id, command, text, "say")
 						return 1
@@ -362,14 +362,14 @@ function yates.hook.second()
 			if yates.player[id].mute_time > 0 then
 				yates.player[id].mute_time = yates.player[id].mute_time - 1
 
-				if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_time and _player[player(id, "usgn")].mute_time > 0 then
-					_player[player(id, "usgn")].mute_time = _player[player(id, "usgn")].mute_time - 1
+				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_time and _PLAYER[player(id, "usgn")].mute_time > 0 then
+					_PLAYER[player(id, "usgn")].mute_time = _PLAYER[player(id, "usgn")].mute_time - 1
 
-					if _player[player(id, "usgn")].mute_time == 0 then
-						_player[player(id, "usgn")].mute_time = nil
+					if _PLAYER[player(id, "usgn")].mute_time == 0 then
+						_PLAYER[player(id, "usgn")].mute_time = nil
 					end
 
-					saveData(_player, "data_player.lua")
+					saveData(_PLAYER, "data_PLAYER.lua")
 				end
 
 				if yates.player[id].mute_time == 0 then
@@ -380,9 +380,9 @@ function yates.hook.second()
 			if yates.player[id].mute_time == 0 then
 				yates.player[id].mute_reason = ""
 
-				if _player[player(id, "usgn")] and _player[player(id, "usgn")].mute_reason then
-					_player[player(id, "usgn")].mute_reason = nil
-					saveData(_player, "data_player.lua")
+				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_reason then
+					_PLAYER[player(id, "usgn")].mute_reason = nil
+					saveData(_PLAYER, "data_PLAYER.lua")
 				end
 			end
 		end

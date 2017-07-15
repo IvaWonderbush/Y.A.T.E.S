@@ -9,8 +9,8 @@ function yates.func.checkFirstUse()
         return false
     end
 
-    _player[yates.setting.auth_usgn].commands = {"all"}
-    saveData(_player, "data_player.lua")
+    _PLAYER[yates.setting.auth_usgn].commands = {"all"}
+    saveData(_PLAYER, "data_PLAYER.lua")
 
     print("Initial authentication complete", "success")
     print("The U.S.G.N. ID "..yates.setting.auth_usgn.." has been given access to all commands", "success")

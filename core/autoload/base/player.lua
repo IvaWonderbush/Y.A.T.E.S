@@ -5,22 +5,22 @@
 function getPlayerInfo(usgn, key)
     local case
 
-    if usgn == 0 or not _player[usgn] then
+    if usgn == 0 or not _PLAYER[usgn] then
         return false
     end
 
-    if _player[usgn][key] then
+    if _PLAYER[usgn][key] then
         case = 1
-    elseif _player[usgn].group then
-        if _group[_player[usgn].group][key] then
+    elseif _PLAYER[usgn].group then
+        if _GROUP[_PLAYER[usgn].group][key] then
             case = 2
         end
     end
 
     if case == 1 then
-        return _player[usgn][key]
+        return _PLAYER[usgn][key]
     elseif case == 2 then
-        return _group[_player[usgn].group][key]
+        return _GROUP[_PLAYER[usgn].group][key]
     end
 
     return false
@@ -31,19 +31,19 @@ end
 	@return void
 ]]
 function editPlayer(player, field)
-    local t = type(_player[player][field])
+    local t = type(_PLAYER[player][field])
     local v = ""
 
     if _tbl[5]:sub(1, 1) == "/" then
-        _player[player][field] = yates.constant[_tbl[5]:sub(2)]
+        _PLAYER[player][field] = yates.constant[_tbl[5]:sub(2)]
     else
         if t == "table" then
-            for i = 1, #_player[player][field] do
-                if _player[player][field][i] ~= "," then
+            for i = 1, #_PLAYER[player][field] do
+                if _PLAYER[player][field][i] ~= "," then
                     if v == "" then
-                        v = _player[player][field][i]
+                        v = _PLAYER[player][field][i]
                     else
-                        v = v.." ".._player[player][field][i]
+                        v = v.." ".._PLAYER[player][field][i]
                     end
                 end
             end
@@ -59,7 +59,7 @@ function editPlayer(player, field)
                     end
                 end
             end
-            _player[player][field] = string.toTable(v)
+            _PLAYER[player][field] = string.toTable(v)
         else
             for i = 5, #_tbl do
                 if v == "" then
@@ -68,10 +68,10 @@ function editPlayer(player, field)
                     v = v.." ".._tbl[i]
                 end
             end
-            _player[player][field] = v
+            _PLAYER[player][field] = v
         end
     end
-    saveData(_player, "data_player.lua")
+    saveData(_PLAYER, "data_PLAYER.lua")
 end
 
 --[[
@@ -82,20 +82,20 @@ function yates.func.compareLevel(id, id2)
     local usgn = player(id, "usgn")
     local usgn2 = player(id2, "usgn")
 
-    local lvl = _group[yates.setting.group_default].level or 0
-    local lvl2 = _group[yates.setting.group_default].level or 0
+    local lvl = _GROUP[yates.setting.group_default].level or 0
+    local lvl2 = _GROUP[yates.setting.group_default].level or 0
 
-    if _player[usgn] and _player[usgn].group then
-        lvl = _group[(_player[usgn].group or yates.setting.group_default)].level or 0
-        if _player[usgn].level then
-            lvl = _player[usgn].level
+    if _PLAYER[usgn] and _PLAYER[usgn].group then
+        lvl = _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].level or 0
+        if _PLAYER[usgn].level then
+            lvl = _PLAYER[usgn].level
         end
     end
 
-    if _player[usgn2] and _player[usgn2].group then
-        lvl2 = _group[(_player[usgn2].group or yates.setting.group_default)].level or 0
-        if _player[usgn2].level then
-            lvl2 = _player[usgn2].level
+    if _PLAYER[usgn2] and _PLAYER[usgn2].group then
+        lvl2 = _GROUP[(_PLAYER[usgn2].group or yates.setting.group_default)].level or 0
+        if _PLAYER[usgn2].level then
+            lvl2 = _PLAYER[usgn2].level
         end
     end
 
@@ -153,7 +153,7 @@ function checkGroup(group, message)
         message = false
     end
 
-    if not _group[group] then
+    if not _GROUP[group] then
         if message then
             msg2(_id, lang("validation", 3, lang("global", 4)), "error")
         end
