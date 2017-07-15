@@ -34,8 +34,8 @@ function editPlayer(player, field)
     local t = type(_PLAYER[player][field])
     local v = ""
 
-    if _tbl[5]:sub(1, 1) == "/" then
-        _PLAYER[player][field] = yates.constant[_tbl[5]:sub(2)]
+    if _words[5]:sub(1, 1) == "/" then
+        _PLAYER[player][field] = yates.constant[_words[5]:sub(2)]
     else
         if t == "table" then
             for i = 1, #_PLAYER[player][field] do
@@ -48,24 +48,24 @@ function editPlayer(player, field)
                 end
             end
 
-            for i = 5, #_tbl do
-                if _tbl[i]:sub(1,1) == "-" then
-                    v = v:gsub(_tbl[i]:sub(2), "")
+            for i = 5, #_words do
+                if _words[i]:sub(1,1) == "-" then
+                    v = v:gsub(_words[i]:sub(2), "")
                 else
                     if v == "" then
-                        v = _tbl[i]
+                        v = _words[i]
                     else
-                        v = v.." ".._tbl[i]
+                        v = v.." ".._words[i]
                     end
                 end
             end
             _PLAYER[player][field] = string.toTable(v)
         else
-            for i = 5, #_tbl do
+            for i = 5, #_words do
                 if v == "" then
-                    v = _tbl[i]
+                    v = _words[i]
                 else
-                    v = v.." ".._tbl[i]
+                    v = v.." ".._words[i]
                 end
             end
             _PLAYER[player][field] = v

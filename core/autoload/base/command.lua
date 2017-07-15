@@ -41,8 +41,8 @@ end
 function yates.func.executeCommand(id, command, text, mode)
     _id = id
     _usgn = player(id, "usgn")
-    _tbl = string.toTable(text)
-    _txt = text
+    _words = string.toTable(text)
+    _text = text
 
     func = loadstring("yates.func."..mode.."."..command.."()")
     func()
@@ -55,8 +55,8 @@ function yates.func.executeCommand(id, command, text, mode)
 
     _id = nil
     _usgn = nil
-    _tbl = {}
-    _txt = nil
+    _words = {}
+    _text = nil
 end
 
 --[[

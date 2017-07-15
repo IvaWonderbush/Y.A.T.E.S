@@ -1,4 +1,4 @@
-function table.toString(tbl, start)
+function table.toString(tbl, start, delimiter)
     local t = {}
 
     for k, v in ipairs(tbl) do
@@ -7,7 +7,11 @@ function table.toString(tbl, start)
         end
     end
 
-    return table.concat(t, " ")
+    if not delimiter then
+        delimiter = " "
+    end
+
+    return table.concat(t, delimiter)
 end
 
 function table.valueToString(v)
@@ -52,7 +56,7 @@ function table.removeDuplicate(tbl)
 
     for _, v in ipairs(tbl) do
         if (not hash[v]) then
-            res[#res+1] = v -- you could print here instead of saving to result table if you wanted
+            res[#res+1] = v
             hash[v] = true
         end
     end

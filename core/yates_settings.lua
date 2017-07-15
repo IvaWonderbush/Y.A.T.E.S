@@ -8,9 +8,9 @@
 	BE WARNED.
 ]]--
 
-_tbl = {}
+_words = {}
 _id = nil
-_txt = nil
+_text = nil
 
 yates = {}
 yates.action = {}

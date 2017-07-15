@@ -3,10 +3,10 @@
 	@return void
 ]]
 function yates.func.reload()
-    if not _tbl[2] then
-        _tbl[2] = 0
+    if not _words[2] then
+        _words[2] = 0
     end
 
-    timer(tonumber(_tbl[2]*1000), "parse", "map "..game("sv_map"))
+    timer(tonumber(_words[2]*1000), "parse", "map "..game("sv_map"))
     msg(lang("reload", 3), "success")
 end

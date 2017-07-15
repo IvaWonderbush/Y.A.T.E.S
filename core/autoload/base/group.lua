@@ -6,7 +6,7 @@ function addGroup(name, lvl, clr, cmds)
     _GROUP[name] = {}
     _GROUP[name].level = lvl
     _GROUP[name].colour = ""..clr..""
-    _GROUP[name].commands = {cmds}
+    _GROUP[name].commands = cmds
     saveData(_GROUP, "data_group.lua")
 end
 
@@ -41,8 +41,8 @@ function editGroup(group, field)
     local t = type(_GROUP[group][field])
     local v = ""
 
-    if _tbl[5]:sub(1, 1) == "/" then
-        _GROUP[group][field] = yates.constant[_tbl[5]:sub(2)]
+    if _words[5]:sub(1, 1) == "/" then
+        _GROUP[group][field] = yates.constant[_words[5]:sub(2)]
     else
         if t == "table" then
             for i = 1, #_GROUP[group][field] do
@@ -55,24 +55,24 @@ function editGroup(group, field)
                 end
             end
 
-            for i = 5, #_tbl do
-                if _tbl[i]:sub(1,1) == "-" then
-                    v = v:gsub(_tbl[i]:sub(2), "")
+            for i = 5, #_words do
+                if _words[i]:sub(1,1) == "-" then
+                    v = v:gsub(_words[i]:sub(2), "")
                 else
                     if v == "" then
-                        v = _tbl[i]
+                        v = _words[i]
                     else
-                        v = v.." ".._tbl[i]
+                        v = v.." ".._words[i]
                     end
                 end
             end
             _GROUP[group][field] = string.toTable(v)
         else
-            for i = 5, #_tbl do
+            for i = 5, #_words do
                 if v == "" then
-                    v = _tbl[i]
+                    v = _words[i]
                 else
-                    v = v.." ".._tbl[i]
+                    v = v.." ".._words[i]
                 end
             end
             _GROUP[group][field] = v
