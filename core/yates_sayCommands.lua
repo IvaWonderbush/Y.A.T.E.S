@@ -232,13 +232,7 @@ function yates.func.say.mute()
 
 	local reason = ""
 	if _tbl[4] then
-		for i = 4, #_tbl do
-			if reason == "" then
-				reason = _tbl[i]
-			else
-				reason = reason.." ".._tbl[i]
-			end
-		end
+		reason = table.toString(_tbl, 4)
 	end
 
 	yates.func.mute(_id, _tbl[2], _tbl[3], reason)
@@ -261,14 +255,9 @@ function yates.func.say.kick()
 	_tbl[2] = tonumber(_tbl[2])
 
 	if _tbl[3] then
-		for i = 3, #_tbl do
-			if reason == "" then
-				reason = _tbl[i]
-			else
-				reason = reason.." ".._tbl[i]
-			end
-		end
+		reason = table.toString(_tbl, 3)
 	end
+
 	if reason == "" then
 		reason = lang("mute", 9)
 	end
@@ -297,14 +286,9 @@ function yates.func.say.ban()
 	end
 
 	if _tbl[4] then
-		for i = 4, #_tbl do
-			if reason == "" then
-				reason = _tbl[i]
-			else
-				reason = reason.." ".._tbl[i]
-			end
-		end
+		reason = table.toString(_tbl, 4)
 	end
+
 	if reason == "" then
 		reason = lang("mute", 9)
 	end
@@ -339,14 +323,9 @@ function yates.func.say.banusgn()
 	end
 
 	if _tbl[4] then
-		for i = 4, #_tbl do
-			if reason == "" then
-				reason = _tbl[i]
-			else
-				reason = reason.." ".._tbl[i]
-			end
-		end
+		reason = table.toString(_tbl, 4)
 	end
+
 	if reason == "" then
 		reason = lang("mute", 9)
 	end
@@ -371,14 +350,9 @@ function yates.func.say.banip()
 	end
 
 	if _tbl[4] then
-		for i = 4, #_tbl do
-			if reason == "" then
-				reason = _tbl[i]
-			else
-				reason = reason.." ".._tbl[i]
-			end
-		end
+		reason = table.toString(_tbl, 4)
 	end
+
 	if reason == "" then
 		reason = lang("mute", 9)
 	end

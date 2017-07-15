@@ -1,3 +1,15 @@
+function table.toString(tbl, start)
+    local t = {}
+
+    for k, v in ipairs(tbl) do
+        if k >= start then
+            t[#t+1] = tostring(v)
+        end
+    end
+
+    return table.concat(t, " ")
+end
+
 function table.valueToString(v)
     if "string" == type(v) then
         v = string.gsub(v, "\n", "\\n")
@@ -6,11 +18,11 @@ function table.valueToString(v)
         end
         return '"'..string.gsub(v, '"', '\\"')..'"'
     else
-        return "table" == type(v) and table.toString(v) or tostring(v)
+        return "table" == type(v) and table.toLuaString(v) or tostring(v)
     end
 end
 
-function table.toString(tbl)
+function table.toLuaString(tbl)
     local result, done = {}, {}
     for k, v in ipairs(tbl) do
         if k ~= "tmp" then
