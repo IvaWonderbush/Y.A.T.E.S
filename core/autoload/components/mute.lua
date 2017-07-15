@@ -92,7 +92,7 @@ function yates.func.setMute(id, time, reason)
             _PLAYER[usgn].mute_time = time
             _PLAYER[usgn].mute_reason = reason
 
-            saveData(_PLAYER, "data_PLAYER.lua")
+            saveData(_PLAYER, "data_player.lua")
         end
     end
 end

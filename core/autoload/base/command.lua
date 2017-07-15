@@ -80,10 +80,8 @@ function yates.func.checkCommand(command, mode)
 end
 
 function yates.func.checkSayCommandUse(command)
-    if not _YATES.disabled_commands then _YATES.disabled_commands = {} end
-    if not command then
-        print("No command was provided to check if the use of it is allowed!", "error")
-        return true
+    if not _YATES.disabled_commands then
+        _YATES.disabled_commands = {}
     end
 
     for k, v in pairs(_YATES.disabled_commands) do
@@ -100,7 +98,7 @@ end
 ]]
 function setUndo(id, command)
     if player(id, "usgn") == 0 then
-        msg2(id, "An undo command cannot be set as you are not logged in to a U.S.G.N. account", "notice")
+        msg2(id, lang("undo", 4), "notice")
         return false
     end
 
@@ -109,5 +107,5 @@ function setUndo(id, command)
     end
 
     _PLAYER[player(id, "usgn")].undo = command
-    saveData(_PLAYER, "data_PLAYER.lua")
+    saveData(_PLAYER, "data_player.lua")
 end

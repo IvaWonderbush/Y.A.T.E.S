@@ -70,6 +70,12 @@ Please download the current version at $1
 You are running on a higher version of the current release. Huh? I don't even..
 You are up-to-date with the current version!
 
+:auth
+Initial authentication has not been complete
+Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file
+Initial authentication complete
+The U.S.G.N. ID $1 has been given access to all commands
+
 :help
 [<cmd>]
 Displays a list of commands available to you or more information about a command
@@ -97,6 +103,14 @@ Command executed!
 :plugin
 list / <info/enable/disable> <plugin>
 General command to show information about (a) plugin(s) or to enable/disable them
+Plugin information for $1 not set or is not a $2!
+A plugin has been enabled which requires a server restart, please stay!
+The plugin has been enabled!
+The plugin is already enabled!
+The plugin has been disabled!
+The plugin is already disabled!
+You may need to restart the server, this can be done by saying $1reload
+The plugin author has not provided any information about this plugin
 
 :command
 list / <enable/disable> <command>
@@ -109,7 +123,7 @@ Good one! But you can't disable this command :P
 :reload
 [<delay>] (in seconds)
 Reloads Y.A.T.E.S Lua scripts and plugins by changing the map to its current one
-We are reloading our lua scripts! Please stay
+We are reloading our lua scripts, please stay!
 
 :hide
 Toggles your prefix and colour. Useful if you want to hide your identity to spot hackers and still chat
@@ -246,7 +260,7 @@ Sets the player group
 :player
 list / info <id> / edit <U.S.G.N. ID> <field> <new entry>
 A general command used to display information about players and edit their data
-List of U.S.G.N.'s saved in data_PLAYER. Use $1player info <U.S.G.N.> for more info
+List of U.S.G.N.'s saved in data_player. Use $1player info <U.S.G.N.> for more info
 Player data information:
 The player $1 has been edited!
 This player is not logged in!
@@ -281,3 +295,4 @@ The group $1 has been edited!
 Certain commands have an undo option, this command will undo the most recent undoable command
 You have not executed any command to undo!
 Executing the following command: $1
+An undo command cannot be set as you are not logged in to a U.S.G.N. account

@@ -72,12 +72,12 @@ yates.setting.constant = {
 	WARNING:
 	Do not touch the _PLAYER or _GROUP tables if you do not know how to!
 	Everything player and group defined can be changed IN-GAME, so editing this is pretty pointless
-	unless you want to define data if data_PLAYER or data_GROUP cannot be loaded or are empty.
-	I would advise not to do this as data_PLAYER and data_GROUP override this data anyway.
+	unless you want to define data if data_player or data_group cannot be loaded or are empty.
+	I would advise not to do this as data_player and data_group override this data anyway.
 	BE WARNED.
 ]]--
 
--- This can set default player values if the data_PLAYER cannot be loaded
+-- This can set default player values if the data_player cannot be loaded
 _PLAYER = {
 	-- This gives the player with the U.S.G.N. ID 21431 (Me, Yates, the author) a purple colour. Keep it here if you want me to enjoy the colour purple (purple is my favourite colour, now you know..)
 	[21431] = {
@@ -85,7 +85,7 @@ _PLAYER = {
 	}
 }
 
--- This sets the default groups if the data_GROUP file cannot be loaded
+-- This sets the default groups if the data_group file cannot be loaded
 _GROUP = {
 	["admin"] = {
 		prefix = "[Admin]",

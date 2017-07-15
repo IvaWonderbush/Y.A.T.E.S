@@ -50,7 +50,7 @@ setSayDesc("ls", lang("ls", 2))
 
 function yates.func.say.plugin()
 	if not _tbl[2] then
-		msg2(_id, "You have not provided a sub-command, say "..yates.setting.say_prefix.."help plugin for a list of sub-commands.", "error")
+		msg2(_id, lang("validation", 10, yates.setting.say_prefix, "plugin"), "error")
 		return 1
 	end
 
@@ -63,7 +63,9 @@ function yates.func.say.plugin()
 			msg2(_id, all, "error", false)
 		end
 	elseif _tbl[2] == "enable" then
+
 		if _tbl[3] then
+
 			for k, v in pairs(_PLUGIN["off"]) do
 				if v == _tbl[3] then
 					os.rename(_DIR.."plugins/_"..v, _DIR.."plugins/"..v)
@@ -72,48 +74,62 @@ function yates.func.say.plugin()
 					dofile(yates.plugin[v]["dir"].."/startup.lua")
 					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
 					_PLUGIN["off"][k] = nil
-					msg2(_id, "The plugin has been enabled!", "success")
+					msg2(_id, lang("plugin", 5), "success")
 					yates.func.cachePluginData()
 					yates.func.checkForceReload()
 					setUndo(_id, "!plugin disable ".._tbl[3])
 					return 1
 				end
 			end
+
 			for k, v in pairs(_PLUGIN["on"]) do
 				if v == _tbl[3] then
-					msg2(_id, "This plugin is already running!", "error")
+					msg2(_id, lang("plugin", 6), "error")
 					return 1
 				end
 			end
-			msg2(_id, "This plugin does not exist!", "error")
-		else
-			msg2(_id, "You have not provided a plugin name!", "error")
+
+			msg2(_id, lang("validation", 3, lang("global", 6)), "error")
+			return 1
 		end
+
+		msg2(_id, "You have not provided a plugin name!", "error")
+		return 1
+
 	elseif _tbl[2] == "disable" then
+
 		if _tbl[3] then
+
 			for k, v in pairs(_PLUGIN["on"]) do
 				if v == _tbl[3] then
 					os.rename(_DIR.."plugins/"..v, _DIR.."plugins/_"..v)
 					_PLUGIN["off"][#_PLUGIN["off"]+1] = v
 					_PLUGIN["on"][k] = nil
-					msg2(_id, "The plugin has been disabled!", "success")
-					msg2(_id, "Please reload the server Lua using "..yates.setting.say_prefix.."reload", "info")
+					msg2(_id, lang("plugin", 7), "success")
+					msg2(_id, lang("plugin", 9, yates.setting.say_prefix), "info")
 					setUndo(_id, "!plugin enable ".._tbl[3])
 					return 1
 				end
 			end
+
 			for k, v in pairs(_PLUGIN["off"]) do
 				if v == _tbl[3] then
-					msg2(_id, "This plugin is already disabled!", "error")
+					msg2(_id, lang("plugin", 8), "error")
 					return 1
 				end
 			end
-			msg2(_id, "This plugin does not exist!", "error")
-		else
-			msg2(_id, "You have not provided a plugin name!", "error")
+
+			msg2(_id, lang("validation", 3, lang("global", 6)), "error")
+			return 1
 		end
+
+		msg2(_id, lang("validation", 8, lang("global", 7)), "error")
+		return 1
+
 	elseif _tbl[2] == "info" then
+
 		if _tbl[3] then
+
 			if _PLUGIN["info"][_tbl[3]] then
 				msg2(_id, "Plugin information:", "info")
 				if _PLUGIN["info"][_tbl[3]]["title"] then
@@ -132,12 +148,17 @@ function yates.func.say.plugin()
 					msg2(_id, "Description: ".._PLUGIN["info"][_tbl[3]]["description"], false, false)
 				end
 			else
-				msg2(_id, "This plugin has not provided any information!", "error")
+				msg2(_id, lang("plugin", 10), "error")
+				return 1
 			end
-		else
-			msg2(_id, "You have not provided a plugin name!", "error")
+
 		end
+
+		msg2(_id, lang("validation", 8, lang("global", 7)), "error")
+		return 1
 	end
+
+	msg2(_id, lang("validation", 10, yates.setting.say_prefix, "plugin"), "error")
 end
 setSayHelp("plugin", lang("plugin", 1))
 setSayDesc("plugin", lang("plugin", 2))

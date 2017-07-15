@@ -71,7 +71,7 @@ function editPlayer(player, field)
             _PLAYER[player][field] = v
         end
     end
-    saveData(_PLAYER, "data_PLAYER.lua")
+    saveData(_PLAYER, "data_player.lua")
 end
 
 --[[

@@ -48,7 +48,7 @@ function yates.func.checkPluginData(name, data, varType)
         if yates.plugin[name][data] and type(yates.plugin[name][data]) == varType then
             _PLUGIN["info"][name][data] = yates.plugin[name][data]
         else
-            print("Plugin information for "..data.." not set or is not a "..varType.."!", "notice", "[PLUGIN]: ")
+            print(lang("plugin", 3, data, varType), "notice", "[PLUGIN]: ")
         end
     end
 end
@@ -59,8 +59,8 @@ end
 ]]
 function yates.func.checkForceReload()
     if yates.force_reload == true then
-        msg("A plugin has been enabled which requires a server restart, please stay!", "success")
-        timer(5000, "parse", "lua hardReload()")
+        msg(lang("plugin", 4), "success")
+        timer(5000, "parse", "lua reload()")
         yates.force_reload = false
     end
 end

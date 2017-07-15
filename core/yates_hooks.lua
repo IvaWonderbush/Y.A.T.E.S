@@ -369,7 +369,7 @@ function yates.hook.second()
 						_PLAYER[player(id, "usgn")].mute_time = nil
 					end
 
-					saveData(_PLAYER, "data_PLAYER.lua")
+					saveData(_PLAYER, "data_player.lua")
 				end
 
 				if yates.player[id].mute_time == 0 then
@@ -382,7 +382,7 @@ function yates.hook.second()
 
 				if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_reason then
 					_PLAYER[player(id, "usgn")].mute_reason = nil
-					saveData(_PLAYER, "data_PLAYER.lua")
+					saveData(_PLAYER, "data_player.lua")
 				end
 			end
 		end

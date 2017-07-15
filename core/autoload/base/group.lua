@@ -7,7 +7,7 @@ function addGroup(name, lvl, clr, cmds)
     _GROUP[name].level = lvl
     _GROUP[name].colour = ""..clr..""
     _GROUP[name].commands = {cmds}
-    saveData(_GROUP, "data_GROUP.lua")
+    saveData(_GROUP, "data_group.lua")
 end
 
 --[[
@@ -29,8 +29,8 @@ function deleteGroup(old, new)
     end
 
     _GROUP[old] = nil
-    saveData(_GROUP, "data_GROUP.lua")
-    saveData(_PLAYER, "data_PLAYER.lua")
+    saveData(_GROUP, "data_group.lua")
+    saveData(_PLAYER, "data_player.lua")
 end
 
 --[[
@@ -78,7 +78,7 @@ function editGroup(group, field)
             _GROUP[group][field] = v
         end
     end
-    saveData(_GROUP, "data_GROUP.lua")
+    saveData(_GROUP, "data_group.lua")
 end
 
 --[[
