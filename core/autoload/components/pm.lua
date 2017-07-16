@@ -1,4 +1,4 @@
-function yates.func.pm(id, target, message)
+function yates.funcs.pm(id, target, message)
     if not target then
         msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return

@@ -9,7 +9,7 @@
 	BE WARNED.
 ]]--
 
-function yates.func.autoload()
+function yates.funcs.autoload()
 	dofile(_DIR.."core/autoload/utilities/file.lua")
 
 	local directories = io.getDirectories(_DIR.."core/autoload/")

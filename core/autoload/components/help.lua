@@ -1,16 +1,16 @@
-function yates.func.help(id, command)
+function yates.funcs.help(id, command)
 
     if command then
-        yates.func.displayCommandHelp(id, command)
+        yates.funcs.displayCommandHelp(id, command)
     else
-        yates.func.displayHelpList(id)
+        yates.funcs.displayHelpList(id)
     end
 end
 
-function yates.func.displayCommandHelp(id, command)
+function yates.funcs.displayCommandHelp(id, command)
     if yates.say.help[command] then
         msg2(id, lang("help", 4), "info")
-        msg2(id, yates.setting.say_prefix..yates.say.help[command], "default", false)
+        msg2(id, yates.settings.say_prefix..yates.say.help[command], "default", false)
         if yates.say.desc[command] then
             msg2(id, yates.say.desc[command], "default", false)
         end
@@ -22,35 +22,38 @@ function yates.func.displayCommandHelp(id, command)
     end
 end
 
-function yates.func.displayHelpList(id)
+function yates.funcs.displayHelpList(id)
     local everything = false
     local usgn = player(id, "usgn")
 
-    if _PLAYER[usgn] and _PLAYER[usgn].commands then
-        for k, v in spairs(_PLAYER[usgn].commands) do
+    if _PLAYERS[usgn] and _PLAYERS[usgn].commands then
+        for k, v in spairs(_PLAYERS[usgn].commands) do
             if v == "all" then
                 everything = true
                 break
             end
-            msg2(id, yates.setting.say_prefix..v, "default", false)
+            msg2(id, yates.settings.say_prefix..v, "default", false)
         end
     end
+
     if everything ~= true then
-        for k, v in spairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
+        for k, v in spairs(_GROUPS[(_PLAYERS[usgn] and _PLAYERS[usgn].group or yates.settings.group_default)].commands) do
             if v == "all" then
                 everything = true
                 break
             end
-            msg2(id, yates.setting.say_prefix..v, "default", false)
+            msg2(id, yates.settings.say_prefix..v, "default", false)
         end
     end
+
     if everything == true then
-        for k, v in spairs(yates.func.say) do
+        for k, v in spairs(yates.funcs.say) do
             if #k > 0 then
-                msg2(id, yates.setting.say_prefix..k, "default", false)
+                msg2(id, yates.settings.say_prefix..k, "default", false)
             end
         end
     end
-    msg2(id, lang("help", 8, yates.setting.say_prefix), "info")
+
+    msg2(id, lang("help", 8, yates.settings.say_prefix), "info")
     msg2(id, lang("help", 9), "info")
 end

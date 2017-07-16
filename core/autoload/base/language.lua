@@ -1,4 +1,4 @@
-function yates.func.getLanguageData()
+function yates.funcs.getLanguageData()
     for item in io.enumdir(_DIR.."storage/lang") do
         local name, extension = item:match("([^/]+)%.([^%.]+)$")
 
@@ -27,7 +27,7 @@ function yates.func.getLanguageData()
 
             file:close()
 
-            yates.language[name] = currentlanguage
+            yates.languages[name] = currentlanguage
 
             print(lang("info", 3, name), "success")
         end
@@ -35,15 +35,15 @@ function yates.func.getLanguageData()
 end
 
 function lang(section, line, ...)
-    local str = yates.language[yates.setting.language] and yates.language[yates.setting.language][section] and yates.language[yates.setting.language][section][line] or nil
+    local str = yates.languages[yates.settings.language] and yates.languages[yates.settings.language][section] and yates.languages[yates.settings.language][section][line] or nil
 
     if str then
         for index, arg in ipairs({...}) do
             str = str:gsub("$" .. index, arg)
         end
     else
-        str = lang("error", 1, yates.setting.language, section, line)
-        log(lang("error", 1, yates.setting.language, section, line), "error", "debug")
+        str = lang("error", 1, yates.settings.language, section, line)
+        log(lang("error", 1, yates.settings.language, section, line), "error", "debug")
     end
 
     return str

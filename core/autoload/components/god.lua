@@ -1,9 +1,9 @@
-function yates.func.toggleGod(id)
-    if yates.player[id].god then
-        yates.player[id].god = false
+function yates.funcs.toggleGod(id)
+    if yates.players[id].god then
+        yates.players[id].god = false
         msg2(id, lang("god", 2), "success")
     else
-        yates.player[id].god = true
+        yates.players[id].god = true
         msg2(id, lang("god", 3), "success")
     end
 end

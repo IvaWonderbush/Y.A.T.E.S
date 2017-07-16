@@ -2,7 +2,7 @@
 	Reloads the script by reloading the map
 	@return void
 ]]
-function yates.func.reload()
+function yates.funcs.reload()
     if not _words[2] then
         _words[2] = 0
     end

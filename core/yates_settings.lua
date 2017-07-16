@@ -14,17 +14,17 @@ _words = {}
 _text = nil
 
 yates = {}
-yates.action = {}
-yates.filter = {}
-yates.player = {}
+yates.actions = {}
+yates.filters = {}
+yates.players = {}
 
-yates.plugin = {}
+yates.plugins = {}
 yates.force_reload = false
 
-yates.hook = {}
-yates.func = {}
-yates.func.say = {}
-yates.func.console = {}
+yates.hooks = {}
+yates.funcs = {}
+yates.funcs.say = {}
+yates.funcs.console = {}
 
 yates.say = {}
 yates.say.help = {}
@@ -34,18 +34,18 @@ yates.console = {}
 yates.console.help = {}
 yates.console.desc = {}
 
-yates.language = {}
+yates.languages = {}
 
-yates.setting = {}
-yates.setting.domain = "https://www.thomasyates.nl/"
-yates.setting.domainVersion = "https://www.thomasyates.nl/docs/version.html"
-yates.setting.domainDownload = "https://www.thomasyates.nl/docs"
+yates.settings = {}
+yates.settings.domain = "https://www.thomasyates.nl/"
+yates.settings.domain_version = "https://www.thomasyates.nl/docs/version.html"
+yates.settings.domain_download = "https://www.thomasyates.nl/docs"
 
 yates.transferlist = {}
 
 yates.version = "3.0.0"
 
-_GROUP = {}
-_PLAYER = {}
+_GROUPS = {}
+_PLAYERS = {}
 _PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
 _YATES = {disabled_commands = {}}

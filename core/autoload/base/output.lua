@@ -43,11 +43,11 @@ function log(log, type, file, extension, mode, date)
     if not file or file == "" then
         file = "yates"
         if date == true then
-            file = yates.setting.date
+            file = yates.settings.date
         end
     else
         if date == true then
-            file = file.." - "..yates.setting.date
+            file = file.." - "..yates.settings.date
         end
     end
 
@@ -61,7 +61,7 @@ function log(log, type, file, extension, mode, date)
 
     local file = io.open(_DIR.."storage/logs/"..file..extension, mode) or io.tmpfile()
 
-    file:write("["..yates.setting.date.." - "..yates.setting.time.."]: "..string.upper(type)..": "..log.."\n")
+    file:write("["..yates.settings.date.." - "..yates.settings.time.."]: "..string.upper(type)..": "..log.."\n")
     file:close()
 end
 
@@ -71,8 +71,8 @@ function getMessage(text, type, prefix)
     local colour = type
     local pre = ""
 
-    if clr["yates"][type] then
-        colour = clr["yates"][type]
+    if _COLOURS["yates"][type] then
+        colour = _COLOURS["yates"][type]
     end
 
     colour = colour:gsub("©","")
@@ -80,14 +80,14 @@ function getMessage(text, type, prefix)
     colour = "\169"..colour
 
     if prefix == nil then
-        pre = (yates.setting.message_prefix or prefix)
+        pre = (yates.settings.message_prefix or prefix)
     else
         if prefix ~= false then
             pre = prefix
         end
     end
 
-    local message = colour..pre..clr["yates"]["default"]..text
+    local message = colour..pre.._COLOURS["yates"]["default"]..text
 
     if pre == "" then
         message = colour..text

@@ -60,7 +60,7 @@ The U.S.G.N. ID $1 has been given access to all commands
 Language: $1, section: $2, entry: $3
 The addhook function is depreciated, use action instead!
 Initial authentication has not been complete
-Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file
+Please add your U.S.G.N. ID to the yates.settings.auth_usgn variable in the yates_config.lua file
 
 :version
 Version check is disabled. Please enable this to stay up-to-date in yates_config.lua
@@ -72,7 +72,7 @@ You are up-to-date with the current version!
 
 :auth
 Initial authentication has not been complete
-Please add your U.S.G.N. ID to the yates.setting.auth_usgn variable in the yates_config.lua file
+Please add your U.S.G.N. ID to the yates.settings.auth_usgn variable in the yates_config.lua file
 Initial authentication complete
 The U.S.G.N. ID $1 has been given access to all commands
 
@@ -297,7 +297,7 @@ The group $1 has been edited!
 
 :undo
 Certain commands have an undo option, this command will undo the most recent undoable command
-You have not executed any command to undo!
+You have no undo command available!
 Executing the following command: $1
 An undo command cannot be set as you are not logged in to a U.S.G.N. account
 

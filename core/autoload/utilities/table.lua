@@ -24,8 +24,6 @@ function table.toString(tbl, start, finish, delimiter)
     return table.concat(tbl, delimiter)
 end
 
-msg(table.toString({"help", "credits"}))
-
 function table.valueToString(v)
     if "string" == type(v) then
         v = string.gsub(v, "\n", "\\n")

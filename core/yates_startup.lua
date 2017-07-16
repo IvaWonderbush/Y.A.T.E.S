@@ -38,14 +38,14 @@ dofile(_DIR.."core/yates_config.lua")
 
 print("\169100255255[Y.A.T.E.S]: Functioning the functions..")
 dofile(_DIR.."core/yates_functions.lua")
-yates.func.autoload()
+yates.funcs.autoload()
 print("Localizing the languages..", "info")
 
 print("\169100255255[Y.A.T.E.S]: Hooking the hooks..")
 dofile(_DIR.."core/yates_hooks.lua")
 
-yates.func.getLanguageData()
-print(lang("info", 4, yates.setting.language), "info")
+yates.funcs.getLanguageData()
+print(lang("info", 4, yates.settings.language), "info")
 
 print("Loading say commands..", "info")
 dofile(_DIR.."core/yates_sayCommands.lua")
@@ -60,15 +60,15 @@ dofile(_DIR.."storage/data/data_player.lua", true)
 dofile(_DIR.."storage/data/data_plugin.lua", true)
 
 print("Checking first use..", "info")
-yates.func.checkFirstUse()
+yates.funcs.checkFirstUse()
 
 print("Loading plugins..", "info")
-yates.func.loadPlugins()
+yates.funcs.loadPlugins()
 
 print("Versioning the version..?", "info")
-yates.func.checkVersion()
+yates.funcs.checkVersion()
 
-yates.func.setTransferList(yates.setting.transferlist_response)
+yates.funcs.setTransferList(yates.settings.transferlist_response)
 
 -- You may remove this, but I'd rather you not. People can't see it anyway.
 print("", false, false)

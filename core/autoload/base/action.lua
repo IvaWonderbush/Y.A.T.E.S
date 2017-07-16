@@ -5,14 +5,14 @@ _addhook = addhook
 	@return void
 ]]
 function addhook(name, func, priority)
-    if not yates.action[name] then
-        yates.action[name] = {}
+    if not yates.actions[name] then
+        yates.actions[name] = {}
     end
 
     if priority then
-        table.insert(yates.action[name], priority, func)
+        table.insert(yates.actions[name], priority, func)
     else
-        table.insert(yates.action[name], func)
+        table.insert(yates.actions[name], func)
     end
 end
 
@@ -21,10 +21,10 @@ end
 	@return void
 ]]
 function hook(name, ...)
-    if yates.action[name] then
-        local f, l = table.bounds(yates.action[name])
+    if yates.actions[name] then
+        local f, l = table.bounds(yates.actions[name])
         for i = f, l do
-            local func = loadstring("return "..yates.action[name][i])()
+            local func = loadstring("return "..yates.actions[name][i])()
             if (func) then
                 func(...)
             end

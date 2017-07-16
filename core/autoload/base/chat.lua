@@ -2,17 +2,17 @@
 	Turns chat input into output
 	@return void
 ]]
-function chat(id, text)
+function yates.funcs.chat(id, text)
     local usgn = player(id, "usgn")
     local c = ""
     local p = ""
 
-    if _PLAYER[usgn] and not yates.player[id].hide then
-        c = (_PLAYER[usgn].colour or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].colour)
-        p = ((_PLAYER[usgn].prefix or _GROUP[(_PLAYER[usgn].group or yates.setting.group_default)].prefix) or "")
+    if _PLAYERS[usgn] and not yates.players[id].hide then
+        c = (_PLAYERS[usgn].colour or _GROUPS[(_PLAYERS[usgn].group or yates.settings.group_default)].colour)
+        p = ((_PLAYERS[usgn].prefix or _GROUPS[(_PLAYERS[usgn].group or yates.settings.group_default)].prefix) or "")
     else
-        c = (_GROUP[yates.setting.group_default].colour or "")
-        p = (_GROUP[yates.setting.group_default].prefix or "")
+        c = (_GROUPS[yates.settings.group_default].colour or "")
+        p = (_GROUPS[yates.settings.group_default].prefix or "")
     end
 
     c = c:gsub("©","")
@@ -27,5 +27,5 @@ function chat(id, text)
         p = p.." "
     end
 
-    msg(c..p..player(id, "name")..": "..clr["yates"]["chat"]..text, false, false)
+    msg(c..p..player(id, "name")..": ".._COLOURS["yates"]["chat"]..text, false, false)
 end

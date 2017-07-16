@@ -36,7 +36,7 @@ end
 	Adds all the files in yates.transferlist to the server transfer list
 	@return boolean
 ]]
-function yates.func.setTransferList(response)
+function yates.funcs.setTransferList(response)
     table.fileToTable("sys/servertransfer.lst", yates.transferlist)
 
     local file = io.open("sys/servertransfer.lst", "w+") or io.tmpfile()

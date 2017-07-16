@@ -1,4 +1,4 @@
-function yates.func.mute(id, target, time, reason)
+function yates.funcs.mute(id, target, time, reason)
     if not target then
         msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return
@@ -10,14 +10,14 @@ function yates.func.mute(id, target, time, reason)
     end
     target = tonumber(target)
 
-    if not yates.func.compareLevel(id, target) then
+    if not yates.funcs.compareLevel(id, target) then
         msg2(id, lang("validation", 2, lang("global", 2)), "error")
         return
     end
 
     if not time then
-        msg2(id, lang("mute", 3, yates.setting.mute_time_default), "info")
-        time = yates.setting.mute_time_default
+        msg2(id, lang("mute", 3, yates.settings.mute_time_default), "info")
+        time = yates.settings.mute_time_default
     else
         time = tonumber(time)
 
@@ -26,8 +26,8 @@ function yates.func.mute(id, target, time, reason)
             return
         end
 
-        if time > yates.setting.mute_time_max then
-            msg2(id, lang("mute", 4, yates.setting.mute_time_max), "error")
+        if time > yates.settings.mute_time_max then
+            msg2(id, lang("mute", 4, yates.settings.mute_time_max), "error")
             return
         end
 
@@ -43,14 +43,14 @@ function yates.func.mute(id, target, time, reason)
 
     setUndo(id, "!unmute "..target)
 
-    yates.func.setMute(target, time, reason)
+    yates.funcs.setMute(target, time, reason)
 
     msg2(id, lang("mute", 6, player(target, "name")), "success")
-    msg2(target, lang("mute", 7, yates.player[target].mute_time), "error")
-    msg2(target, lang("mute", 10, yates.player[target].mute_reason), "info")
+    msg2(target, lang("mute", 7, yates.players[target].mute_time), "error")
+    msg2(target, lang("mute", 10, yates.players[target].mute_reason), "info")
 end
 
-function yates.func.unmute(id, target)
+function yates.funcs.unmute(id, target)
     if not target then
         msg2(id, lang("validation", 8, lang("global", 3)), "error")
         return
@@ -62,37 +62,37 @@ function yates.func.unmute(id, target)
     end
     target = tonumber(target)
 
-    if not yates.func.compareLevel(id, target) then
+    if not yates.funcs.compareLevel(id, target) then
         msg2(id, lang("validation", 2, lang("global", 2)), "error")
         return
     end
 
-    setUndo(id, "!mute "..target.." "..yates.player[target].mute_time.." "..yates.player[target].mute_reason)
+    setUndo(id, "!mute "..target.." "..yates.players[target].mute_time.." "..yates.players[target].mute_reason)
 
-    yates.func.setMute(target, 0, "")
+    yates.funcs.setMute(target, 0, "")
 
     msg2(id, lang("unmute", 3, player(target, "name")), "success")
     msg2(target, lang("unmute", 4), "info")
 end
 
-function yates.func.setMute(id, time, reason)
+function yates.funcs.setMute(id, time, reason)
     local usgn = player(id, "usgn")
 
-    print(yates.player[id].mute_reason)
+    print(yates.players[id].mute_reason)
 
-    yates.player[id].mute_time = time
-    yates.player[id].mute_reason = reason
+    yates.players[id].mute_time = time
+    yates.players[id].mute_reason = reason
 
-    if yates.setting.mute_save then
+    if yates.settings.mute_save then
         if usgn > 0 then
-            if not _PLAYER[usgn] then
-                _PLAYER[usgn] = {}
+            if not _PLAYERS[usgn] then
+                _PLAYERS[usgn] = {}
             end
 
-            _PLAYER[usgn].mute_time = time
-            _PLAYER[usgn].mute_reason = reason
+            _PLAYERS[usgn].mute_time = time
+            _PLAYERS[usgn].mute_reason = reason
 
-            saveData(_PLAYER, "data_player.lua")
+            saveData(_PLAYERS, "data_player.lua")
         end
     end
 end
