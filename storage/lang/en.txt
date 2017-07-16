@@ -100,6 +100,10 @@ Crucial functions and assistance provided by $1, U.S.G.N. ID: $2
 Be very careful when using this command, there are no checks - it is simply executed!
 Command executed!
 
+:clear
+Clears the chat
+The chat has been cleared
+
 :plugin
 list / <info/enable/disable> <plugin>
 General command to show information about (a) plugin(s) or to enable/disable them
@@ -296,3 +300,17 @@ Certain commands have an undo option, this command will undo the most recent und
 You have not executed any command to undo!
 Executing the following command: $1
 An undo command cannot be set as you are not logged in to a U.S.G.N. account
+
+:yes
+Certain commands need a confirmation, this command will confirm the action and execute it
+You do not have any command to confirm!
+Confirming and executing the following command: $1
+
+:no
+Certain commands need a confirmation, this command will invalidate the action
+You do not have any command to invalidate!
+Invalidating the following command: $1
+
+:confirm
+Before this command can be executed you need to confirm it
+Say $1yes to confirm or $1no to invalidate

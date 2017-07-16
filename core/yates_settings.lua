@@ -8,8 +8,9 @@
 	BE WARNED.
 ]]--
 
-_words = {}
 _id = nil
+_usgn = nil
+_words = {}
 _text = nil
 
 yates = {}

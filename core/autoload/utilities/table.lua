@@ -1,18 +1,30 @@
-function table.toString(tbl, start, delimiter)
+function table.toString(tbl, start, finish, delimiter)
     local t = {}
 
-    for k, v in ipairs(tbl) do
-        if k >= start then
-            t[#t+1] = tostring(v)
-        end
+    if not start or start < 1 then
+        start = 1
+    end
+
+    if not finish or finish > #tbl then
+        finish = #tbl
     end
 
     if not delimiter then
         delimiter = " "
     end
 
-    return table.concat(t, delimiter)
+    if start > 1 and finish == #tbl then
+        for i = start, finish do
+            t[#t+1] = tostring(tbl[i])
+        end
+
+        return table.concat(t, delimiter)
+    end
+
+    return table.concat(tbl, delimiter)
 end
+
+msg(table.toString({"help", "credits"}))
 
 function table.valueToString(v)
     if "string" == type(v) then
@@ -20,6 +32,7 @@ function table.valueToString(v)
         if string.match(string.gsub(v, "[^'\"]", ""), '^"+$') then
             return "'"..v.."'"
         end
+
         return '"'..string.gsub(v, '"', '\\"')..'"'
     else
         return "table" == type(v) and table.toLuaString(v) or tostring(v)
@@ -27,18 +40,22 @@ function table.valueToString(v)
 end
 
 function table.toLuaString(tbl)
-    local result, done = {}, {}
+    local result = {}
+    local done = {}
+
     for k, v in ipairs(tbl) do
         if k ~= "tmp" then
             table.insert(result, table.valueToString(v))
             done[k] = true
         end
     end
+
     for k, v in pairs(tbl) do
         if not done[k] then
             table.insert(result, table.keyToString(k).."="..table.valueToString(v))
         end
     end
+
     return "{"..table.concat(result, ", ").."}"
 end
 
@@ -52,16 +69,16 @@ end
 
 function table.removeDuplicate(tbl)
     local hash = {}
-    local res = {}
+    local t = {}
 
     for _, v in ipairs(tbl) do
         if (not hash[v]) then
-            res[#res+1] = v
+            t[#t+1] = v
             hash[v] = true
         end
     end
 
-    return res
+    return t
 end
 
 function table.fileToTable(file, tbl)
@@ -77,13 +94,16 @@ function table.fileToTable(file, tbl)
 end
 
 function table.bounds(tbl)
-    local f, l
+    local f
+    local l
+
     for k, v in pairs(tbl) do
         if (not f) then f = k end
         if (not l) then l = k end
         if (k > l) then l = k end
         if (k < f) then f = k end
     end
+
     return f, l
 end
 
@@ -92,14 +112,16 @@ end
 	@return table
 ]]
 function table.valuesToNumber(tbl)
-    local vals = {}
+    local t = {}
+
     for k, v in pairs(tbl) do
         if tonumber(v) then
             v = tonumber(v)
         end
-        vals[k] = v
+        t[k] = v
     end
-    return vals
+
+    return t
 end
 
 --[[
@@ -112,6 +134,7 @@ function table.getName(tbl)
             return k
         end
     end
+
     return false
 end
 
@@ -121,17 +144,22 @@ end
 ]]
 function table.countValues(tbl)
     local amount = 0
+
     for k, v in pairs(tbl) do
         if #k > 0 then
             amount = amount + 1
         end
     end
+
     return amount
 end
 
 function spairs(tbl, order)
     local keys = {}
-    for k in pairs(tbl) do keys[#keys + 1] = k end
+
+    for k in pairs(tbl) do
+        keys[#keys + 1] = k
+    end
 
     if order then
         table.sort(keys, function(a, b) return order(tbl, a, b) end)
@@ -140,6 +168,7 @@ function spairs(tbl, order)
     end
 
     local i = 0
+
     return function()
         i = i + 1
         if keys[i] then

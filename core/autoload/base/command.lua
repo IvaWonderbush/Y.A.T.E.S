@@ -38,7 +38,7 @@ end
 	Executes the matching string function name
 	@return void
 ]]
-function yates.func.executeCommand(id, command, text, mode)
+function yates.func.executeCommand(id, command, text, mode, inner)
     _id = id
     _usgn = player(id, "usgn")
     _words = string.toTable(text)
@@ -48,15 +48,17 @@ function yates.func.executeCommand(id, command, text, mode)
     func()
 
     if yates.setting.log_commands then
-        if id then
+        if id and not inner then
             log("[ID: "..id.."] [USGN: "..player(id, "usgn").."] [IP: "..player(id, "ip").."] [Team: "..player(id, "team").."] [Name: "..player(id, "name").."]: "..text, false, "chat")
         end
     end
 
-    _id = nil
-    _usgn = nil
-    _words = {}
-    _text = nil
+    if not inner then -- Makes sure the global values are not unset if the command is executed inside a command
+        _id = nil
+        _usgn = nil
+        _words = {}
+        _text = nil
+    end
 end
 
 --[[
@@ -108,4 +110,18 @@ function setUndo(id, command)
 
     _PLAYER[player(id, "usgn")].undo = command
     saveData(_PLAYER, "data_player.lua")
+end
+
+function yates.func.confirm()
+    if yates.player[_id].confirm then
+        yates.player[_id].confirm = false
+        return true
+    end
+
+    msg2(_id, lang("confirm", 1), "notice")
+    msg2(_id, lang("confirm", 2, yates.setting.say_prefix), "info")
+
+    yates.player[_id].confirm_command = _text
+
+    return false
 end

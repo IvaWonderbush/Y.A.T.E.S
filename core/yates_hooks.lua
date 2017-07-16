@@ -155,6 +155,8 @@ function yates.hook.join(id)
 	yates.player[id].god = false
 	yates.player[id].mute_time = 0
 	yates.player[id].mute_reason = ""
+	yates.player[id].confirm = false
+	yates.player[id].confirm_command = false
 	yates.player[id].tp = {}
 
 	if _PLAYER[player(id, "usgn")] and _PLAYER[player(id, "usgn")].mute_time and _PLAYER[player(id, "usgn")].mute_time > 0 then
@@ -182,9 +184,9 @@ end
 _addhook("leave", "yates.hook.leave")
 
 function yates.hook.log(text)
-    -- hook("log", text) @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
+--     hook("log", text) -- @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 
-    -- return filter("log", text) or 0 @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
+--     return filter("log", text) or 0 -- @TODO CURRENTLY BREAKS CS2D FOR NO REASON, WORKING ON A FIX
 end
 _addhook("log", "yates.hook.log")
 
@@ -294,7 +296,7 @@ function yates.hook.reload(id, mode)
 end
 _addhook("reload", "yates.hook.reload")
 
-function yates.hook.say(id, text)
+function yates.hook.say(id, text, inner)
 	local tbl = string.toTable(text)
 	local usgn = player(id, "usgn")
 
@@ -310,12 +312,18 @@ function yates.hook.say(id, text)
 				return 1
 			end
 
+			if inner then
+				yates.func.executeCommand(id, command, text, "say", inner)
+				return 1
+			end
+
 			for k, v in pairs(_GROUP[(_PLAYER[usgn] and _PLAYER[usgn].group or yates.setting.group_default)].commands) do
 				if command == v or v == "all" then
 					yates.func.executeCommand(id, command, text, "say")
 					return 1
 				end
 			end
+
 			if _PLAYER[usgn] and _PLAYER[usgn].commands then
 				for k, v in pairs(_PLAYER[usgn].commands) do
 					if command == v or v == "all" then
@@ -338,10 +346,9 @@ function yates.hook.say(id, text)
 		if yates.player[id].mute_time > 0 then
 			msg2(id, lang("mute", 8, yates.player[id].mute_time), "error")
 			msg2(id, lang("mute", 10, yates.player[id].mute_reason), "info")
-			return 1
+		else
+			chat(id, text)
 		end
-
-		chat(id, text)
     end
     hook("say", id, text)
 

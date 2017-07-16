@@ -42,6 +42,15 @@ end
 setSayHelp("ls", lang("ls", 1))
 setSayDesc("ls", lang("ls", 2))
 
+function yates.func.say.clear()
+	for i = 1, 100 do
+		msg("", false, "")
+	end
+	msg2(_id, lang("clear", 2), "success")
+end
+setSayHelp("clear")
+setSayDesc("clear", lang("clear", 1))
+
 function yates.func.say.plugin()
 	if not _words[2] then
 		msg2(_id, lang("validation", 10, yates.setting.say_prefix, "plugin"), "error")
@@ -365,6 +374,10 @@ function yates.func.say.unban()
 		return 1
 	end
 
+	if not yates.func.confirm() then
+		return false
+	end
+
 	msg2(_id, lang("unban", 3, _words[2]), "success")
 	parse("unban ".._words[2])
 end
@@ -372,6 +385,10 @@ setSayHelp("unban", lang("unban", 1))
 setSayDesc("unban", lang("unban", 2))
 
 function yates.func.say.unbanall()
+	if not yates.func.confirm() then
+		return false
+	end
+
 	msg2(_id, lang("unbanall", 2), "success")
 	parse("unbanall")
 end
@@ -972,6 +989,10 @@ function yates.func.say.group()
 		end
 
 		if _GROUP[_words[3]] then
+			if not yates.func.confirm() then
+				return false
+			end
+
 			if not _words[4] then
 				msg2(_id, lang("group", 10, yates.setting.group_default), "notice")
 				_words[4] = yates.setting.group_default
@@ -1026,7 +1047,37 @@ function yates.func.say.undo()
 	end
 
 	msg2(_id, lang("undo", 3, _PLAYER[_usgn].undo), "info")
-	yates.hook.say(_id, _PLAYER[_usgn].undo)
+	yates.hook.say(_id, _PLAYER[_usgn].undo, true)
+
+	_PLAYER[_usgn].undo = false
 end
 setSayHelp("undo")
 setSayDesc("undo", lang("undo", 1))
+
+function yates.func.say.yes()
+	if not yates.player[_id].confirm_command then
+		msg2(_id, lang("yes", 2), "error")
+		return 1
+	end
+
+	yates.player[_id].confirm = true
+
+	msg2(_id, lang("yes", 3, yates.player[_id].confirm_command), "info")
+	yates.hook.say(_id, yates.player[_id].confirm_command, true)
+
+	yates.player[_id].confirm_command = false
+end
+setSayHelp("yes")
+setSayDesc("yes", lang("yes", 1))
+
+function yates.func.say.no()
+	if not yates.player[_id].confirm_command then
+		msg2(_id, lang("no", 2), "error")
+		return 1
+	end
+
+	msg2(_id, lang("no", 3, yates.player[_id].confirm_command), "info")
+	yates.player[_id].confirm_command = false
+end
+setSayHelp("no")
+setSayDesc("no", lang("no", 1))

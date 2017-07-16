@@ -1,6 +1,6 @@
 --[[
 	Dofiles a Lua file if it could be found or if it should be created if not found
-	@return void
+	@return boolean
 ]]
 _dofile = dofile
 function dofile(path, create)
@@ -11,10 +11,13 @@ function dofile(path, create)
             io.close(file)
         else
             print("Uh-oh! The file '"..path.."' could not be found or opened!", "error")
-            return false
         end
+
+        return false
     end
+
     _dofile(path)
+    return true
 end
 
 --[[
@@ -23,6 +26,7 @@ end
 ]]
 function io.exists(path)
     local file = io.open(path, "r")
+
     if file ~= nil then
         io.close(file)
         return true
@@ -36,15 +40,15 @@ end
 	@return table
 ]]
 function io.getDirectories(path)
-    local content = {}
+    local t = {}
 
     for name in io.enumdir(path) do
         if name ~= "." and name ~= ".." then
-            content[#content + 1] = name
+            t[#t + 1] = name
         end
     end
 
-    return content
+    return t
 end
 
 --[[

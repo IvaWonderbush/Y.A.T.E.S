@@ -67,7 +67,6 @@ end
 
 function getMessage(text, type, prefix)
     if not type then type = "default" end
-    if not text then return 1 end -- This is so things don't go batshitmad
 
     local colour = type
     local pre = ""
