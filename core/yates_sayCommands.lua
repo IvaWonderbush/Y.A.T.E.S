@@ -59,24 +59,24 @@ function yates.funcs.say.plugin()
 
 	if _words[2] == "list" then
 		msg2(_id, "List of plugins:", "info")
-		for _, all in pairs(_PLUGIN["on"]) do
+		for _, all in pairs(_PLUGINS["on"]) do
 			msg2(_id, all, "success", false)
 		end
-		for _, all in pairs(_PLUGIN["off"]) do
+		for _, all in pairs(_PLUGINS["off"]) do
 			msg2(_id, all, "error", false)
 		end
 	elseif _words[2] == "enable" then
 
 		if _words[3] then
 
-			for k, v in pairs(_PLUGIN["off"]) do
+			for k, v in pairs(_PLUGINS["off"]) do
 				if v == _words[3] then
 					os.rename(_DIR.."plugins/_"..v, _DIR.."plugins/"..v)
 					yates.plugins[v] = {}
 					yates.plugins[v]["dir"] = _DIR.."plugins/"..v.."/"
 					dofile(yates.plugins[v]["dir"].."/startup.lua")
-					_PLUGIN["on"][#_PLUGIN["on"]+1] = v
-					_PLUGIN["off"][k] = nil
+					_PLUGINS["on"][#_PLUGINS["on"]+1] = v
+					_PLUGINS["off"][k] = nil
 					msg2(_id, lang("plugin", 5), "success")
 					yates.funcs.cachePluginData()
 					yates.funcs.checkForceReload()
@@ -85,7 +85,7 @@ function yates.funcs.say.plugin()
 				end
 			end
 
-			for k, v in pairs(_PLUGIN["on"]) do
+			for k, v in pairs(_PLUGINS["on"]) do
 				if v == _words[3] then
 					msg2(_id, lang("plugin", 6), "error")
 					return 1
@@ -103,11 +103,11 @@ function yates.funcs.say.plugin()
 
 		if _words[3] then
 
-			for k, v in pairs(_PLUGIN["on"]) do
+			for k, v in pairs(_PLUGINS["on"]) do
 				if v == _words[3] then
 					os.rename(_DIR.."plugins/"..v, _DIR.."plugins/_"..v)
-					_PLUGIN["off"][#_PLUGIN["off"]+1] = v
-					_PLUGIN["on"][k] = nil
+					_PLUGINS["off"][#_PLUGINS["off"]+1] = v
+					_PLUGINS["on"][k] = nil
 					msg2(_id, lang("plugin", 7), "success")
 					msg2(_id, lang("plugin", 9, yates.settings.say_prefix), "info")
 					setUndo(_id, "!plugin enable ".._words[3])
@@ -115,7 +115,7 @@ function yates.funcs.say.plugin()
 				end
 			end
 
-			for k, v in pairs(_PLUGIN["off"]) do
+			for k, v in pairs(_PLUGINS["off"]) do
 				if v == _words[3] then
 					msg2(_id, lang("plugin", 8), "error")
 					return 1
@@ -133,22 +133,22 @@ function yates.funcs.say.plugin()
 
 		if _words[3] then
 
-			if _PLUGIN["info"][_words[3]] then
+			if _PLUGINS["info"][_words[3]] then
 				msg2(_id, "Plugin information:", "info")
-				if _PLUGIN["info"][_words[3]]["title"] then
-					msg2(_id, "Title: ".._PLUGIN["info"][_words[3]]["title"], false, false)
+				if _PLUGINS["info"][_words[3]]["title"] then
+					msg2(_id, "Title: ".._PLUGINS["info"][_words[3]]["title"], false, false)
 				end
-				if _PLUGIN["info"][_words[3]]["author"] then
-					msg2(_id, "Author: ".._PLUGIN["info"][_words[3]]["author"], false, false)
+				if _PLUGINS["info"][_words[3]]["author"] then
+					msg2(_id, "Author: ".._PLUGINS["info"][_words[3]]["author"], false, false)
 				end
-				if _PLUGIN["info"][_words[3]]["usgn"] then
-					msg2(_id, "U.S.G.N. ID: ".._PLUGIN["info"][_words[3]]["usgn"], false, false)
+				if _PLUGINS["info"][_words[3]]["usgn"] then
+					msg2(_id, "U.S.G.N. ID: ".._PLUGINS["info"][_words[3]]["usgn"], false, false)
 				end
-				if _PLUGIN["info"][_words[3]]["version"] then
-					msg2(_id, "Version: ".._PLUGIN["info"][_words[3]]["version"], false, false)
+				if _PLUGINS["info"][_words[3]]["version"] then
+					msg2(_id, "Version: ".._PLUGINS["info"][_words[3]]["version"], false, false)
 				end
-				if _PLUGIN["info"][_words[3]]["description"] then
-					msg2(_id, "Description: ".._PLUGIN["info"][_words[3]]["description"], false, false)
+				if _PLUGINS["info"][_words[3]]["description"] then
+					msg2(_id, "Description: ".._PLUGINS["info"][_words[3]]["description"], false, false)
 				end
 			else
 				msg2(_id, lang("plugin", 10), "error")
@@ -975,7 +975,7 @@ function yates.funcs.say.group()
 			end
 
 			setUndo(_id, "!group del ".._words[3])
-			addGroup(_words[3], _words[4], _words[5], cmds)
+			yates.funcs.addGroup(_words[3], _words[4], _words[5], cmds)
 			msg2(_id, lang("group", 8, _words[3]), "success")
 			return 1
 		end
@@ -1003,7 +1003,7 @@ function yates.funcs.say.group()
 				return 1
 			end
 
-			deleteGroup(_words[3], _words[4])
+			yates.funcs.deleteGroup(_words[3], _words[4])
 			msg2(_id, lang("group", 11, _words[3]), "success")
 			return 1
 		end
@@ -1027,7 +1027,7 @@ function yates.funcs.say.group()
 				return 1
 			end
 
-			editGroup(_words[3], _words[4])
+			yates.funcs.editGroup(_words[3], _words[4])
 			msg2(_id, lang("group", 12, _words[3]), "success")
 			return 1
 		end

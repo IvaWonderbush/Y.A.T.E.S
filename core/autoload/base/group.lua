@@ -2,7 +2,7 @@
 	Add new group
 	@return boolean
 ]]
-function addGroup(name, lvl, clr, cmds)
+function yates.funcs.addGroup(name, lvl, clr, cmds)
     _GROUPS[name] = {}
     _GROUPS[name].level = lvl
     _GROUPS[name].colour = ""..clr..""
@@ -14,7 +14,7 @@ end
 	Deletes a group
 	@return void
 ]]
-function deleteGroup(old, new)
+function yates.funcs.deleteGroup(old, new)
     for tk, tv in pairs(_PLAYERS) do
         for pk, pv in pairs(_PLAYERS[tk]) do
             if type(pv) ~= "table" then
@@ -37,7 +37,7 @@ end
 	Edits group data
 	@return void
 ]]
-function editGroup(group, field)
+function yates.funcs.editGroup(group, field)
     local t = type(_GROUPS[group][field])
     local v = ""
 
@@ -86,7 +86,7 @@ end
 	Gets a user's group level
 	@return integer
 ]]
-function getPlayerGroupLevel(usgn)
+function yates.funcs.getPlayerGroupLevel(usgn)
     if _PLAYERS[usgn] then
         if _PLAYERS[usgn].group then
             if yates.funcs.checkGroup(_PLAYERS[usgn].group) then

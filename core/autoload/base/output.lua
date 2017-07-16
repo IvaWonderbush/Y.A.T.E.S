@@ -4,7 +4,7 @@
 ]]
 _msg = msg
 function msg(text, type, prefix)
-    message = getMessage(text, type, prefix)
+    message = yates.funcs.getMessage(text, type, prefix)
 
     _msg(message)
 end
@@ -15,7 +15,7 @@ end
 ]]
 _msg2 = msg2
 function msg2(id, text, type, prefix)
-    message = getMessage(text, type, prefix)
+    message = yates.funcs.getMessage(text, type, prefix)
 
     _msg2(id, message)
 end
@@ -26,7 +26,7 @@ end
 ]]
 _print = print
 function print(text, type, prefix)
-    message = getMessage(text, type, prefix)
+    message = yates.funcs.getMessage(text, type, prefix)
 
     _print(message)
 end
@@ -65,7 +65,7 @@ function log(log, type, file, extension, mode, date)
     file:close()
 end
 
-function getMessage(text, type, prefix)
+function yates.funcs.getMessage(text, type, prefix)
     if not type then type = "default" end
 
     local colour = type

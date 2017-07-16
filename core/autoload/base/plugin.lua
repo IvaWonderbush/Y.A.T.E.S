@@ -5,20 +5,20 @@
 function yates.funcs.loadPlugins()
     local directories = io.getDirectories(_DIR.."plugins")
 
-    _PLUGIN["on"] = {}
-    _PLUGIN["off"] = {}
+    _PLUGINS["on"] = {}
+    _PLUGINS["off"] = {}
 
     for _, all in pairs(directories) do
         if all:sub(1, 1) ~= "." then
             if all:sub(1, 1) ~= "_" then
-                _PLUGIN["on"][#_PLUGIN["on"]+1] = all
+                _PLUGINS["on"][#_PLUGINS["on"]+1] = all
                 print(lang("info", 5, all), "success")
                 yates.plugins[all] = {}
                 yates.plugins[all]["dir"] = _DIR.."plugins/"..all.."/"
                 dofile(yates.plugins[all]["dir"].."/startup.lua")
                 yates.funcs.cachePluginData()
             elseif all:sub(1, 1) == "_" then
-                _PLUGIN["off"][#_PLUGIN["off"]+1] = all:sub(2)
+                _PLUGINS["off"][#_PLUGINS["off"]+1] = all:sub(2)
             end
         end
     end
@@ -32,13 +32,13 @@ end
 ]]
 function yates.funcs.cachePluginData()
     for k, v in pairs(yates.plugins) do
-        _PLUGIN["info"][k] = {}
+        _PLUGINS["info"][k] = {}
         yates.funcs.checkPluginData(k, "title", "string")
         yates.funcs.checkPluginData(k, "author", "string")
         yates.funcs.checkPluginData(k, "usgn", "string")
         yates.funcs.checkPluginData(k, "version", "string")
         yates.funcs.checkPluginData(k, "description", "string")
-        saveData(_PLUGIN, "data_plugin.lua")
+        saveData(_PLUGINS, "data_plugin.lua")
     end
 end
 
@@ -49,7 +49,7 @@ end
 function yates.funcs.checkPluginData(name, data, varType)
     if yates.plugins[name] then
         if yates.plugins[name][data] and type(yates.plugins[name][data]) == varType then
-            _PLUGIN["info"][name][data] = yates.plugins[name][data]
+            _PLUGINS["info"][name][data] = yates.plugins[name][data]
         else
             print(lang("plugin", 3, data, varType), "notice", "[PLUGIN]: ")
         end

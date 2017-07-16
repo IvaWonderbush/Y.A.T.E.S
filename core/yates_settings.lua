@@ -47,5 +47,5 @@ yates.version = "3.0.0"
 
 _GROUPS = {}
 _PLAYERS = {}
-_PLUGIN = {["on"] = {}, ["off"] = {}, ["info"] = {}}
+_PLUGINS = {["on"] = {}, ["off"] = {}, ["info"] = {}}
 _YATES = {disabled_commands = {}}
