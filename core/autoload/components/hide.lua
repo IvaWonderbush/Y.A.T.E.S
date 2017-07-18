@@ -6,4 +6,5 @@ function yates.funcs.toggleHide(id)
         yates.players[id].hide = true
         msg2(id, lang("hide", 3), "success")
     end
+    return true
 end

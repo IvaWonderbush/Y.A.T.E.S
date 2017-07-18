@@ -9,4 +9,6 @@ function yates.funcs.reload()
 
     timer(tonumber(_words[2]*1000), "parse", "map "..game("sv_map"))
     msg(lang("reload", 3), "success")
+
+    return true
 end

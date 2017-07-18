@@ -56,4 +56,5 @@ function yates.funcs.displayHelpList(id)
 
     msg2(id, lang("help", 8, yates.settings.say_prefix), "info")
     msg2(id, lang("help", 9), "info")
+    return true
 end

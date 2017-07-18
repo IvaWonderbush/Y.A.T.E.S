@@ -108,8 +108,10 @@ function setUndo(id, command)
         _PLAYERS[player(id, "usgn")] = {}
     end
 
-    _PLAYERS[player(id, "usgn")].undo = command
+    _PLAYERS[player(id, "usgn")].undo = yates.settings.say_prefix..command
     saveData(_PLAYERS, "data_player.lua")
+
+    return true
 end
 
 function yates.funcs.confirm()

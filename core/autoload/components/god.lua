@@ -6,4 +6,5 @@ function yates.funcs.toggleGod(id)
         yates.players[id].god = true
         msg2(id, lang("god", 3), "success")
     end
+    return true
 end
