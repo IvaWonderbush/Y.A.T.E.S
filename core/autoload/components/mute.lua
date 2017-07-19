@@ -11,7 +11,6 @@ function yates.funcs.mute(id, target, time, reason)
     target = tonumber(target)
 
     if not yates.funcs.compareLevel(id, target) then
-        msg2(id, lang("validation", 2, lang("global", 2)), "error")
         return false
     end
 
@@ -65,7 +64,6 @@ function yates.funcs.unmute(id, target)
     target = tonumber(target)
 
     if not yates.funcs.compareLevel(id, target) then
-        msg2(id, lang("validation", 2, lang("global", 2)), "error")
         return false
     end
 

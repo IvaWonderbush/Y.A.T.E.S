@@ -297,7 +297,6 @@ function yates.funcs.say.kick()
 	end
 
 	if not yates.funcs.compareLevel(_id, _words[2]) then
-		msg2(_id, lang("validation", 2, lang("global", 2)), "error")
 		return false
 	end
 
@@ -330,7 +329,6 @@ function yates.funcs.say.ban()
 	end
 
 	if not yates.funcs.compareLevel(_id, _words[2]) then
-		msg2(_id, lang("validation", 2, lang("global", 2)), "error")
 		return false
 	end
 
@@ -465,7 +463,6 @@ function yates.funcs.say.spawn()
 	_words[2] = tonumber(_words[2])
 
 	if not yates.funcs.compareLevel(_id, _words[2]) then
-		msg2(_id, lang("validation", 2, lang("global", 2)), "error")
 		return false
 	end
 
@@ -511,7 +508,6 @@ function yates.funcs.say.kill()
 	_words[2] = tonumber(_words[2])
 
 	if not yates.funcs.compareLevel(_id, _words[2]) then
-		msg2(_id, lang("validation", 2, lang("global", 2)), "error")
 		return false
 	end
 
@@ -535,7 +531,6 @@ function yates.funcs.say.slap()
 	_words[2] = tonumber(_words[2])
 
 	if not yates.funcs.compareLevel(_id, _words[2]) then
-		msg2(_id, lang("validation", 2, lang("global", 2)), "error")
 		return false
 	end
 

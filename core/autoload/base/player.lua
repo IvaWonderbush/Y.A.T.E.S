@@ -79,9 +79,13 @@ end
 	Compares two player/group levels
 	@return boolean
 ]]
-function yates.funcs.compareLevel(id, id2)
+function yates.funcs.compareLevel(id, id2, message)
     id = tonumber(id)
     id2 = tonumber(id2)
+
+    if not message then
+        message = true
+    end
 
     local usgn = player(id, "usgn")
     local usgn2 = player(id2, "usgn")
@@ -105,6 +109,10 @@ function yates.funcs.compareLevel(id, id2)
 
     if lvl >= lvl2 then
         return true
+    end
+
+    if message then
+        msg2(_id, lang("validation", 2, lang("global", 2)), "error")
     end
 
     return false
@@ -138,7 +146,7 @@ function yates.funcs.checkUsgn(id, message)
     id = tonumber(id)
 
     if not message then
-        message = false
+        message = true
     end
 
     if player(id, "usgn") == 0 then
@@ -158,7 +166,7 @@ end
 ]]
 function yates.funcs.checkGroup(group, message)
     if not message then
-        message = false
+        message = true
     end
 
     if not _GROUPS[group] then
