@@ -74,6 +74,8 @@ function yates.funcs.say.plugin()
 			msg2(_id, all, "error", false)
 		end
 
+		return true
+
 	elseif _words[2] == "enable" then
 		if _words[3] then
 			for k, v in pairs(_PLUGINS["off"]) do

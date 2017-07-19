@@ -63,7 +63,7 @@ end
 function yates.funcs.checkForceReload()
     if yates.force_reload == true then
         msg(lang("plugin", 4), "success")
-        timer(5000, "parse", "lua reload()")
+        timer(3000, "parse", "lua yates.funcs.reload()")
         yates.force_reload = false
     end
 end
