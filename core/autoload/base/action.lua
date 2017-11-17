@@ -24,9 +24,11 @@ function hook(name, ...)
     if yates.actions[name] then
         local f, l = table.bounds(yates.actions[name])
         for i = f, l do
-            local func = loadstring("return "..yates.actions[name][i])()
-            if (func) then
-                func(...)
+            if (yates.actions[name][i]) then
+                local func = loadstring("return "..yates.actions[name][i])()
+                if (func) then
+                    func(...)
+                end
             end
         end
     end

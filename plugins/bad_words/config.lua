@@ -2,6 +2,7 @@
 -- config.lua
 
 bad_words = {}
+bad_words.player = {}
 bad_words.setting = {}
 
 -- Enables/disables the replacement of the bad word to the given string

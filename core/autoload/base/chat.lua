@@ -15,8 +15,8 @@ function yates.funcs.chat(id, text)
         p = (_GROUPS[yates.settings.group_default].prefix or "")
     end
 
-    c = c:gsub("©","")
-    c = c:gsub("\169","")
+    c = c:gsub("©", "")
+    c = c:gsub("\169", "")
     c = "\169"..c
 
     c = filter("chatColour", id, text, c, p, usgn) or c
