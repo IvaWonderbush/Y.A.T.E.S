@@ -15,7 +15,7 @@ function yates.funcs.loadPlugins()
                 print(lang("info", 5, all), "success")
                 yates.plugins[all] = {}
                 yates.plugins[all]["dir"] = _DIR.."plugins/"..all.."/"
-                dofile(yates.plugins[all]["dir"].."/startup.lua")
+                dofile(yates.plugins[all]["dir"].."startup.lua")
                 yates.funcs.cachePluginData()
             elseif all:sub(1, 1) == "_" then
                 _PLUGINS["off"][#_PLUGINS["off"]+1] = all:sub(2)
