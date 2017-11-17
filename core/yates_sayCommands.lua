@@ -676,6 +676,11 @@ setSayHelp("make", lang("make", 1))
 setSayDesc("make", lang("make", 2))
 
 function yates.funcs.say.playerprefix()
+	if not _words[2] then
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
+		return false
+	end
+
 	if not yates.funcs.checkUsgn(_words[2]) then
 		return false
 	end
@@ -711,6 +716,11 @@ setSayHelp("playerprefix", lang("playerprefix", 1))
 setSayDesc("playerprefix", lang("playerprefix", 2))
 
 function yates.funcs.say.playercolour()
+	if not _words[2] then
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
+		return false
+	end
+
 	if not yates.funcs.checkUsgn(_words[2]) then
 		return false
 	end
@@ -746,6 +756,11 @@ setSayHelp("playercolour", lang("playercolour", 1))
 setSayDesc("playercolour", lang("playercolour", 2))
 
 function yates.funcs.say.playerlevel()
+	if not _words[2] then
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
+		return false
+	end
+
 	if not yates.funcs.checkUsgn(_words[2]) then
 		return false
 	end
@@ -781,6 +796,11 @@ setSayHelp("playerlevel", lang("playerlevel", 1))
 setSayDesc("playerlevel", lang("playerlevel", 2))
 
 function yates.funcs.say.playergroup()
+    if not _words[2] then
+		msg2(_id, lang("validation", 8, lang("global", 3)), "error")
+        return false
+    end
+
 	if not yates.funcs.checkUsgn(_words[2]) then
 		return false
 	end
