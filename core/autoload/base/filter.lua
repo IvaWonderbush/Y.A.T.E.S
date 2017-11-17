@@ -24,7 +24,7 @@ function filter(name, ...)
         for i = f, l do
             local func = loadstring("return "..yates.filters[name][i])()
             if (func) then
-                func(...)
+                return func(...)
             end
         end
     end
