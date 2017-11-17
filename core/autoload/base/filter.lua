@@ -22,11 +22,9 @@ function filter(name, ...)
     if yates.filters[name] then
         local f, l = table.bounds(yates.filters[name])
         for i = f, l do
-            if (yates.actions[name][i]) then
-                local func = loadstring("return "..yates.filters[name][i])()
-                if (func) then
-                    return func(...)
-                end
+            local func = loadstring("return "..yates.filters[name][i])()
+            if (func) then
+                return func(...)
             end
         end
     end
