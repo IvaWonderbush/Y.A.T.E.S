@@ -16,7 +16,7 @@ yates.settings.language = "en"
 yates.settings.say_prefix = "!"
 
 -- The prefix for all outputting methods unless overwritten
-yates.settings.message_prefix = "[Y.A.T.E.S]: "
+yates.settings.message_prefix = "[SERVER]: "
 
 -- Fallback for undefined variables, it is recommended to keep this default unless you know what you're getting into
 yates.settings.group_default = "default"
