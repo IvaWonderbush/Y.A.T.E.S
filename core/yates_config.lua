@@ -2,7 +2,7 @@
 
 -- General configuration. This is seen as the general server setup, for more information please visit http://www.thomasyates.nl/docs
 -- NOTE: If you are a Windows user and you cannot establish connection to get the current live verion please install Git (https://git-scm.com) and make sure you enable the use of Unix tools in the Windows terminal
-yates.settings.check_version = true
+yates.settings.check_version = false -- No longer available
 yates.settings.update_version = false -- Currently not in use
 
 -- WANT ADMIN AND ACCESS TO EVERYTHING? THIS IS THE VARIABLE YOU CHANGE!
@@ -124,6 +124,18 @@ _GROUPS = {
 			"make",
 			"playerinfo",
 			"undo",
+		},
+	},
+	["vip"] = {
+		prefix = "[VIP]",
+		colour = "20718159",
+		level = 2,
+		commands = {
+			"help",
+			"pm",
+			"credits",
+			"kick",
+			
 		},
 	},
 	["default"] = {
