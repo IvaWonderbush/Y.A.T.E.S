@@ -43,7 +43,7 @@ yates.settings.domain_download = "https://www.thomasyates.nl/docs"
 
 yates.transferlist = {}
 
-yates.version = "3.0.1"
+yates.version = "3.0.2"
 
 _GROUPS = {}
 _PLAYERS = {}
