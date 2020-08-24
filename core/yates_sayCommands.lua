@@ -1069,12 +1069,14 @@ function yates.funcs.say.group()
 			end
 
 			if not _words[6] then
-				_words[6] = (yates.settings.group_default_commands or _GROUPS[yates.settings.group_default].commands)
-				msg2(_id, lang("group", 7), "notice")
-				cmds = (yates.settings.group_default_commands or _GROUPS[yates.settings.group_default].commands)
-				msg2(_id, table.toString(cmds, 1, ", "), "default", false)
+				if _GROUPS[yates.settings.group_default].commands then
+					_words[6] = (yates.settings.group_default_commands or _GROUPS[yates.settings.group_default].commands)
+					msg2(_id, lang("group", 7), "notice")
+					cmds = _GROUPS[yates.settings.group_default].commands
+					msg2(_id, table.toString(cmds, 1, null, ", "), "default", false)
+				end
 			else
-				cmds = table.toString(_words, 6, " ")
+				cmds = table.toString(_words, 6, null, " ")
 				cmds = string.toTable(cmds)
 			end
 
@@ -1172,11 +1174,12 @@ function yates.funcs.say.yes()
 		return false
 	end
 
+	msg2(_id, lang("yes", 3, yates.players[_id].confirm_command), "info")
+
 	yates.players[_id].confirm = true
 	yates.hooks.say(_id, yates.players[_id].confirm_command, true)
 	yates.players[_id].confirm_command = false
 
-	msg2(_id, lang("yes", 3, yates.players[_id].confirm_command), "info")
 	return true
 end
 setSayHelp("yes")
@@ -1188,9 +1191,9 @@ function yates.funcs.say.no()
 		return false
 	end
 
+	msg2(_id, lang("no", 3, yates.players[_id].confirm_command), "info")
 	yates.players[_id].confirm_command = false
 
-	msg2(_id, lang("no", 3, yates.players[_id].confirm_command), "info")
 	return true
 end
 setSayHelp("no")
