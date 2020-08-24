@@ -9,8 +9,10 @@ function yates.funcs.checkFirstUse()
         return false
     end
 
-    _PLAYERS[yates.settings.auth_usgn] = {}
-    _PLAYERS[yates.settings.auth_usgn].group = "admin"
+    if not _PLAYERS[yates.settings.auth_usgn] then
+        _PLAYERS[yates.settings.auth_usgn] = {}
+        _PLAYERS[yates.settings.auth_usgn].group = "admin"
+    end
     _PLAYERS[yates.settings.auth_usgn].commands = {"all"}
     saveData(_PLAYERS, "data_player.lua")
 
