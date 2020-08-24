@@ -65,8 +65,8 @@ yates.funcs.checkFirstUse()
 print("Loading plugins..", "info")
 yates.funcs.loadPlugins()
 
-print("Versioning the version..?", "info")
-yates.funcs.checkVersion()
+--print("Versioning the version..?", "info")
+--yates.funcs.checkVersion()
 
 yates.funcs.setTransferList(yates.settings.transferlist_response)
 
