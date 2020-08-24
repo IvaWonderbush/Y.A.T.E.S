@@ -7,6 +7,7 @@
 2. Extract the contents of the .zip archive into your lua folder
 3. Rename the release folder to `yates` as that will make things easier for you
 4. Remove everything in the server.lua file and put in the following: `dofile("sys/lua/yates/core/yates_startup.lua")`
+5. Optional: Extract the contents from `EXTRACTMEPLEASE.zip` into your `gfx` folder if you want the emoticons to work.
 
 ## Features:
 
